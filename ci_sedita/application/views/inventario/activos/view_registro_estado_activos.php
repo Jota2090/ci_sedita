@@ -1,0 +1,1 @@
+Estado: <input type="text" name="nuevoEstado" id="nuevoEstado" onkeypress="return validarSoloLetras(event)"/>

@@ -1,0 +1,1 @@
+Tipo: <input type="text" name="nuevoTipo" id="nuevoTipo" />

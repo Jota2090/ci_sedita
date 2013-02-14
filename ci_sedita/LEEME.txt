@@ -1,0 +1,18 @@
+Se debe primero agregar a la carpeta del proyecto el archivo htaccess y modificarlo
+con el nombre de nuestro proyecto o carpeta raíz.
+
+Luego se modifico los archivos que se encuentran en
+application/config
+	y fueron:
+		autoload
+		config
+		database
+
+
+Luego se agrego la carpeta 'ecuador' al directorio language.
+
+Se agrega el clslogin.php en libraries, archivo que tiene la configuraciion de logeo
+de nuestro proyecto.
+
+
+
