@@ -1,1 +1,0 @@
-Talla: <input type="text" name="nuevaTalla" id="nuevaTalla" />

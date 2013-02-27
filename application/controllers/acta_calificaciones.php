@@ -157,21 +157,21 @@
             
             $fecha_actual = date('Y');
             $fecha_despues = date('Y')+1;
-            $año_lectivo = $fecha_actual ." - " .$fecha_despues ;
+            $ano_lectivo = $fecha_actual ." - " .$fecha_despues;
             
             if($num == 0 || $num == null){
                 $this->load->library('export_pdf');                 
                 
                 $pdf = new export_pdf();
                 
-                $pdf->exportToPDF_Actas($alumnos,$calificaciones,$periodo,$año_lectivo,$curso,$jornada,$t);
+                $pdf->exportToPDF_Actas($alumnos,$calificaciones,$periodo,$ano_lectivo,$curso,$jornada,$t);
             }
             else{
                 $this->load->library('export_excel');
                 
                 $excel = new export_excel();
                 $excel->exportToExcel_Acta($alumnos,$calificaciones,"ActaAlumnos.xls",
-                                            $periodo,$año_lectivo,$curso,$jornada);
+                                            $periodo,$ano_lectivo,$curso,$jornada);
             }   
         }
     }

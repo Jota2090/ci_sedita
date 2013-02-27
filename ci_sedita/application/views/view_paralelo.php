@@ -1,1 +1,0 @@
-<div style="margin-top: 10px;">Paralelo: <input type="text" name="paralelo" id="paralelo"/></div>

@@ -136,20 +136,20 @@
             
             $fecha_actual = date('Y');
             $fecha_despues = date('Y')+1;
-            $año_lectivo = $fecha_actual ." - " .$fecha_despues ;
+            $ano_lectivo = $fecha_actual ." - " .$fecha_despues ;
             
             if($ind==1){
                 $this->load->library('export_pdf');                 
                 
                 $pdf = new export_pdf();
                 
-                $pdf->exportToPDF_Nomina($alumnos,$año_lectivo,$curso,$esp,$jornada);
+                $pdf->exportToPDF_Nomina($alumnos,$ano_lectivo,$curso,$esp,$jornada);
             }elseif($ind==2){
                 $curso = $this->acta->nombre_curso($cp);
                 $this->load->library('export_excel');
                 
                 $excel = new export_excel();
-                $excel->exportToExcel_Nomina($alumnos,"NominaAlumnos.xls",$año_lectivo,$curso,$jornada);
+                $excel->exportToExcel_Nomina($alumnos,"NominaAlumnos.xls",$ano_lectivo,$curso,$jornada);
             }
         }
         
@@ -172,21 +172,21 @@
             
             $fecha_actual = date('Y');
             $fecha_despues = date('Y')+1;
-            $año_lectivo = $fecha_actual ." - " .$fecha_despues ;
+            $ano_lectivo = $fecha_actual ." - " .$fecha_despues ;
             
             if($ind==1){
                 $this->load->library('export_pdf');                 
                 
                 $pdf = new export_pdf();
                 
-                $pdf->exportToPDF_Actas($alumnos,$calificaciones,$periodo,$año_lectivo,$curso,$jornada,$t);
+                $pdf->exportToPDF_Actas($alumnos,$calificaciones,$periodo,$ano_lectivo,$curso,$jornada,$t);
             }
             else{
                 $this->load->library('export_excel');
                 
                 $excel = new export_excel();
                 $excel->exportToExcel_Acta($alumnos,$calificaciones,"ActaAlumnos.xls",
-                                            $periodo,$año_lectivo,$curso,$jornada);
+                                            $periodo,$ano_lectivo,$curso,$jornada);
             }
         }
      
@@ -239,18 +239,18 @@
             $curso = $this->acta->nom_cur($cp);
             $esp = $this->acta->nom_esp($e);
             $jornada = $this->acta->nombre_jornada($j);
-            $año_lectivo=$this->libreta->nombre_anl($anl);
+            $ano_lectivo=$this->libreta->nombre_anl($anl);
             
             if($ind==1){
                 $this->load->library('export_pdf');                 
                 $pdf = new export_pdf();  
-                $pdf->exportToPDF_CuadroHonor($promedios,$periodo,$año_lectivo,$curso,$esp,$jornada);
+                $pdf->exportToPDF_CuadroHonor($promedios,$periodo,$ano_lectivo,$curso,$esp,$jornada);
             }
             else{
                 $this->load->library('export_excel');
                 
                 $excel = new export_excel();
-                $excel->exportToExcel_CuadroHonor($promedios,"CuadroHonor.xls",$periodo,$año_lectivo,$curso,$esp,$jornada);
+                $excel->exportToExcel_CuadroHonor($promedios,"CuadroHonor.xls",$periodo,$ano_lectivo,$curso,$esp,$jornada);
             }
         }
         

@@ -167,7 +167,7 @@
 			$crud->set_subject('Materias del Plantel');
 			$crud->required_fields('mat_nombre');
             $crud->display_as('mat_nombre','Materias');
-            $crud->display_as('mat_id','Nº');
+            $crud->display_as('mat_id','Nï¿½');
             $crud->unset_delete();
             
             if($ind>0){
@@ -259,15 +259,15 @@
                 $pdf = new export_pdf();
                 $fecha_actual = date('Y');
                 $fecha_despues = date('Y')+1;
-                $año_lectivo = $fecha_actual ." - " .$fecha_despues ;
+                $ano_lectivo = $fecha_actual ." - " .$fecha_despues ;
                 
-                $pdf->exportToPDF_Cursos($resultado, $año_lectivo);
+                $pdf->exportToPDF_Cursos($resultado, $ano_lectivo);
             }
             else{
                 $this->load->library('export_excel');
                 
                 $nom_tabla = array("cur_nombre", "esp_nombre", "par_nombre", "jor_nombre");
-                $nom_columnas = array("Curso", "Especialización", "Paralelo", "Jornada");
+                $nom_columnas = array("Curso", "Especializaciï¿½n", "Paralelo", "Jornada");
                 
                 $excel = new export_excel();
                 $excel->exportToExcel($resultado, "ListadoCursos.xls", 4, $nom_columnas, $nom_tabla);
@@ -298,15 +298,15 @@
                 $pdf = new export_pdf();
                 $fecha_actual = date('Y');
                 $fecha_despues = date('Y')+1;
-                $año_lectivo = $fecha_actual ." - " .$fecha_despues ;
+                $ano_lectivo = $fecha_actual ." - " .$fecha_despues ;
                 
-                $pdf->exportToPDF_Usuarios($resultado, $año_lectivo);
+                $pdf->exportToPDF_Usuarios($resultado, $ano_lectivo);
             }
             else{
                 $this->load->library('export_excel');
                 
                 $nom_tabla = array("usu_nombre", "usu_clave", "tip_nombre");
-                $nom_columnas = array("Usuario", "Contraseña", "Tipo de Usuario");
+                $nom_columnas = array("Usuario", "Contraseï¿½a", "Tipo de Usuario");
                 
                 $excel = new export_excel();
                 $excel->exportToExcel($resultado, "ListadoUsuarios.xls", 3, $nom_columnas, $nom_tabla);

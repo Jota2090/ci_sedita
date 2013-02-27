@@ -4,7 +4,7 @@
     
     class export_pdf
     {
-        function exportToPDF_Cursos($resultado, $año_lectivo){
+        function exportToPDF_Cursos($resultado, $ano_lectivo){
             $CI = & get_instance();
             
             $CI->load->library("cezpdf");
@@ -20,11 +20,11 @@
             $CI->cezpdf->rectangle(405,680,67,20);
             $CI->cezpdf->setStrokeColor(0,0,0);
             $CI->cezpdf->rectangle(472,680,61,20);
-            $CI->cezpdf->addText(408,685,10,"<b>Año Lectivo:</b>   ".$año_lectivo);
+            $CI->cezpdf->addText(408,685,10,"<b>AÃ±o Lectivo:</b>   ".$ano_lectivo);
             
             $columnas = array("num"=>"<b>No.</b>",
                                 "c"=>"<b>Curso</b>",
-                                "e"=>"<b>Especialización</b>",
+                                "e"=>"<b>Especializaciï¿½n</b>",
                                 "p"=>"<b>Paralelo</b>",
                                 "j"=>"<b>Jornada</b>");
                                 
@@ -104,7 +104,7 @@
             $CI->cezpdf->ezStream();
         }
         
-        function exportToPDF_Usuarios($resultado, $año_lectivo){
+        function exportToPDF_Usuarios($resultado, $ano_lectivo){
             $CI = & get_instance();
             
             $CI->load->library("cezpdf");
@@ -120,11 +120,11 @@
             $CI->cezpdf->rectangle(405,680,67,20);
             $CI->cezpdf->setStrokeColor(0,0,0);
             $CI->cezpdf->rectangle(472,680,61,20);
-            $CI->cezpdf->addText(408,685,10,"<b>Año Lectivo:</b>   ".$año_lectivo);
+            $CI->cezpdf->addText(408,685,10,"<b>AÃ±o Lectivo:</b>   ".$ano_lectivo);
             
             $columnas = array("num"=>"<b>No.</b>",
                                 "u"=>"<b>Usuario</b>",
-                                "c"=>"<b>Contraseña</b>",
+                                "c"=>"<b>Contraseï¿½a</b>",
                                 "tp"=>"<b>Tipo de Usuario</b>");
                                 
             $data = array();
@@ -151,7 +151,7 @@
         }
         
         
-        function exportToPDF_Actas($alumnos,$calificaciones,$periodo,$año_lectivo,$curso,$jornada,$t){
+        function exportToPDF_Actas($alumnos,$calificaciones,$periodo,$ano_lectivo,$curso,$jornada,$t){
             $CI = & get_instance();
             
             $CI->load->library("cezpdf");
@@ -182,7 +182,7 @@
             $CI->cezpdf->rectangle(468,669,64,15);
             $CI->cezpdf->addText(82,674,8,"<b>Jornada:</b>         ".$jornada);
             $CI->cezpdf->addText(225,674,8,"<b>Curso:</b>           ".$curso);
-            $CI->cezpdf->addText(412,674,8,"<b>Año  Lectívo:</b>        ".$año_lectivo);
+            $CI->cezpdf->addText(412,674,8,"<b>AÃ±o  Lectï¿½vo:</b>        ".$ano_lectivo);
             
             if($t==1){
                 $columnas = array("num"=>"<b>No.</b>",
@@ -266,7 +266,7 @@
             $CI->cezpdf->ezStream();
         }
         
-        function exportToPDF_Nomina($alumnos,$año_lectivo,$curso,$esp,$jornada){
+        function exportToPDF_Nomina($alumnos,$ano_lectivo,$curso,$esp,$jornada){
             $CI = & get_instance();
             
             $CI->load->library("cezpdf");
@@ -276,7 +276,7 @@
             header_pdf();
             footer_pdf();
             $CI->cezpdf->ezSetMargins(105,80,50,50);
-            $CI->cezpdf->ezText("NÓMINA DE ALUMNOS",9, array('justification'=>'center'));
+            $CI->cezpdf->ezText("Nï¿½MINA DE ALUMNOS",9, array('justification'=>'center'));
             $CI->cezpdf->line(98,691,290,691);
             $CI->cezpdf->line(425,691,525,691);
             $CI->cezpdf->addText(57,694,8,"<b>Inspector:</b>");
@@ -301,7 +301,7 @@
             $CI->cezpdf->addText(57,674,8,"<b>Jornada:</b>    ".$jornada);
             $CI->cezpdf->addText(157,674,8,"<b>Curso:</b>      ".$curso);
             $CI->cezpdf->addText(293,674,8,"<b>Esp. :</b>       ".$esp);
-            $CI->cezpdf->addText(428,674,8,"<b>Año / Lec:</b>     ".$año_lectivo);
+            $CI->cezpdf->addText(428,674,8,"<b>AÃ±o / Lec:</b>     ".$ano_lectivo);
             
             $columnas = array("num"=>"<b>No.</b>",
                                 "a"=>"<b>                    Apellidos  -  Nombres</b>",
@@ -358,12 +358,12 @@
                 $CI->cezpdf->addText(235,784,10,"<b>&quot;La  Luz  de  Dios&quot;</b>");
                 $CI->cezpdf->addText(200,764,7,"REPORTE  DE  CALIFICACIONES  GENERAL   -    ".strtoupper($tri));
                 $CI->cezpdf->addText(110,744,7,"NOMBRE  <b>:</b>       ".strtoupper($alu->alu_apellidos." ".$alu->alu_nombres));
-                $CI->cezpdf->addText(300,744,7,"AÑO  LECTIVO  <b>:</b>         ".$anio);
+                $CI->cezpdf->addText(300,744,7,"Aï¿½O  LECTIVO  <b>:</b>         ".$anio);
                 $CI->cezpdf->addText(110,734,7,"CURSO  <b>:</b>          ".strtoupper($curso." ".$jornada));
                 $CI->cezpdf->addText(300,734,7,"PROFESOR  (A)  <b>:</b>        ".strtoupper($dirigente));
                 $CI->cezpdf->ezText("\n",11);                
                 $i = 0;
-                $cols = array("num"=>"<b>Nº</b>",
+                $cols = array("num"=>"<b>Nï¿½</b>",
                                             "mat"=>"<b>                              A  S  I  G  N  A  T  U  R  A  S</b>",
                                             "nt1"=>"<b>ABRIL</b>",
                                             "nt2"=>"<b>MAYO</b>",
@@ -438,11 +438,11 @@
                         
                         if($fila->fob_observacion==""||$fila->fob_observacion==null){
                             $data1[] = array("col1"=>"",
-                                                "col2"=>"                 OBSERVACIÓN  <b>:</b>          ",
+                                                "col2"=>"                 OBSERVACIï¿½N  <b>:</b>          ",
                                                 "col3"=>"");
                         }else{
                             $data1[] = array("col1"=>"",
-                                                "col2"=>"                 OBSERVACIÓN  <b>:</b>          ",
+                                                "col2"=>"                 OBSERVACIï¿½N  <b>:</b>          ",
                                                 "col3"=>$fila->fob_observacion);
                         }
                     }
@@ -456,7 +456,7 @@
                                      "tot"=>"");
                                      
                     $data1[] = array("col1"=>"",
-                                                "col2"=>"                 OBSERVACIÓN  <b>:</b>          ",
+                                                "col2"=>"                 OBSERVACIï¿½N  <b>:</b>          ",
                                                 "col3"=>"");
                 }
                  
@@ -525,9 +525,9 @@
                 $CI->cezpdf->ezImage(site_url("images/logo-escuela2.jpg"), 10, 130, 5, 'left');
                 $CI->cezpdf->addText(268,798,7,"Unidad  Educativa");
                 $CI->cezpdf->addText(255,784,10,"<b>&quot;La  Luz  de  Dios&quot;</b>");
-                $CI->cezpdf->addText(250,764,7,"CUADRO  DE  PROMOCIÓN");
+                $CI->cezpdf->addText(250,764,7,"CUADRO  DE  PROMOCIï¿½N");
                 $CI->cezpdf->addText(110,744,7,"NOMBRE  <b>:</b>       ".strtoupper($alu->alu_apellidos." ".$alu->alu_nombres));
-                $CI->cezpdf->addText(300,744,7,"AÑO  LECTIVO  <b>:</b>         ".$anio);
+                $CI->cezpdf->addText(300,744,7,"Aï¿½O  LECTIVO  <b>:</b>         ".$anio);
                 $CI->cezpdf->addText(110,734,7,"CURSO  <b>:</b>          ".strtoupper($curso." ".$jornada));
                 $CI->cezpdf->addText(300,734,7,"PROFESOR  (A)  <b>:</b>        ".strtoupper($dirigente));               
                 $CI->cezpdf->ezText("\n\n\n",10);
@@ -555,7 +555,7 @@
                 $CI->cezpdf->rectangle(463,700,35,20);
                 $CI->cezpdf->setStrokeColor(0,0,0);
                 $CI->cezpdf->rectangle(498,700,35,20);
-                $CI->cezpdf->addText(59,706,8,"<b>Nº</b>");
+                $CI->cezpdf->addText(59,706,8,"<b>Nï¿½</b>");
                 $CI->cezpdf->addText(78,706,8,"<b>                          A  S  I  G  N  A  T  U  R  A  S     </b>      ");
                 $CI->cezpdf->addText(292,712,6,"<b>TRIMEST.</b>");
                 $CI->cezpdf->addText(305,702,6,"<b>I</b>");
@@ -682,9 +682,9 @@
             $CI->cezpdf->ezImage(site_url("images/logo-escuela2.jpg"), 10, 130, 5, 'left');
             $CI->cezpdf->addText(268,798,7,"Unidad  Educativa");
             $CI->cezpdf->addText(255,784,10,"<b>&quot;La  Luz  de  Dios&quot;</b>");
-            $CI->cezpdf->addText(250,764,7,"CUADRO  DE  PROMOCIÓN");
+            $CI->cezpdf->addText(250,764,7,"CUADRO  DE  PROMOCIï¿½N");
             $CI->cezpdf->addText(110,744,7,"NOMBRE  <b>:</b>       ".strtoupper($alumno));
-            $CI->cezpdf->addText(300,744,7,"AÑO  LECTIVO  <b>:</b>         ".$anio);
+            $CI->cezpdf->addText(300,744,7,"Aï¿½O  LECTIVO  <b>:</b>         ".$anio);
             $CI->cezpdf->addText(110,734,7,"CURSO  <b>:</b>          ".strtoupper($curso." ".$jornada));
             $CI->cezpdf->addText(300,734,7,"PROFESOR  (A)  <b>:</b>        ".strtoupper($dirigente));               
             $CI->cezpdf->ezText("\n\n\n",10);
@@ -712,7 +712,7 @@
             $CI->cezpdf->rectangle(463,700,35,20);
             $CI->cezpdf->setStrokeColor(0,0,0);
             $CI->cezpdf->rectangle(498,700,35,20);
-            $CI->cezpdf->addText(59,706,8,"<b>Nº</b>");
+            $CI->cezpdf->addText(59,706,8,"<b>Nï¿½</b>");
             $CI->cezpdf->addText(78,706,8,"<b>                          A  S  I  G  N  A  T  U  R  A  S     </b>      ");
             $CI->cezpdf->addText(292,712,6,"<b>TRIMEST.</b>");
             $CI->cezpdf->addText(305,702,6,"<b>I</b>");
@@ -834,12 +834,12 @@
             $CI->cezpdf->addText(236,784,10,"<b>&quot;La  Luz  de  Dios&quot;</b>");
             $CI->cezpdf->addText(200,764,7,"REPORTE  DE  CALIFICACIONES  GENERAL   -    ".strtoupper($tri));
             $CI->cezpdf->addText(82,744,7,"NOMBRE  <b>:</b>       ".strtoupper("Almeida Jimenez Naomi Damaris"));
-            $CI->cezpdf->addText(282,744,7,"AÑO  LECTIVO  <b>:</b>         ".$anio);
+            $CI->cezpdf->addText(282,744,7,"Aï¿½O  LECTIVO  <b>:</b>         ".$anio);
             $CI->cezpdf->addText(82,734,7,"CURSO  <b>:</b>          ".strtoupper($curso." ".$jornada));
             $CI->cezpdf->addText(282,734,7,"PROFESOR  (A)  <b>:</b>        ".strtoupper($dirigente));
             $CI->cezpdf->ezText("\n",11);                
             $i = 0;
-            $cols = array("num"=>"<b>Nº</b>",
+            $cols = array("num"=>"<b>Nï¿½</b>",
                                         "mat"=>"<b>                              A  S  I  G  N  A  T  U  R  A  S</b>",
                                         "nt1"=>"<b>ABRIL</b>",
                                         "nt2"=>"<b>MAYO</b>",
@@ -911,17 +911,17 @@
                     
                     if($fila->fob_observacion==""||$fila->fob_observacion==null){
                         $data1[] = array("col1"=>"",
-                                            "col2"=>"                 OBSERVACIÓN  <b>:</b>          ",
+                                            "col2"=>"                 OBSERVACIï¿½N  <b>:</b>          ",
                                             "col3"=>"");
                     }else{
                         $data1[] = array("col1"=>"",
-                                            "col2"=>"                 OBSERVACIÓN  <b>:</b>          ",
+                                            "col2"=>"                 OBSERVACIï¿½N  <b>:</b>          ",
                                             "col3"=>$fila->fob_observacion);
                     }
                 }
             }else{
                 $data1[] = array("col1"=>"",
-                                                "col2"=>"                 OBSERVACIÓN  <b>:</b>          ",
+                                                "col2"=>"                 OBSERVACIï¿½N  <b>:</b>          ",
                                                 "col3"=>"");
                                                 
                 $data[] = array("num"=>"",
@@ -977,7 +977,7 @@
             $CI->cezpdf->ezStream();
         }
         
-        function exportToPDF_CuadroHonor($promedios,$periodo,$año_lectivo,$curso,$esp,$jornada){
+        function exportToPDF_CuadroHonor($promedios,$periodo,$ano_lectivo,$curso,$esp,$jornada){
             $CI = & get_instance();
             
             $CI->load->library("cezpdf");
@@ -1008,7 +1008,7 @@
             $CI->cezpdf->addText(57,686,8,"<b>Jornada:</b>    ".$jornada);
             $CI->cezpdf->addText(157,686,8,"<b>Curso:</b>      ".$curso);
             $CI->cezpdf->addText(293,686,8,"<b>Esp. :</b>       ".$esp);
-            $CI->cezpdf->addText(428,686,8,"<b>Año / Lec:</b>     ".$año_lectivo);
+            $CI->cezpdf->addText(428,686,8,"<b>AÃ±o / Lec:</b>     ".$ano_lectivo);
             
             $columnas = array("num"=>"<b>No.</b>",
                                 "a"=>"<b>                    Apellidos  -  Nombres</b>",

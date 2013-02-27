@@ -35,7 +35,7 @@
             echo $header.$body."</table>";  
         }
         
-        function exportToExcel_CuadroHonor($promedios,$excel_file_name,$periodo,$año_lectivo,$curso,$esp,$jornada)  
+        function exportToExcel_CuadroHonor($promedios,$excel_file_name,$periodo,$ano_lectivo,$curso,$esp,$jornada)  
         {  
             $header="<center><table border=1px><tr>";  
             $header.="<th colspan='9' style='align:center;'>Acta de Calificaciones de ".$curso."</th>";
@@ -51,8 +51,8 @@
             $header.="<tr>";  
             $header.="<th>Trimestre</th>";
             $header.="<th colspan='3'>".$periodo ."</th>";
-            $header.="<th colspan='2'>Año Lectívo</th>";
-            $header.="<th colspan='3'>".$año_lectivo ."</th>";
+            $header.="<th colspan='2'>Aï¿½o Lectï¿½vo</th>";
+            $header.="<th colspan='3'>".$ano_lectivo ."</th>";
             $header.="</tr>";
             
             $header.="<tr>";
@@ -78,7 +78,7 @@
             echo $header.$body."</table>";  
         }
         
-        function exportToExcel_Acta($alumnos,$calificaciones,$excel_file_name,$periodo,$año_lectivo,$curso,$jornada)  
+        function exportToExcel_Acta($alumnos,$calificaciones,$excel_file_name,$periodo,$ano_lectivo,$curso,$jornada)  
         {  
             $header="<center><table border=1px><tr>";  
             $header.="<th colspan='9' style='align:center;'>Acta de Calificaciones de ".$curso."</th>";
@@ -94,8 +94,8 @@
             $header.="<tr>";  
             $header.="<th>Trimestre</th>";
             $header.="<th colspan='3'>".$periodo ."</th>";
-            $header.="<th colspan='2'>Año Lectívo</th>";
-            $header.="<th colspan='3'>".$año_lectivo ."</th>";
+            $header.="<th colspan='2'>AÃ±o LectÃ­vo</th>";
+            $header.="<th colspan='3'>".$ano_lectivo ."</th>";
             $header.="</tr>";
             
             $header.="<tr>";
@@ -151,10 +151,10 @@
             echo $header.$body."</table>";  
         }
         
-        function exportToExcel_Nomina($alumnos,$excel_file_name,$año_lectivo,$curso,$jornada)  
+        function exportToExcel_Nomina($alumnos,$excel_file_name,$ano_lectivo,$curso,$jornada)  
         {  
             $header="<center><table border=1px><tr>";  
-            $header.="<th colspan='7' style='align:center;'>Nómina de Alumnos de ".$curso."</th>";
+            $header.="<th colspan='7' style='align:center;'>Nï¿½mina de Alumnos de ".$curso."</th>";
             $header.="</tr>";
             
             $header.="<tr>";  
@@ -167,8 +167,8 @@
             $header.="<tr>";  
             $header.="<th>Jornada</th>";
             $header.="<th colspan='2'>".$jornada."</th>";
-            $header.="<th colspan='2'>Año Lectívo</th>";
-            $header.="<th colspan='2'>".$año_lectivo."</th>";
+            $header.="<th colspan='2'>AÃ±o LectÃ­vo</th>";
+            $header.="<th colspan='2'>".$ano_lectivo."</th>";
             $header.="</tr>";
             
             $header.="<tr>";
