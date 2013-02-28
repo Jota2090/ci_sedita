@@ -20,7 +20,7 @@
         
         /**
             * Initialize cargar_jornadas
-            * Esta función obtiene las jornadas que han sido registradas
+            * Esta funciï¿½n obtiene las jornadas que han sido registradas
             * @access public
             * @return array
         */
@@ -33,7 +33,7 @@
         
         /**
             * Initialize cargar_anios_registro
-            * Esta función carga los años lectivos actual y un periodo despues
+            * Esta funciï¿½n carga los aï¿½os lectivos actual y un periodo despues
             * @access public
             * @return array
         */
@@ -91,7 +91,7 @@
         
         /**
             * Initialize cargar_aniosLectivos
-            * Esta función carga todos los años lectivos
+            * Esta funciï¿½n carga todos los aï¿½os lectivos
             * @access public
             * @return array
         */
@@ -105,10 +105,10 @@
         
         /**
             * Initialize get_idAnioLect
-            * Esta función obtiene un array con cada uno de los campos de la tabla anio_lectivo de acuerdo al año recibido
-            * como parámetro
+            * Esta funciï¿½n obtiene un array con cada uno de los campos de la tabla anio_lectivo de acuerdo al aï¿½o recibido
+            * como parï¿½metro
             * @access public
-            * @param integer $Anio: año lectivo
+            * @param integer $Anio: aï¿½o lectivo
             * @return array
         */
         function get_idAnioLect($Anio){
@@ -122,7 +122,7 @@
         
         /**
             * Initialize cargar_cursos
-            * Esta función obtiene los cursos que coincidan con los parámetros de jornada y nivel
+            * Esta funciï¿½n obtiene los cursos que coincidan con los parï¿½metros de jornada y nivel
             * @access public
             * @param integer $jornada: id de la jornada
             * @param integer $nivel: id del nivel
@@ -144,7 +144,7 @@
         
          /**
             * Initialize cargar_cursosEdit
-            * Esta función ontiene los cursos que coincida con el parámetro jornada para ser mostrada en la vista de edición
+            * Esta funciï¿½n ontiene los cursos que coincida con el parï¿½metro jornada para ser mostrada en la vista de ediciï¿½n
             * de alumno
             * @access public
             * @param integer $jornada: id de la jornada
@@ -163,7 +163,7 @@
         
         /**
             * Initialize cargar_especializaciones
-            * Esta función obtiene las especializaciones de los cursos de bachillerato 
+            * Esta funciï¿½n obtiene las especializaciones de los cursos de bachillerato 
             * @access public
             * @param integer $jornada: id de la jornada
             * @param integer $curso: id del curso
@@ -184,7 +184,7 @@
          
         /**
             * Initialize cargar_paralelos
-            * Esta función obtiene los paralelos de los cursos a excepción de 2do. y 3ero. de Bachillerato
+            * Esta funciï¿½n obtiene los paralelos de los cursos a excepciï¿½n de 2do. y 3ero. de Bachillerato
             * @access public
             * @param integer $jornada: id de la jornada
             * @param integer $curso: id del curso
@@ -202,11 +202,11 @@
         
         /**
             * Initialize cargar_paralBachill
-            * Esta función obtiene los paralelos de 2do. y 3ero. de Bachillerato
+            * Esta funciï¿½n obtiene los paralelos de 2do. y 3ero. de Bachillerato
             * @access public
             * @param integer $jornada: id de la jornada
             * @param integer $curso: id del curso
-            * @param integer $espec: id de la especialización
+            * @param integer $espec: id de la especializaciï¿½n
             * @return array
         */
         function cargar_paralBachill($jornada,$curso,$espec){
@@ -223,7 +223,7 @@
         
         /**
             * Initialize obtener_CursoParalelo
-            * Esta función obtiene la data del curso_paralelo que coincida con el id pasado como parámetro
+            * Esta funciï¿½n obtiene la data del curso_paralelo que coincida con el id pasado como parï¿½metro
             * @access public
             * @param integer $id_curso_paralelo
             * @return array
@@ -238,12 +238,12 @@
         
         /**
             * Initialize curso_Paralelo
-            * Esta función obtiene la data del curso_paralelo que coincida con la jornada, curso, especialización 
-            * y paralelo que han sido enviadas como parámetro
+            * Esta funciï¿½n obtiene la data del curso_paralelo que coincida con la jornada, curso, especializaciï¿½n 
+            * y paralelo que han sido enviadas como parï¿½metro
             * @access public
             * @param integer $jornada: id de la jornada
             * @param integer $curso: id del curso
-            * @param integer $espec: id de la especialización
+            * @param integer $espec: id de la especializaciï¿½n
             * @param integer $paral: id del paralelo
             * @return array
         */
@@ -260,7 +260,7 @@
         
         /**
             * Initialize cargar_niveles
-            * Esta función carga los niveles de acuerdo a la jornada
+            * Esta funciï¿½n carga los niveles de acuerdo a la jornada
             * @access public
             * @param integer $jornada: id de la jornada
             * @return string
@@ -290,8 +290,8 @@
         
         /**
             * Initialize join_CursoParalelo_Curso
-            * Esta función realiza el join entre las tablas curso_paralelo y curso donde
-            * el  cp_jornada_id sea igual a la jornada pasada por parámetro
+            * Esta funciï¿½n realiza el join entre las tablas curso_paralelo y curso donde
+            * el  cp_jornada_id sea igual a la jornada pasada por parï¿½metro
             * @access public
             * @param integer $jornada: id de la jornada
             * @return array
@@ -304,6 +304,23 @@
             $this->db->join("curso", "cp_curso_id = cur_id");
             $rs= $this->db->get();
             return $rs;
+        }
+        
+        
+        function verificar_anl($anl){
+            if(date('n')<3)
+                $anl=$anl-1;
+                
+            $this->db->from("anio_lectivo");
+            $this->db->where("anl_periodo", $anl);
+            $rs=$this->db->get();
+            
+            $info="";
+            
+            foreach($rs->result() as $fila)
+                $info=$fila->anl_id;
+            
+            return $info;
         }
         
     }

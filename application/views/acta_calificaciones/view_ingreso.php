@@ -32,13 +32,16 @@
                     var cmbCurso=document.getElementById("cmbCurso");
                     var cmbEspec=document.getElementById("cmbEspec");
                     var cmbParal=document.getElementById("cmbParalelo");
+                    var cmbMat=document.getElementById("cmbMateria");
                     
                     cmbCurso.disabled=true;
                     cmbEspec.disabled=true;
-                    cmbParal.disabled=true; 
+                    cmbParal.disabled=true;
+                    cmbMat.disabled=true;
                     $("#cmbCurso").empty();
                     $("#cmbEspec").empty();
                     $("#cmbParalelo").empty();
+                    $("#cmbMateria").empty();
                     
                     if(idJornada==0){
                         cmbNivel.disabled=true;
@@ -66,11 +69,14 @@
                     var cmbCurso=document.getElementById("cmbCurso");
                     var cmbEspec=document.getElementById("cmbEspec");
                     var cmbParal=document.getElementById("cmbParalelo");
+                    var cmbMat=document.getElementById("cmbMateria");
                     
                     cmbEspec.disabled=true;
                     cmbParal.disabled=true;
+                    cmbMat.disabled=true;
                     $("#cmbEspec").empty();
                     $("#cmbParalelo").empty();
+                    $("#cmbMateria").empty();
                     
                     if(idNivel==0){
                         $("#cmbCurso").empty();
@@ -98,12 +104,15 @@
                     var idCurso= $("#cmbCurso").find(":selected").val();
                     var cmbParal=document.getElementById("cmbParalelo");
                     var cmbEspec=document.getElementById("cmbEspec");
+                    var cmbMat=document.getElementById("cmbMateria");
                     
                     if(idCurso==0){
                         $("#cmbEspec").empty();
                         $("#cmbParalelo").empty();
+                        $("#cmbMateria").empty();
                         cmbEspec.disabled=true;
                         cmbParal.disabled=true;
+                        cmbMat.disabled=true;
                     }
                     else{
                         //idCurso==12 o 13, 5to y 6to bachillerato
@@ -111,7 +120,9 @@
                         {
                             cmbEspec.disabled=false;
                             cmbParal.disabled=true;
+                            cmbMat.disabled=true;
                             $("#cmbParalelo").empty();
+                            $("#cmbMateria").empty();
                             
                             $.ajax({
                                 type:"post",
@@ -127,13 +138,23 @@
                             cmbEspec.disabled=true;
                             $("#cmbEspec").empty();
                             cmbParal.disabled=false;
-                            
                             $.ajax({
                                 type:"post",
                                 url: "<?=site_url("general/cargar_paralelos")?>",
                                 data:"jornada="+idJornada+"&curso="+idCurso,
                                 success:function(info){
                                     $("#cmbParalelo").html(info);
+                                }
+                            });
+                            
+                            cmbMat.disabled=false;
+                            var esp = -1;
+                            $.ajax({
+                                type:"post",
+                                url: "<?=site_url("personal/cargar_materias")?>",
+                                data:"cur="+idCurso+"&esp="+esp,
+                                success:function(info){
+                                    $("#cmbMateria").html(info);
                                 }
                             });
                         }
@@ -148,14 +169,16 @@
                     var idCurso= $("#cmbCurso").find(":selected").val();
                     var cmbParal=document.getElementById("cmbParalelo");
                     var idEspec= $("#cmbEspec").find(":selected").val();
+                    var cmbMat=document.getElementById("cmbMateria");
                     
                     if(idEspec==0){
                         cmbParal.disabled=true;
                         $("#cmbParalelo").empty();
+                        cmbMat.disabled=true;
+                        $("#cmbMateria").empty();
                     }
                     else{
                         cmbParal.disabled=false;
-                        
                         $.ajax({
                             type:"post",
                             url: "<?=site_url("general/cargar_paralBachill")?>",
@@ -164,67 +187,32 @@
                                 $("#cmbParalelo").html(info);
                             }
                         });
+                        
+                        cmbMat.disabled=false;
+                        $.ajax({
+                            type:"post",
+                            url: "<?=site_url("personal/cargar_materias")?>",
+                            data:"cur="+idCurso+"&esp="+idEspec,
+                            success:function(info){
+                                $("#cmbMateria").html(info)
+                            }
+                        });
                     } 
                 });
             });
             
-
+            
             $(document).ready(function(){
-                $("#cmbParalelo").change(function(){
-                    var idJornada= $("#cmbJornada").find(":selected").val();
-                    var idCurso= $("#cmbCurso").find(":selected").val();
-                    var idParal= $("#cmbParalelo").find(":selected").val();
-                    var idEspec= $("#cmbEspec").find(":selected").val();
-                    var anl = $("#cmbAnioLectivo").find(":selected").val();
+                $("#cmbModulo").change(function(){
+                    var mod = $("#cmbModulo").find(":selected").val();
                     
-                    //idCurso==12 o 13, 5to y 6to bachillerato
-                    if((idCurso==12)||(idCurso==13))
-                    {
-                        $.ajax({
-                            type:"post",
-                            url: "<?=site_url("alumno/num_Alumnos")?>",
-                            data:"jornada="+idJornada+"&curso="+idCurso+"&espec="+idEspec+"&paral="+idParal+"&anl="+anl,
-                            success:function(info){
-                                document.getElementById('txtNumAlumn').value =info;
-                            
-                                if(info>30)
-                                {
-                                  $('#errorCursoLleno').modal();
-                                  window.location.href = "<?php echo site_url('alumno/'); ?>";
-                                }
-                                else
-                                {   
-                                    quitarDisable($("#formAlumno"));
-                                    $("#btnEnviar").removeAttr('disabled');
-                                    $("#btnCancelar").removeAttr('disabled');
-                                    document.getElementById("txtNombres").focus();
-                                }
-                            }
-                        });
+                    if(mod==2){
+                        $("#quimestre").hide();
+                        $("#trimestre").show();
                     }
-                    else
-                    {   
-                        $.ajax({
-                            type:"post",
-                            url: "<?=site_url("alumno/num_Alumnos")?>",
-                            data:"jornada="+idJornada+"&curso="+idCurso+"&espec=-1"+"&paral="+idParal+"&anl="+anl,
-                            success:function(info){
-                                document.getElementById('txtNumAlumn').value =info;
-                                
-                                if(info>30)
-                                {
-                                    $('#errorCursoLleno').modal(); 
-                                    window.location.href = "<?php echo site_url('alumno/'); ?>";
-                                }
-                                else
-                                {
-                                    quitarDisable($("#formAlumno"));
-                                    $("#btnEnviar").removeAttr('disabled');
-                                    $("#btnCancelar").removeAttr('disabled');
-                                    document.getElementById("txtNombres").focus();
-                                }
-                            }
-                        });
+                    else{
+                        $("#quimestre").show();
+                        $("#trimestre").hide();
                     }
                 });
             });
@@ -236,7 +224,12 @@
                 var cur = $("#cmbCurso").find(":selected").val();
                 var esp = $("#cmbEspec").find(":selected").val();
                 var par = $("#cmbParalelo").find(":selected").val();
-                var mod = $("#cmbModulo").find(":selected").val();
+                var mat = $("#cmbMateria").find(":selected").val();
+                var anl = $("#cmbAnioLec").find(":selected").val();
+                var mod = $("input[name=radio]:checked").val();
+                
+                if(esp==null || esp=="")
+                    esp=0;
                 
                 if(jor==0){
                     alert("Debe elegir una jornada");
@@ -254,34 +247,72 @@
                                 alert("Debe elegir un paralelo");
                             }
                             else{
-                                $.ajax({
-                                    type:"post",
-                                    url: "<?=site_url("acta_calificaciones/generar_acta")?>",
-                                    data:"cur="+cur+"&mat="+mat+"&tri="+tri+"&anl="+anl,
-                                    success:function(info){
-                                        if(info=="1"){
-                                            $('#error').modal();
-                                        }else{
-                                            if(info=="2"){
-                                            $('#warning').modal();
-                                            }else{
-                                                $("#cmbMateria").attr('disabled', 'disabled');
-                                                $("#cmbCurso").attr('disabled', 'disabled');
-                                                $("#cmbTrimestre").attr('disabled', 'disabled');
-                                                $("#btnGenerar").attr('href', 'javascript:disable');
-                                                $("#btnGenerar").attr('disabled', 'disabled');
-                                                $("#btnConsultar").attr('href', 'javascript:disable');
-                                                $("#btnConsultar").attr('disabled', 'disabled');
-                                                $("#listadoAlumnos").html(info);
-                                            }
+                                if(mod==0||mod==null||mod==""){
+                                    alert("Debe elegir parcial del periodo escolar");
+                                }
+                                else{
+                                    $.ajax({
+                                        type:"post",
+                                        url: "<?=site_url("acta_calificaciones/generar_acta")?>",
+                                        data:"cur="+cur+"&jor="+jor+"&esp="+esp+"&par="+par
+                                                +"&mod="+mod+"&anl="+anl+"&mat="+mat,
+                                        success:function(info){
+                                            disabled($("#formActa"));
+                                            $("#btnGenerar").attr('href', 'javascript:disable');
+                                            $("#btnGenerar").attr('disabled', 'disabled');
+                                            $("#listadoAlumnos").html(info);
                                         }
-                                    }
-                                })
+                                    });
+                                } 
                             }
                         }
                     } 
                 }
             }; 
+            
+            function cancelar(){
+                nondisabled($("#formActa"));
+                
+                var cur = $("#cmbCurso").find(":selected").val();
+                
+                if(cur<12||cur>13)
+                    $("#cmbEspec").attr('disabled','disabled');
+                
+                $("#btnGenerar").attr('href', 'javascript:generar_acta()');
+                $("#btnGenerar").removeAttr('disabled');
+                        
+                $("#listadoAlumnos").html(""); 
+            };
+        </script>
+        
+        <script>
+            function disabled(miForm) {
+                $(':input', miForm).each(function() {
+                var type = this.type;
+                var tag = this.tagName.toLowerCase();
+                    //limpiamos los valores de los campos�
+                    if (type == 'checkbox' || type == 'radio'){
+                        this.disabled = true;
+                    }
+                    else if (tag == 'select'){
+                        this.disabled=true;
+                    }
+                });
+            }
+            
+            function nondisabled(miForm) {
+                $(':input', miForm).each(function() {
+                var type = this.type;
+                var tag = this.tagName.toLowerCase();
+                    //limpiamos los valores de los campos�
+                    if (type == 'checkbox' || type == 'radio'){
+                        this.disabled = false;
+                    }
+                    else if (tag == 'select'){
+                        this.disabled = false;
+                    }
+                });
+            }
         </script>
 
         <style type="text/css">
@@ -328,7 +359,7 @@
             </div>
         </div>
         <?=$menu?>
-        <form class="form-horizontal" id="formAlumno" name="formAlumno" action="<?=site_url("alumno/guardar") ?>" method="post" >
+        <form class="form-horizontal" id="formActa" name="formActa" action="<?=site_url("alumno/guardar") ?>" method="post" >
             <fieldset>
                 <legend>Acta de Calificaciones</legend>
                 <div class="span3" style="margin-right: 50px;">
@@ -353,14 +384,6 @@
                             <li><b>Paralelo </b></li>
                             <li><select id="cmbParalelo" name="cmbParalelo" disabled="disabled" ></select></li>
                             <br />
-                            <li><b>M&oacute;dulo Escolar</b></li>
-                            <li><select id="cmbModulo" name="cmbModulo" >
-                                    <option value="1">Quinquemestre</option>
-                                    <option value="2">Trimestre</option>
-                                </select>
-                            </li>
-                            <br />
-                            <a href="javascript:generar_acta()" id="btnGenerar" class="btn btn-primary" style="width: 100px; margin-left: 60px" ><i class="icon-calendar"></i>Visualizar</a>
                         </ul>
                     </div><!--/span-->
                     <div class="span3" style="margin-left:50px;">
@@ -373,16 +396,55 @@
                     </div><!--/span-->  
                 </div> 
                 <div class="span9 panel" style="width:980px;padding:10px 20px 10px 0;">
-                    <div id="parciales" class="span5">
-                        <label class="checkbox inline">
-                            <input type="radio" name="radio" id="radio" value="1"> 1er Parcial
-                        </label>
-                        <label class="checkbox inline">
-                            <input type="radio" name="radio" id="radio" value="2"> 2do Parcial
-                        </label>
+                    <div class="control-group span9">
+                        <label class="control-label"><b>Materias</b></label>
+                        <div class="controls">
+                            <select id="cmbMateria" name="cmbMateria" style="width:320px" disabled="disabled"></select>
+                        </div>
                     </div>
-                    <div id="periodo" class="span4"></div>
-                    <div id="listadoAlumnos" style="width: 980px; margin: 0 auto;"></div>
+                    <div class="control-group span6">
+                        <label class="control-label"><b>M&oacute;dulo Escolar</b></label>
+                        <div class="controls">
+                           <select id="cmbModulo" name="cmbModulo" >
+                                <option value="1">Quinquemestre</option>
+                                <option value="2">Trimestre</option>
+                            </select>
+                        </div>
+                        
+                        <div id="quimestre"  style="margin: 20px 0 0 35px">
+                            <label class="checkbox inline">
+                                <input type="radio" name="radio" id="radio" value="1"> 1er Parcial
+                            </label>
+                            <label class="checkbox inline">
+                                <input type="radio" name="radio" id="radio" value="2"> 2do Parcial
+                            </label>
+                        </div>
+                        <div id="trimestre"  style="margin: 20px 0 0 35px; display: none">
+                            <label class="checkbox inline">
+                                <input type="radio" name="radio" id="radio" value="3"> 1er Trimestre
+                            </label>
+                            <label class="checkbox inline">
+                                <input type="radio" name="radio" id="radio" value="4"> 2do Trimestre
+                            </label>
+                            <label class="checkbox inline">
+                                <input type="radio" name="radio" id="radio" value="5"> 3er Trimestre
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span3">
+                        <div class="control-group">
+                            <label class="control-label"><b>A&ntilde;o Lect&iacute;vo</b></label>
+                            <div class="controls">
+                                <?php 
+                                    $js = 'id="cmbAnioLec" style="width:130px"';
+                                    echo form_dropdown("cmbAnioLec",$anioLect, $anlId, $js);
+                                ?>
+                            </div>
+                        </div>
+                        <a href="javascript:generar_acta()" id="btnGenerar" class="btn btn-primary" style="width: 100px; margin-left: 60px" ><i class="icon-calendar"></i>Visualizar</a>
+                    </div>
+                    <hr>
+                    <div id="listadoAlumnos" style="width: 980px; margin-top:150px; padding: 0 10px"></div>
                 </div>    
             </fieldset> 
         </form>

@@ -69,12 +69,12 @@
             $curso = $this->mantenimiento->nombre_curso($c);
             $especializacion = $this->mantenimiento->nombre_especializacion($e);
             
-			/* This is only for the autocompletion */
-			$crud = new grocery_CRUD();
+            /* This is only for the autocompletion */
+            $crud = new grocery_CRUD();
 
-			$crud->set_theme('datatables');
-			$crud->set_table('curso_paralelo');
-			$crud->set_subject('Cursos');
+            $crud->set_theme('datatables');
+            $crud->set_table('curso_paralelo');
+            $crud->set_subject('Cursos');
             
             $crud->set_relation('cp_curso_id','curso','cur_nombre');
             $crud->set_relation('cp_paralelo_id','paralelo','par_nombre');
@@ -119,13 +119,13 @@
         
         function usuarios($u, $num, $name){
             $usuario = $this->mantenimiento->nombre_tipo_usuario($u);
-			/* This is only for the autocompletion */
-			$crud = new grocery_CRUD();
+            /* This is only for the autocompletion */
+            $crud = new grocery_CRUD();
 
-			$crud->set_theme('datatables');
-			$crud->set_table('usuario');
-			$crud->set_subject('Usuarios');
-			$crud->required_fields('usu_nombre', 'usu_clave', 'usu_tipo');
+            $crud->set_theme('datatables');
+            $crud->set_table('usuario');
+            $crud->set_subject('Usuarios');
+            $crud->required_fields('usu_nombre', 'usu_clave', 'usu_tipo');
             
             $crud->set_relation('usu_tipo','tipo_usuario','tip_nombre');
             
@@ -162,25 +162,25 @@
             
             $crud = new grocery_CRUD();
     
-			$crud->set_theme('datatables');
-			$crud->set_table('materia');
-			$crud->set_subject('Materias del Plantel');
-			$crud->required_fields('mat_nombre');
+            $crud->set_theme('datatables');
+            $crud->set_table('materia');
+            $crud->set_subject('Materias del Plantel');
+            $crud->required_fields('mat_nombre');
             $crud->display_as('mat_nombre','Materias');
-            $crud->display_as('mat_id','N�');
+            $crud->display_as('mat_id','Nº');
             $crud->unset_delete();
             
             if($ind>0){
                 $mat=$this->input->post("nom");
                 $crud->like('mat_nombre',$mat);
 
-    			$output = $crud->render();
-    			$this->load->view("ajax/personal_curso_dirigente", $output);
+                $output = $crud->render();
+                $this->load->view("ajax/personal_curso_dirigente", $output);
             }
             else{
-    			$output = $crud->render();
+                $output = $crud->render();
                 $output->menu=$this->load->view("view_menu_administrador");
-    			$this->load->view("mantenimiento/nombre_materias", $output);
+    		$this->load->view("mantenimiento/nombre_materias", $output);
             }    
         }
         
@@ -189,10 +189,10 @@
             
             $crud = new grocery_CRUD();
     
-			$crud->set_theme('datatables');
-			$crud->set_table('materia_curso');
-			$crud->set_subject('Materias por Curso');
-			$crud->required_fields('mc_materia_id','mc_curso_id','mc_especializacion_id');
+            $crud->set_theme('datatables');
+            $crud->set_table('materia_curso');
+            $crud->set_subject('Materias por Curso');
+            $crud->required_fields('mc_materia_id','mc_curso_id','mc_especializacion_id');
             $crud->display_as('mc_materia_id','Materias');
             $crud->display_as('mc_curso_id','Curso');
             $crud->display_as('mc_especializacion_id','Especializacion');
@@ -215,14 +215,14 @@
                     $crud->where('mc_curso_id',$cur);
                 }
                 
-    			$output = $crud->render();
-    			$this->load->view("ajax/personal_curso_dirigente", $output);
+                    $output = $crud->render();
+                    $this->load->view("ajax/personal_curso_dirigente", $output);
             }
             else{
-    			$output = $crud->render();
+    		$output = $crud->render();
                 $output->curso= $this->alumno->cargar_curso(0);
                 $output->menu=$this->load->view("view_menu_administrador");
-    			$this->load->view("mantenimiento/materias_curso", $output);
+    		$this->load->view("mantenimiento/materias_curso", $output);
             }    
         }
         

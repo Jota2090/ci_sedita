@@ -21,10 +21,12 @@
                 $this->load->view("view_administrador");
             }
             elseif($m=="generar_acta"){
-                $mat = $this->input->post("mat");
                 $c = $this->input->post("cur");
-                $t = $this->input->post("tri");
-                $this->generar_acta($mat, $c, $t);
+                
+                if($c==0 || $c==null)
+                   $this->acta_nueva();
+                else
+                    $this->generar_acta($c);
             }
             elseif($m=="consultar_acta"){
                 $mat = $this->input->post("mat");
@@ -56,29 +58,37 @@
                     $this->guardar_acta($trim);
             }
             else{
-                $this->acta_nueva(1, "");
+                $this->acta_nueva();
             }
         }
         
-        function generar_acta($mat, $c, $t){
-            $mc = $this->acta->materia_curso($mat, $c);
+        
+        function acta_nueva(){
+            $data["jornada"]= $this->cargar_jornadas();
+            $data["menu"]=$this->load->view("view_menu_administrador");
+            $data["anioLect"]=$this->cargar_aniosLectivos();
+            $data["anlId"]=$this->cargar_anlActual();
+            $this->load->view("acta_calificaciones/view_ingreso", $data);
+        }
+        
+        
+        function generar_acta($c){
+            $j = $this->input->post("jor");
+            $e = $this->input->post("esp");
+            $p = $this->input->post("par");
+            $mod = $this->input->post("mod");
             $anl = $this->input->post("anl");
-            $data["anio_lectivo"] = $anl;
-            $data["materia_curso"] = $mc;
+            $mat = $this->input->post("mat");
             
-            $vac = $this->acta->verificar_acta_creada($t, $mc, $anl);
-                
-            if($vac == ""){
-                                
-                $data["resultado"] = $this->acta->listar_alumnos($c,$anl);
-                $data["curso_paralelo"] = $c;
-                $data["tri"] = $t;
-                
-                $this->load->view("ajax/actas_generar", $data);
-            }
-            else{
-                echo "2";
-            }
+            $idCp = $this->encontrarIdCursoParalelo($j,$c,$e,$p);
+            
+            $data["resultado"] = $this->acta->listar_alumnos($idCp,$anl);
+            $data["anl"] = $anl;
+            $data["mat_cur"] = $mat;
+            $data["cur_par"] = $idCp;
+            $data["mod"] = $mod;
+
+            $this->load->view("acta_calificaciones/view_generar", $data);
         }
         
         
@@ -101,13 +111,6 @@
                 
                 $this->load->view("ajax/actas_consultar", $data);
             }
-        }
-        
-        
-        function acta_nueva($j, $mensaje){
-            $data["jornada"]= $this->cargar_jornadas();
-            $data["menu"]=$this->load->view("view_menu_administrador");
-            $this->load->view("acta_calificaciones/view_ingreso", $data);
         }
         
         

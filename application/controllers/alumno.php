@@ -266,37 +266,6 @@
         
         
         /**
-            * Initialize encontrarIdCursoParalelo
-            * Esta funci�n retorna el id del curso paralelo de acuerdo a los par�metros que sn eniados en la consulta
-            * @access public
-            * @param integer $jornada: id de la jornada
-            * @param integer $curso: id del curso
-            * @param integer $espec: id de la especializaci�n
-            * @param integer $paral: id del paralelo
-            * @return integer
-            */
-        
-        function encontrarIdCursoParalelo($jornada,$curso,$especializacion,$paralelo)
-        {
-                if(($curso!=12)&&($curso!=13))
-                {
-                    $especializacion=-1; 
-                }
-                
-                $rs2=$this->general->curso_Paralelo($jornada,$curso,$especializacion,$paralelo);
-            
-                $strCpId="";      
-                foreach($rs2->result() as $row){
-                    $strCpId .="".$row->cp_id."";
-                }
-                
-                $cpId = (int)$strCpId;
-                
-                return $cpId;
-        }
-        
-        
-        /**
             * Initialize guardarRepresentante
             * Esta funci�n registra un representante en caso de no estar a�n registrado y retorna el id de dicho representante
             * ya sea el que se ha ingresado o el  id del represnetante que ya constaba en la base
@@ -308,20 +277,20 @@
         {
                 if($opcRepresent=="m")
                 {
-                        $dataRepresentante = array(
-                                                                "rep_nombres"=>$this->input->post("txtNombMadre"),
-                                                                "rep_ocupacion"=>$this->input->post("txtOcupMadre"),
-                                                                "rep_telefono"=>$this->input->post("txtTelef"),
-                                                                "rep_domicilio"=>$this->input->post("txtDomicilio"),
-                                                                //"rep_celular"=>$this->input->post("txtTelef"),
-                                                                "rep_pais"=>$this->input->post("cmbPaisMadre")
-                                                    
-                                                    );
+                    $dataRepresentante = array(
+                                                "rep_nombres"=>$this->input->post("txtNombMadre"),
+                                                "rep_ocupacion"=>$this->input->post("txtOcupMadre"),
+                                                "rep_telefono"=>$this->input->post("txtTelef"),
+                                                "rep_domicilio"=>$this->input->post("txtDomicilio"),
+                                                //"rep_celular"=>$this->input->post("txtTelef"),
+                                                "rep_pais"=>$this->input->post("cmbPaisMadre")
+
+                                                );
                                                     
                         $dataExisteRepres= array(
-                                                                "rep_nombres"=>$this->input->post("txtNombMadre"),
-                                                                
-                                                    );
+                                                    "rep_nombres"=>$this->input->post("txtNombMadre"),
+
+                                                 );
                 }
                                             
                 elseif($opcRepresent=="p")

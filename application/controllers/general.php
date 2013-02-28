@@ -56,6 +56,12 @@
             }
             
         }
+        
+        
+        function cargar_anlActual(){
+            $anl_id = $this->general->verificar_anl(date("Y"));
+            return $anl_id;
+        }
 
         /**
             * Initialize cargar_jornadas
@@ -224,6 +230,36 @@
                 $info .="<option value='".$row->par_id."'>".$row->par_nombre."</option>";
             }
             return $info;
+        }
+        
+        
+        /**
+            * Initialize encontrarIdCursoParalelo
+            * Esta funci�n retorna el id del curso paralelo de acuerdo a los par�metros que sn eniados en la consulta
+            * @access public
+            * @param integer $jornada: id de la jornada
+            * @param integer $curso: id del curso
+            * @param integer $espec: id de la especializaci�n
+            * @param integer $paral: id del paralelo
+            * @return integer
+            */
+        function encontrarIdCursoParalelo($jornada,$curso,$especializacion,$paralelo)
+        {
+            if(($curso!=12)&&($curso!=13))
+            {
+                $especializacion=-1; 
+            }
+
+            $rs2=$this->general->curso_Paralelo($jornada,$curso,$especializacion,$paralelo);
+
+            $strCpId="";      
+            foreach($rs2->result() as $row){
+                $strCpId .="".$row->cp_id."";
+            }
+
+            $cpId = (int)$strCpId;
+
+            return $cpId;
         }
       
     } 
