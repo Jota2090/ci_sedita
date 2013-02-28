@@ -65,10 +65,10 @@
                 <a class="span6 btn btn-large btn-primary" type="button" href="<?=site_url("alumno/consultar")?>">Actualizaci&oacute;n de Datos</a>
             </p>
             <p style="margin-top: 80px;">
-                <!--<a class="span6 btn btn-large btn-primary" type="button" href="=site_url("acta_calificaciones")?>">Actas de Caificaciones</a>-->
-                <a class="btn btn-large btn-block btn-primary" type="button" href="<?=site_url("libreta")?>">Libretas</a>
+                <a class="span6 btn btn-large btn-primary" type="button" href="<?=site_url("acta_calificaciones")?>">Actas de Caificaciones</a>
+                <a class="span6 btn btn-large btn-primary" type="button" href="<?=site_url("libreta")?>">Libretas</a>
             </p>
-            <p style="margin-top: 50px;">
+            <p style="margin-top: 150px;">
                 <a class="span12 btn btn-large btn-primary" type="button" href="<?=site_url("banda_guerra")?>">Control de Activos</a>
             </p>
         </div>

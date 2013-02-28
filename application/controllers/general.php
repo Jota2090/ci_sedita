@@ -9,7 +9,7 @@
     * @subpackage Controllers
     * @author Sedita
     */
-    class controlador_General extends CI_Controller {
+    class General extends CI_Controller {
         function __construct()
         {
             parent::__construct();
@@ -28,6 +28,11 @@
                     $n= $this->input->post("nivel");
                     $r=$this->cargar_cursos($j,$n);
                     echo $r;   
+                }
+                elseif($m == "cargar_niveles"){
+                    $m= $this->input->post("jornada");
+                    $r=$this->general->cargar_niveles($m);
+                    echo $r;  
                 }
                 elseif($m == "cargar_especializaciones"){
                     $j= $this->input->post("jornada");
@@ -54,7 +59,7 @@
 
         /**
             * Initialize cargar_jornadas
-            * Esta función permite recorrer el array devuelto de la consulta de jornadas, para obtener un array 
+            * Esta funciï¿½n permite recorrer el array devuelto de la consulta de jornadas, para obtener un array 
             * con los nombres nombres de las jornadas
             * @access public
             * @return array
@@ -73,8 +78,8 @@
         
         /**
             * Initialize cargar_anios_registro
-            * Esta función permite recorrer el array devuelto de la consulta de años lectivos, para obtener un array 
-            * con los períodos lectivos
+            * Esta funciï¿½n permite recorrer el array devuelto de la consulta de aï¿½os lectivos, para obtener un array 
+            * con los perï¿½odos lectivos
             * @access public
             * @return array
          */          
@@ -91,8 +96,8 @@
         
          /**
             * Initialize cargar_aniosLectivos
-            * Esta función permite recorrer el array devuelto de la consulta de años lectivos, para obtener un array 
-            * con los períodos lectivos
+            * Esta funciï¿½n permite recorrer el array devuelto de la consulta de aï¿½os lectivos, para obtener un array 
+            * con los perï¿½odos lectivos
             * @access public
             * @return array
          */          
@@ -109,8 +114,8 @@
         
          /**
             * Initialize get_idAnioLect
-            * Esta función permite recorrer el array devuelto de la consulta del año lectivo que coincida con el parámetro enviado
-            * para obtener el id del año
+            * Esta funciï¿½n permite recorrer el array devuelto de la consulta del aï¿½o lectivo que coincida con el parï¿½metro enviado
+            * para obtener el id del aï¿½o
             * @access public
             * @param string $anioLect
             * @return integer
@@ -132,8 +137,8 @@
          
           /**
             * Initialize cargar_cursos
-            * Esta función permite recorrer el array devuelto de la consulta de cursos de acuerdo a la jornada y nivel
-            * devolviendo un string con los option que serán creadas en las vistas
+            * Esta funciï¿½n permite recorrer el array devuelto de la consulta de cursos de acuerdo a la jornada y nivel
+            * devolviendo un string con los option que serï¿½n creadas en las vistas
             * @access public
             * @param string $jornada:id de la jornada
             * @param string $nivel: id del nivel
@@ -153,8 +158,8 @@
         
          /**
             * Initialize cargar_especializaciones
-            * Esta función permite recorrer el array devuelto de la consulta de especializaciones de acuerdo a la jornada y curso
-            * enviadas como parámetros, devolviendo un string con los option que serán creadas en las vistas
+            * Esta funciï¿½n permite recorrer el array devuelto de la consulta de especializaciones de acuerdo a la jornada y curso
+            * enviadas como parï¿½metros, devolviendo un string con los option que serï¿½n creadas en las vistas
             * @access public
             * @param string $jornada:id de la jornada
             * @param string $curso: id del curso
@@ -176,8 +181,8 @@
         
         /**
             * Initialize cargar_paralelos
-            * Esta función permite recorrer el array devuelto de la consulta de paralelos de acuerdo a la jornada y curso
-            * enviadas como parámetros, devolviendo un string con los option que serán creadas en las vistas
+            * Esta funciï¿½n permite recorrer el array devuelto de la consulta de paralelos de acuerdo a la jornada y curso
+            * enviadas como parï¿½metros, devolviendo un string con los option que serï¿½n creadas en las vistas
             * @access public
             * @param string $jornada:id de la jornada
             * @param string $curso: id del curso
@@ -199,13 +204,13 @@
         
          /**
             * Initialize cargar_paralBachill
-            * Esta función permite recorrer el array devuelto de la consulta de paralelos de 2do. y 3ero. 
-            * de Bachillerato de acuerdo a la jornada, curso y espec enviadas como parámetros, devolviendo
-            * un string con los option que serán creadas en las vistas
+            * Esta funciï¿½n permite recorrer el array devuelto de la consulta de paralelos de 2do. y 3ero. 
+            * de Bachillerato de acuerdo a la jornada, curso y espec enviadas como parï¿½metros, devolviendo
+            * un string con los option que serï¿½n creadas en las vistas
             * @access public
             * @param string $jornada:id de la jornada
             * @param string $curso: id del curso
-            * @param string $espec: id de la especialización
+            * @param string $espec: id de la especializaciï¿½n
             * @return string
          */
         function cargar_paralBachill($jornada,$curso,$espec)

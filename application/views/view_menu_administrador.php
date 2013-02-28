@@ -48,7 +48,7 @@
                     <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                    <!--<li><a tabindex="-1" href="=site_url("acta_calificaciones")?>">Actas de Calificaciones</a></li>-->
+                    <li><a tabindex="-1" href="<?=site_url("acta_calificaciones")?>">Actas de Calificaciones</a></li>
                     <li class="dropdown-submenu">
                         <a tabindex="-1" href="<?=site_url("libreta")?>">Libretas</a>
                         <ul class="dropdown-menu">

@@ -2,7 +2,7 @@
     if (! defined('BASEPATH'))
     exit ('No se puede ejecutar directamente este SCRIPT');
 
-    class Acta_Calificaciones extends CI_Controller {
+    class Acta_Calificaciones extends General {
         
         function __construct(){
             parent::__construct();
@@ -15,8 +15,8 @@
         function _remap($m){
             if(!$this->clslogin->check())
             {
-				redirect(site_url("login"));
-			}
+                redirect(site_url("login"));
+            }
             if($this->clslogin->getTipoUser() == 1){
                 $this->load->view("view_administrador");
             }
@@ -105,14 +105,9 @@
         
         
         function acta_nueva($j, $mensaje){
-            $id_per = $this->clslogin->getId();
-            $data["materia"] = $this->acta->cargar_materias_personal($id_per);
-            $data["trimestre"] = $this->acta->cargar_trimestre();
-            $data["mensaje"] = $mensaje;
-            $data["per_lectivos"]=$this->libreta->cargar_anl();
-            $data["anio_lectivo"] = $this->libreta->verificar_anl(date('Y'));
-            $data["menu"]=$this->load->view("view_menu_profesor");
-            $this->load->view("view_acta_calificaciones", $data);
+            $data["jornada"]= $this->cargar_jornadas();
+            $data["menu"]=$this->load->view("view_menu_administrador");
+            $this->load->view("acta_calificaciones/view_ingreso", $data);
         }
         
         

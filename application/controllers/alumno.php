@@ -8,25 +8,23 @@
     * @package CodeIgniter
     * @subpackage Controllers
     * @author Sedita
-    */
-    
-    class alumno extends controlador_General {
+    */    
+    class alumno extends General {
         
         function __construct(){
             parent::__construct();
             $this->load->library('grocery_CRUD');
             $this->load->model("mod_alumno","alumno");
-            $this->load->model("mod_alumno2","alu");
             $this->load->model("mod_general","general");
-			$this->load->helper("country_helper");
+            $this->load->helper("country_helper");
             $this->load->helper("form");
         }
         
         function _remap($m){
             if(!$this->clslogin->check())
             {
-				redirect(site_url("login"));
-			}
+		redirect(site_url("login"));
+            }
             else
             {
                 if($m == "guardar"){
@@ -37,36 +35,6 @@
                     $r=$this->alumno->num_matricula();
                     echo "<input style='width: 80px;' type='text' name='txtMatricula' id='txtMatricula' disabled='disabled' value='$r' />";
                 }
-                elseif($m == "cargar_curso"){
-                    $n= $this->input->post("nivel");
-                    $r=$this->alu->cargar_curso($n);
-                    echo $r;
-                }
-                elseif($m == "cargar_especializaciones"){
-                    $m= $this->input->post("jornada");
-                    $n= $this->input->post("curso");
-                    $r=$this->alu->cargar_especializaciones($m,$n);
-                    echo $r;
-                }
-                elseif($m == "cargar_paralelos"){
-                    $m= $this->input->post("jornada");
-                    $n= $this->input->post("curso");
-                    $r=$this->alu->cargar_paralelos($m,$n);
-                    echo $r;
-                }
-                elseif($m == "cargar_paralBachill"){
-                    $m= $this->input->post("jornada");
-                    $n= $this->input->post("curso");
-                    $o= $this->input->post("espec");
-                    $r=$this->alu->cargar_paralBachill($m,$n,$o);
-                    echo $r;
-                }
-                elseif($m == "cargar_niveles"){
-                    $m= $this->input->post("jornada");
-                    $r=$this->general->cargar_niveles($m);
-                    echo $r;  
-                }
-              
                 elseif($m == "num_Alumnos"){
                     $m= $this->input->post("jornada");
                     $n= $this->input->post("curso");
@@ -111,7 +79,7 @@
         
          /**
             * Initialize cargar_categorias
-            * Esta función permite obtener un array con los nombres de las categor&iaacute;s de un alumno 
+            * Esta funciï¿½n permite obtener un array con los nombres de las categor&iaacute;s de un alumno 
             * @access public
             * @return array
          */ 
@@ -127,7 +95,7 @@
         
             /**
             * Initialize nuevoAlumno
-            * Esta función permite cargar la vista de registro de un alumno, cargando por ende
+            * Esta funciï¿½n permite cargar la vista de registro de un alumno, cargando por ende
             * las categor&iacute;s y las jornadas 
             * @access public
             * @return void
@@ -144,14 +112,14 @@
         
             /**
             * Initialize num_Alumnos
-            * Esta función permite recorrer el array devuelto de la consulta realizada que retorna el número de alumnos
-            * de acuerdo a los parámetros enviados
+            * Esta funciï¿½n permite recorrer el array devuelto de la consulta realizada que retorna el nï¿½mero de alumnos
+            * de acuerdo a los parï¿½metros enviados
             * @access public
             * @param integer $jornada: id de la jornada
             * @param integer $curso: id del curso
-            * @param integer $espec: id de la especialización
+            * @param integer $espec: id de la especializaciï¿½n
             * @param integer $paral: id del paralelo
-            * @param string $anioLect: año lectivo
+            * @param string $anioLect: aï¿½o lectivo
             * @return integer
             */  
         function num_Alumnos($jornada,$curso,$espec,$paral,$anl){
@@ -176,7 +144,7 @@
         
          /**
             * Initialize autocompletar_alumno
-            * Esta función realiza la búsqueda de los datos personales de cada alumno y los devuelve en uan cadena concatenada 
+            * Esta funciï¿½n realiza la bï¿½squeda de los datos personales de cada alumno y los devuelve en uan cadena concatenada 
             * @access public
             * @param integer $idAlumno: id de la jornada
             * @return string
@@ -188,7 +156,7 @@
             $info="";
 
             foreach($rs->result() as $row){
-                //$info .="".$row->alu_apellidos."¬";
+                //$info .="".$row->alu_apellidos."ï¿½";
                 
                  $info .="".$row->alu_documentacion."_".
                             $row->alu_nombres."_".
@@ -267,8 +235,8 @@
         
          /**
             * Initialize validarAlumno
-            * Esta función valida que si otra persona será el representante del alumno, estos datos se conviertan en 
-            * campos obligatorios , por el contrario si no existe ningún problema guardará dicho alumno
+            * Esta funciï¿½n valida que si otra persona serï¿½ el representante del alumno, estos datos se conviertan en 
+            * campos obligatorios , por el contrario si no existe ningï¿½n problema guardarï¿½ dicho alumno
             * @access public
             * @return integer
             */  
@@ -299,11 +267,11 @@
         
         /**
             * Initialize encontrarIdCursoParalelo
-            * Esta función retorna el id del curso paralelo de acuerdo a los parámetros que sn eniados en la consulta
+            * Esta funciï¿½n retorna el id del curso paralelo de acuerdo a los parï¿½metros que sn eniados en la consulta
             * @access public
             * @param integer $jornada: id de la jornada
             * @param integer $curso: id del curso
-            * @param integer $espec: id de la especialización
+            * @param integer $espec: id de la especializaciï¿½n
             * @param integer $paral: id del paralelo
             * @return integer
             */
@@ -330,10 +298,10 @@
         
         /**
             * Initialize guardarRepresentante
-            * Esta función registra un representante en caso de no estar aún registrado y retorna el id de dicho representante
+            * Esta funciï¿½n registra un representante en caso de no estar aï¿½n registrado y retorna el id de dicho representante
             * ya sea el que se ha ingresado o el  id del represnetante que ya constaba en la base
             * @access public
-            * @param string $opcRepresent: opción del representante del alumno, mamá, papá u otra persona
+            * @param string $opcRepresent: opciï¿½n del representante del alumno, mamï¿½, papï¿½ u otra persona
             * @return integer
             */
         function guardarRepresentante($opcRepresent)
@@ -413,9 +381,9 @@
         
         /**
             * Initialize guardar_Alumno
-            * Esta función registra un alumno en caso de no estar aún registrado en el curso en que se desea matricular,
-            * o que no se encuentre registrado en otro curso y que aún no se haya superado el límite de estudiantes en un 
-            * curso, retornando un entero que nos indica que caso se cumplió
+            * Esta funciï¿½n registra un alumno en caso de no estar aï¿½n registrado en el curso en que se desea matricular,
+            * o que no se encuentre registrado en otro curso y que aï¿½n no se haya superado el lï¿½mite de estudiantes en un 
+            * curso, retornando un entero que nos indica que caso se cumpliï¿½
             * @access public
             * @return integer
         */
@@ -495,7 +463,7 @@
 
         /**
             * Initialize alpha_space_tildes
-            * Función que valida que un string solo contenga letras del alfabeto y espacios 
+            * Funciï¿½n que valida que un string solo contenga letras del alfabeto y espacios 
             * @access public
             * @param string $str: cadena a ser analizada
             * @return boolean
@@ -518,16 +486,16 @@
                                  
          /**
             * Initialize consultar_alumnos
-            * A través de esta función se podrá obtener los resultados de las respectivas consultas de alumnos
-            * de acuerdo a la jornada,curso,especialización y año lectivo
+            * A travï¿½s de esta funciï¿½n se podrï¿½ obtener los resultados de las respectivas consultas de alumnos
+            * de acuerdo a la jornada,curso,especializaciï¿½n y aï¿½o lectivo
             * @access public
             * @param integer $j: id de la jornada
             * @param integer $c: id del curso
-            * @param integer $e: id de la especialización
+            * @param integer $e: id de la especializaciï¿½n
             * @param integer $p: id del paralelo
             * @param string $anioLect
             * @param integer $indBachill: nos indica si la consulta de alumnos es de 2do. o 3ero. de bachillerato
-            * @param integer $indInicio: 0 si aún no s eha realizado ninguna consulta y 1 si se ha procedido ha 
+            * @param integer $indInicio: 0 si aï¿½n no s eha realizado ninguna consulta y 1 si se ha procedido ha 
             *                           realizar alguna consulta
             * @return void
             */
@@ -663,8 +631,8 @@
 
         /**
             * Initialize edit_field_callback_DatosRepresent
-            * Callback que será ejecutado al editar un alumno
-            * para modificar el formulario mostrado por grocery crud en la opción 
+            * Callback que serï¿½ ejecutado al editar un alumno
+            * para modificar el formulario mostrado por grocery crud en la opciï¿½n 
             * curso paralelo
             * @access public
             * @param integer $value: id del curso_paralelo
@@ -715,11 +683,11 @@
        
        /**
             * Initialize edit_field_callback_CursoParalelo
-            * Callback que será ejecutado al editar un alumno
-            * para modificar el formulario mostrado por grocery crud en la opción 
+            * Callback que serï¿½ ejecutado al editar un alumno
+            * para modificar el formulario mostrado por grocery crud en la opciï¿½n 
             * curso paralelo
             * @access public
-            * @param array $post_array: array de variables pasadas a traves del método HTTP POST
+            * @param array $post_array: array de variables pasadas a traves del mï¿½todo HTTP POST
             * @param integer $value: id del curso_paralelo
             * @return string
         */ 
@@ -834,9 +802,9 @@
         
         /**
             * Initialize edit_field_callback_AnoLectivo
-            * Callback que será ejecutado al editar un alumno
-            * para modificar el formulario mostrado por grocery crud en la opción 
-            * año lectivo
+            * Callback que serï¿½ ejecutado al editar un alumno
+            * para modificar el formulario mostrado por grocery crud en la opciï¿½n 
+            * aï¿½o lectivo
             * @access public
             * @return string
         */ 
@@ -879,8 +847,8 @@
         
         /**
             * Initialize edit_field_callback_Sexo
-            * Callback que será ejecutado al editar un alumno
-            * para modificar el formulario mostrado por grocery crud en la opción 
+            * Callback que serï¿½ ejecutado al editar un alumno
+            * para modificar el formulario mostrado por grocery crud en la opciï¿½n 
             * sexo del alumno
             * @access public
             * @return string
@@ -905,11 +873,11 @@
         
         /**
             * Initialize edit_field_callback_Doc
-            * Callback que será ejecutado al editar un alumno
-            * para modificar el formulario mostrado por grocery crud en la opción 
-            * documentación
+            * Callback que serï¿½ ejecutado al editar un alumno
+            * para modificar el formulario mostrado por grocery crud en la opciï¿½n 
+            * documentaciï¿½n
             * @access public
-            * @param string $value: valor de alu_documentacion, 0 si es que el alumno no ha entregado toda la documentación
+            * @param string $value: valor de alu_documentacion, 0 si es que el alumno no ha entregado toda la documentaciï¿½n
             *                                                   1 si es que si la tiene completa
             * @return string
         */ 
@@ -931,8 +899,8 @@
         
         /**
             * Initialize edit_field_callback_Represent
-            * Callback que será ejecutado al editar un alumno
-            * para modificar el formulario mostrado por grocery crud en la opción 
+            * Callback que serï¿½ ejecutado al editar un alumno
+            * para modificar el formulario mostrado por grocery crud en la opciï¿½n 
             * Datos del representante
             * @access public    
             * @return string
@@ -964,9 +932,9 @@
         
         /**
             * Initialize actualizar_DatosRepresentante
-            * Función que actualiza los datos del representante de determinado alumno
+            * Funciï¿½n que actualiza los datos del representante de determinado alumno
             * @access public
-            * @param array $post_array: array de variables pasadas a traves del método HTTP POST
+            * @param array $post_array: array de variables pasadas a traves del mï¿½todo HTTP POST
             * @param integer $pk_alumno: id del alumno
             * @return array
         */
@@ -1016,9 +984,9 @@
         
         /**
             * Initialize actualizar_CursoParaleloDoc
-            * Función que actualiza el curso y docuemntación de un alumno
+            * Funciï¿½n que actualiza el curso y docuemntaciï¿½n de un alumno
             * @access public
-            * @param array $post_array: array de variables pasadas a traves del método HTTP POST
+            * @param array $post_array: array de variables pasadas a traves del mï¿½todo HTTP POST
             * @param integer $pk_alumno: id del alumno
             * @return array
         */
@@ -1062,10 +1030,10 @@
         
         /**
             * Initialize update_before_callback
-            * Función que actualiza los datos de un alumno antes de que se ejecute la función de 
-            * actualización de groocery crud
+            * Funciï¿½n que actualiza los datos de un alumno antes de que se ejecute la funciï¿½n de 
+            * actualizaciï¿½n de groocery crud
             * @access public
-            * @param array $post_array: array de variables pasadas a traves del método HTTP POST
+            * @param array $post_array: array de variables pasadas a traves del mï¿½todo HTTP POST
             * @param integer $primary_key: id del alumno
             * @return array
         */

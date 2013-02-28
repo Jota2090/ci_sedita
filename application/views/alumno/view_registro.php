@@ -23,7 +23,7 @@
         <script src="js/jquery.validate.js"></script> 
         <script src="js/jquery.validate.bootstrap.js"></script> 
         
-        <!-- Autocompletar --!>
+        <!--Autocompletar-->
         <link type="text/css" href="assets/grocery_crud/themes/datatables/css/ui/simple/jquery-ui-1.8.10.custom.css" rel="stylesheet" />	
     	<script type="text/javascript" src="<?php echo base_url(); ?>js/jquery-ui-1.8.10.custom.min.js"></script>
     	
@@ -121,7 +121,7 @@
     			});
     		});
     	</script>   
-         <!-- Fin de Autocompletar --!>
+         <!--Fin de Autocompletar-->
         
         <!--Calendario-->
         <link type="text/css" rel="stylesheet" href="css/calendar/dhtmlgoodies_calendar.css?random=20051112" media="screen"/>
@@ -150,7 +150,7 @@
             } 
         </script>
         
-        <!--Combos--!>
+        <!--Combos-->
         <script>
             $(document).ready(function(){
                 $("#cmbCategoria").attr('disabled', 'disabled');
@@ -184,7 +184,7 @@
                         cmbNivel.disabled=false;
                         $.ajax({
                             type:"post",
-                            url: "<?=site_url("alumno/cargar_niveles")?>",
+                            url: "<?=site_url("general/cargar_niveles")?>",
                             data:"jornada="+idJornada,
                             success:function(info){
                                 $("#cmbNivel").html(info);
@@ -216,7 +216,7 @@
                         
                         $.ajax({
                             type:"post",
-                            url: "<?=site_url("controlador_General/cargar_cursos")?>",
+                            url: "<?=site_url("general/cargar_cursos")?>",
                             data:"jornada="+idJornada+"&nivel="+idNivel,
                             success:function(info){
                                 $("#cmbCurso").html(info);
@@ -249,7 +249,7 @@
                             
                             $.ajax({
                                 type:"post",
-                                url: "<?=site_url("controlador_General/cargar_especializaciones")?>",
+                                url: "<?=site_url("general/cargar_especializaciones")?>",
                                 data:"jornada="+idJornada+"&curso="+idCurso,
                                 success:function(info){
                                     $("#cmbEspec").html(info);
@@ -264,7 +264,7 @@
                             
                             $.ajax({
                                 type:"post",
-                                url: "<?=site_url("controlador_General/cargar_paralelos")?>",
+                                url: "<?=site_url("general/cargar_paralelos")?>",
                                 data:"jornada="+idJornada+"&curso="+idCurso,
                                 success:function(info){
                                     $("#cmbParalelo").html(info);
@@ -291,7 +291,7 @@
                         
                         $.ajax({
                             type:"post",
-                            url: "<?=site_url("controlador_General/cargar_paralBachill")?>",
+                            url: "<?=site_url("general/cargar_paralBachill")?>",
                             data:"jornada="+idJornada+"&curso="+idCurso+"&espec="+idEspec,
                             success:function(info){
                                 $("#cmbParalelo").html(info);
@@ -372,7 +372,7 @@
                     var type = this.type;
                     var tag = this.tagName.toLowerCase();
                     
-                    //limpiamos los valores de los campos…
+                    //limpiamos los valores de los camposï¿½
                     if (type == 'text' || type == 'password' || tag == 'textarea')
                     {
                         if(this.disabled)
@@ -419,7 +419,7 @@
             $(':input', miForm).each(function() {
             var type = this.type;
             var tag = this.tagName.toLowerCase();
-                //limpiamos los valores de los campos…
+                //limpiamos los valores de los camposï¿½
                 if (type == 'text' || type == 'password' || tag == 'textarea')
                 {
                     if(this.disabled==false)
@@ -479,7 +479,7 @@
                         txtTelef:{required: "", minlength:"Minimo 7 n&uacute;meros", maxlength:"Maximo 10 n&uacute;meros"},
                         txtLugarNac:{required: ""},
                         txtEdad:{required: "", maxlength:"Maximo 2 n&uacute;meros"},
-                        dateArrival:{required: "", date:"Fecha No Válida (dd/mm/yyyy"}
+                        dateArrival:{required: "", date:"Fecha No Vï¿½lida (dd/mm/yyyy"}
                     },
                     
                     submitHandler: function(){
@@ -639,7 +639,7 @@
                 <h3><img src="images/alerta-error.jpg" style="margin-right: 10px;" width="30px" height="30px"/>Atenci&oacute;n!</h3>
             </div>
             <div class="modal-body">
-                <p>Los datos ingresados del <strong>representante son incorrectos</strong> Por favor revise corríjalos!</p>
+                <p>Los datos ingresados del <strong>representante son incorrectos</strong> Por favor revise corrï¿½jalos!</p>
             </div>
         </div>
         
