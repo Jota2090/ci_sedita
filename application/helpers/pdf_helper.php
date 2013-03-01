@@ -46,7 +46,7 @@
         $CI->cezpdf->ezImage(site_url("images/logo-escuela.jpg"), 0, 50, 5, 'left');
         ob_end_clean();
         
-        $CI->cezpdf->addText(228,798,10,"Colegio  Particular  Evangélico");
+        $CI->cezpdf->addText(228,798,10,"Colegio  Particular  Evang".utf8_decode("Ã©")."lico");
         $CI->cezpdf->addText(235,770,14,"<b>&quot;La  Luz  de  Dios&quot;</b>");
 	    
         
@@ -59,9 +59,9 @@
  *         $CI->cezpdf->ezImage(site_url("images/logo-escuela2.jpg"), 0, 100, 5, 'left');
  *         ob_end_clean();
  *         $CI->cezpdf->ezSetMargins(50,70,50,50);
- *         $CI->cezpdf->addText(228,798,10,"Colegio  Particular  Evangélico");
+ *         $CI->cezpdf->addText(228,798,10,"Colegio  Particular  Evangï¿½lico");
  *         $CI->cezpdf->addText(235,770,14,"<b>&quot;La  Luz  de  Dios&quot;</b>");
- *         $CI->cezpdf->ezText("NÓMINA DE ALUMNOS",9, array('justification'=>'center'));
+ *         $CI->cezpdf->ezText("Nï¿½MINA DE ALUMNOS",9, array('justification'=>'center'));
  *         $CI->cezpdf->line(98,702,290,702);
  *         $CI->cezpdf->line(425,702,525,702);
  *         $CI->cezpdf->addText(57,704,8,"<b>Inspector:</b>");
@@ -85,7 +85,7 @@
  *         $CI->cezpdf->addText(57,682,8,"<b>Jornada:</b>    ".$jornada);
  *         $CI->cezpdf->addText(157,682,8,"<b>Curso:</b>      ".$curso);
  *         $CI->cezpdf->addText(293,682,8,"<b>Esp. :</b>       "."Fisico-Matematico");
- *         $CI->cezpdf->addText(428,682,8,"<b>Año / Lec:</b>     ".$año_lectivo);
+ *         $CI->cezpdf->addText(428,682,8,"<b>Aï¿½o / Lec:</b>     ".$aï¿½o_lectivo);
  */
     }
 

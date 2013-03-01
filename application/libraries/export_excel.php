@@ -81,7 +81,7 @@
         function exportToExcel_Acta($alumnos,$calificaciones,$excel_file_name,$periodo,$ano_lectivo,$curso,$jornada)  
         {  
             $header="<center><table border=1px><tr>";  
-            $header.="<th colspan='9' style='align:center;'>Acta de Calificaciones de ".$curso."</th>";
+            $header.="<th colspan='9' style='align:center;'>Acta de Calificaciones de ".utf8_decode($curso)."</th>";
             $header.="</tr>";
             
             $header.="<tr>";  
@@ -94,7 +94,7 @@
             $header.="<tr>";  
             $header.="<th>Trimestre</th>";
             $header.="<th colspan='3'>".$periodo ."</th>";
-            $header.="<th colspan='2'>Año Lectívo</th>";
+            $header.="<th colspan='2'>".utf8_decode("Año Lectívo")."</th>";
             $header.="<th colspan='3'>".$ano_lectivo ."</th>";
             $header.="</tr>";
             
@@ -120,7 +120,7 @@
                         if($fila->alu_id == $cal->cal_alumno_id){
                             $body.="<center><tr>";
                             $body.="<td>".$i."</td>";
-                            $body.="<td>".$fila->alu_apellidos ." " .$fila->alu_nombres."</td>";
+                            $body.="<td>".utf8_decode($fila->alu_apellidos ." " .$fila->alu_nombres)."</td>";
                             $body.="<td>".$cal->cal_nota1."</td>";
                             $body.="<td>".$cal->cal_nota2."</td>";
                             $body.="<td>".$cal->cal_nota3."</td>";

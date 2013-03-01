@@ -261,6 +261,50 @@
 
             return $cpId;
         }
-      
+        
+        
+        function get_nom_periodo($mod){
+            $info = "";
+            $rs=$this->general->nombre_periodo($mod);
+            foreach ($rs->result() as $fila){
+                $info = $fila->pes_nombre;
+            }
+            
+            return $info;
+        }
+        
+        
+        function get_nom_curso($cp){
+            $info = "";
+            $rs=$this->general->nombre_curso($cp);
+            foreach ($rs->result() as $fila){
+                if($fila->esp_id > 0)
+                    $info = $fila->cur_nombre ." " .$fila->esp_nombre ." " .$fila->par_nombre;
+                else
+                    $info = $fila->cur_nombre ." " .$fila->par_nombre;
+            }
+            return $info;
+        }
+        
+        
+        function get_nom_jornada($j){
+            $info = "";
+            $rs=$this->general->nombre_jornada($j);
+            foreach ($rs->result() as $fila){
+                $info = $fila->jor_nombre;
+            }
+            return $info;
+        }
+        
+        function get_anio_lectivo($anl){
+            $info = "";
+            $rs=$this->general->nombre_anio_lectivo($anl);
+            foreach ($rs->result() as $fila){
+                $info .= $fila->anl_periodo;
+                $info .= " - ";
+                $info .= $fila->anl_periodo+1;
+            }
+            return $info;
+        }
     } 
 ?>

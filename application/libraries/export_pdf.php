@@ -153,7 +153,7 @@
         
         function exportToPDF_Actas($alumnos,$calificaciones,$periodo,$ano_lectivo,$curso,$jornada,$t){
             $CI = & get_instance();
-            
+            $anl = "Año Lectívo";
             $CI->load->library("cezpdf");
             $CI->load->helper('pdf');
             $CI->cezpdf->selectFont('fonts/Helvetica.afm');
@@ -181,8 +181,8 @@
             $CI->cezpdf->setStrokeColor(0,0,0);
             $CI->cezpdf->rectangle(468,669,64,15);
             $CI->cezpdf->addText(82,674,8,"<b>Jornada:</b>         ".$jornada);
-            $CI->cezpdf->addText(225,674,8,"<b>Curso:</b>           ".$curso);
-            $CI->cezpdf->addText(412,674,8,"<b>Año  Lect�vo:</b>        ".$ano_lectivo);
+            $CI->cezpdf->addText(225,674,8,"<b>Curso:</b>           ".utf8_decode($curso));
+            $CI->cezpdf->addText(412,674,8,"<b>".utf8_decode($anl).":</b>        ".$ano_lectivo);
             
             if($t==1){
                 $columnas = array("num"=>"<b>No.</b>",
@@ -218,7 +218,7 @@
                     foreach($calificaciones->result() as $cal){
                         if($fila->alu_id == $cal->cal_alumno_id){
                             $data[] = array("num"=>$i,
-                                            "a"=>$fila->alu_apellidos ." " .$fila->alu_nombres,
+                                            "a"=>strtoupper(utf8_decode($fila->alu_apellidos ." " .$fila->alu_nombres)),
                                             "n1"=>$cal->cal_nota1,
                                             "n2"=>$cal->cal_nota2,
                                             "n3"=>$cal->cal_nota3,
@@ -230,7 +230,7 @@
                     } 
                 }else{
                     $data[] = array("num"=>$i,
-                                    "a"=>strtoupper($fila->alu_apellidos ." " .$fila->alu_nombres),
+                                    "a"=>strtoupper(utf8_decode($fila->alu_apellidos ." " .$fila->alu_nombres)),
                                     "n1"=>"",
                                     "n2"=>"",
                                     "n3"=>"",

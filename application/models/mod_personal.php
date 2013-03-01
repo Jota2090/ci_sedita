@@ -75,7 +75,7 @@
             
             $info="";
             foreach ($rs->result() as $fila){
-                $info .= "<option value='".$fila->mat_id."'>".$fila->mat_nombre."</option>";
+                $info .= "<option value='".$fila->mc_id."'>".$fila->mat_nombre."</option>";
             }
             
             return $info;

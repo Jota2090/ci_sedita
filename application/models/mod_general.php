@@ -323,5 +323,39 @@
             return $info;
         }
         
+        
+        function nombre_periodo($mod){
+            $this->db->where("pes_id", $mod);
+            $rs=$this->db->get("periodo_escolar");
+                
+            return $rs;
+        }
+        
+        function nombre_curso($cp){
+            $this->db->select("cur_nombre, esp_id, esp_nombre, par_nombre");
+            $this->db->where("cp_id", $cp);
+            $this->db->join("curso", "cp_curso_id=cur_id");
+            $this->db->join("especializacion", "cp_especializacion_id=esp_id");
+            $this->db->join("paralelo", "cp_paralelo_id=par_id");
+            $this->db->join("jornada", "cp_jornada_id=jor_id");
+            $rs=$this->db->get("curso_paralelo");
+                
+            return $rs;
+        }
+        
+        function nombre_jornada($j){
+            $this->db->select("jor_nombre");
+            $this->db->where("jor_id", $j);
+            $rs=$this->db->get("jornada");
+                
+            return $rs;
+        }
+        
+        function nombre_anio_lectivo($anl){
+            $this->db->where("anl_id", $anl);
+            $rs=$this->db->get("anio_lectivo");
+            
+            return $rs;
+        }
     }
 ?>

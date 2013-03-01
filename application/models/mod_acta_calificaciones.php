@@ -8,6 +8,115 @@
             parent::__construct();
         }
         
+        function listar_alumnos($vc,$anl){
+            $this->db->select("alu_id, alu_nombres, alu_apellidos");
+            $this->db->from("alumno");
+            $this->db->where("alu_curso_paralelo_id",$vc);
+            $this->db->where("alu_ano_lectivo_id",$anl);
+            $this->db->order_by("alu_apellidos, alu_nombres");
+            
+            $rs = $this->db->get();
+            
+            return $rs;
+        }
+        
+        
+        function obtener_calificaciones($mod, $mat, $anl){
+            $this->db->select("cal_id, cal_nota1, cal_nota2, cal_nota3, cal_examen, cal_total, cal_promedio, cal_conducta, cal_alumno_id");
+            $this->db->from("calificaciones");
+            $this->db->where("cal_periodo_escolar_id",$mod);
+            $this->db->where("cal_materia_curso_id",$mat);
+            $this->db->where("cal_anio_lectivo_id",$anl);
+            $this->db->order_by("cal_id");
+            
+            $rs = $this->db->get();
+            
+            return $rs;
+        }
+        
+        
+        function verificar_acta_creada($mod, $mc, $anl){
+            $this->db->select("cal_id");
+            $this->db->from("calificaciones");
+            $this->db->where("cal_periodo_escolar_id",$mod);
+            $this->db->where("cal_materia_curso_id",$mc);
+            $this->db->where("cal_anio_lectivo_id",$anl);
+            
+            $rs = $this->db->get();
+            $info = "";
+            
+            foreach($rs->result() as $row){
+                $info = $row->cal_id;
+            }
+            
+            return $info;
+        }
+        
+        
+        function insertar_notas_acta($resultado, $mod, $mc, $anl){
+            foreach($resultado->result() as $alumno){
+                $nota1 = $this->input->post("nt1" .$alumno->alu_id);
+                $nota2 = $this->input->post("nt2" .$alumno->alu_id);
+                $nota3 = $this->input->post("nt3" .$alumno->alu_id);
+                $examen = $this->input->post("exa" .$alumno->alu_id);
+                $total = $this->input->post("tot" .$alumno->alu_id);
+                $promedio = $this->input->post("pro" .$alumno->alu_id);
+                $conducta = $this->input->post("cond" .$alumno->alu_id);
+                
+                $data = array(
+                   'cal_nota1' => $nota1 ,
+                   'cal_nota2' => $nota2 ,
+                   'cal_nota3' => $nota3 ,
+                   'cal_examen' => $examen ,
+                   'cal_total' => $total ,
+                   'cal_promedio' => $promedio ,
+                   'cal_conducta' => $conducta ,
+                   'cal_periodo_escolar_id' => $mod,
+                   'cal_materia_curso_id' => $mc ,
+                   'cal_anio_lectivo_id' => $anl ,
+                   'cal_alumno_id' => $alumno->alu_id
+                );
+                
+                $this->db->insert('calificaciones', $data); 
+            }
+        }
+        
+        function actualizar_notas_acta($resultado, $calificaciones, $mod, $mc, $anl){
+            foreach($resultado->result() as $alumno){
+                foreach($calificaciones->result() as $cal){
+                    if($alumno->alu_id == $cal->cal_alumno_id){
+                       
+                        $cal_id = $this->input->post("cal" .$cal->cal_id);
+                        $nota1 = $this->input->post("nt1" .$alumno->alu_id);
+                        $nota2 = $this->input->post("nt2" .$alumno->alu_id);
+                        $nota3 = $this->input->post("nt3" .$alumno->alu_id);
+                        $examen = $this->input->post("exa" .$alumno->alu_id);
+                        $total = $this->input->post("tot" .$alumno->alu_id);
+                        $promedio = $this->input->post("pro" .$alumno->alu_id);
+                        $conducta = $this->input->post("cond" .$alumno->alu_id);
+                        
+                        $data = array(
+                           'cal_nota1' => $nota1 ,
+                           'cal_nota2' => $nota2 ,
+                           'cal_nota3' => $nota3 ,
+                           'cal_examen' => $examen ,
+                           'cal_total' => $total ,
+                           'cal_promedio' => $promedio ,
+                           'cal_conducta' => $conducta ,
+                           'cal_periodo_escolar_id' => $mod,
+                           'cal_materia_curso_id' => $mc ,
+                           'cal_anio_lectivo_id' => $anl ,
+                           'cal_alumno_id' => $alumno->alu_id
+                        );
+                        
+                        $this->db->where("cal_id", $cal_id);
+                        $this->db->update('calificaciones', $data);            
+                    }
+                }
+            }
+        }
+        
+        
         function nombre_alumno($alu){
             $this->db->select("alu_nombres, alu_apellidos");
             $this->db->from("alumno");
@@ -18,19 +127,6 @@
             
             foreach ($rs->result() as $fila){
                 $info = $fila->alu_apellidos." ".$fila->alu_nombres;
-            }
-                
-            return $info;
-        }
-        
-        function nombre_trimestre($t){
-            $this->db->where("pes_id", $t);
-            $rs=$this->db->get("periodo_escolar");
-            
-            $info = "";
-            
-            foreach ($rs->result() as $fila){
-                $info = $fila->pes_nombre;
             }
                 
             return $info;
@@ -62,26 +158,6 @@
             return $rs;
         }
         
-        function nombre_curso($cp){
-            $this->db->select("cur_nombre, esp_id, esp_nombre, par_nombre");
-            $this->db->where("cp_id", $cp);
-            $this->db->join("curso", "cp_curso_id=cur_id");
-            $this->db->join("especializacion", "cp_especializacion_id=esp_id");
-            $this->db->join("paralelo", "cp_paralelo_id=par_id");
-            $this->db->join("jornada", "cp_jornada_id=jor_id");
-            $rs=$this->db->get("curso_paralelo");
-            
-            $info = "";
-            
-            foreach ($rs->result() as $fila){
-                if($fila->esp_id > 0)
-                    $info = $fila->cur_nombre ." " .$fila->esp_nombre ." " .$fila->par_nombre;
-                else
-                    $info = $fila->cur_nombre ." " .$fila->par_nombre;
-            }
-                
-            return $info;
-        }
         
         function nom_cur($cp){
             $this->db->select("cur_nombre, esp_id, esp_nombre, par_nombre");
@@ -116,34 +192,6 @@
             return $info;
         }
         
-        function nombre_jornada($j){
-            $this->db->select("jor_nombre");
-            $this->db->where("jor_id", $j);
-            $rs=$this->db->get("jornada");
-            
-            $info = "";
-            
-            foreach ($rs->result() as $fila){
-                $info = $fila->jor_nombre;
-            }
-                
-            return $info;
-        }
-        
-        function cargar_anio_lectivo(){
-            $this->db->where("anl_periodo", date('Y'));
-            $rs=$this->db->get("anio_lectivo");
-            
-            $info = "";
-            
-            foreach ($rs->result() as $fila){
-                $info .= $fila->anl_periodo;
-                $info .= " - ";
-                $info .= $fila->anl_periodo+1;
-            }
-                
-            return $info;
-        }
         
         function cargar_id_anio_lectivo(){
             $this->db->where("anl_periodo", date('Y'));
@@ -326,35 +374,7 @@
             
             return $info;
         }
-        
-        function verificar_acta_creada($t, $vmc, $anl){
-            $this->db->select("cal_id");
-            $this->db->from("calificaciones");
-            $this->db->where("cal_periodo_escolar_id",$t);
-            $this->db->where("cal_materia_curso_id",$vmc);
-            $this->db->where("cal_anio_lectivo_id",$anl);
-            
-            $rs = $this->db->get();
-            $info = "";
-            
-            foreach($rs->result() as $row){
-                $info = $row->cal_id;
-            }
-            
-            return $info;
-        }
-        
-        function listar_alumnos($vc,$anl){
-            $this->db->select("alu_id, alu_nombres, alu_apellidos");
-            $this->db->from("alumno");
-            $this->db->where("alu_curso_paralelo_id",$vc);
-            $this->db->where("alu_ano_lectivo_id",$anl);
-            $this->db->order_by("alu_apellidos, alu_nombres");
-            
-            $rs = $this->db->get();
-            
-            return $rs;
-        }
+ 
         
         function listar_rep($cp,$anl){
             $this->db->select("alu_nombres, alu_apellidos,rep_nombres");
@@ -385,83 +405,6 @@
                 $info .="<option value='".$row->mat_id."'>".$row->mat_nombre."</option>";
             }
             return $info;
-        }
-        
-        function listar_acta_alumnos($t, $vmc, $anl){
-            $this->db->select("cal_id, cal_nota1, cal_nota2, cal_nota3, cal_examen, cal_total, cal_promedio, cal_conducta, cal_alumno_id");
-            $this->db->from("calificaciones");
-            $this->db->where("cal_periodo_escolar_id",$t);
-            $this->db->where("cal_materia_curso_id",$vmc);
-            $this->db->where("cal_anio_lectivo_id",$anl);
-            $this->db->order_by("cal_id");
-            
-            $rs = $this->db->get();
-            
-            return $rs;
-        }
-        
-        function insertar_notas_acta($resultado, $trim, $mc, $anl){
-            foreach($resultado->result() as $alumno){
-                $nota1 = $this->input->post("nt1" .$alumno->alu_id);
-                $nota2 = $this->input->post("nt2" .$alumno->alu_id);
-                $nota3 = $this->input->post("nt3" .$alumno->alu_id);
-                $examen = $this->input->post("exa" .$alumno->alu_id);
-                $total = $this->input->post("tot" .$alumno->alu_id);
-                $promedio = $this->input->post("pro" .$alumno->alu_id);
-                $conducta = $this->input->post("cond" .$alumno->alu_id);
-                
-                $data = array(
-                   'cal_nota1' => $nota1 ,
-                   'cal_nota2' => $nota2 ,
-                   'cal_nota3' => $nota3 ,
-                   'cal_examen' => $examen ,
-                   'cal_total' => $total ,
-                   'cal_promedio' => $promedio ,
-                   'cal_conducta' => $conducta ,
-                   'cal_periodo_escolar_id' => $trim,
-                   'cal_materia_curso_id' => $mc ,
-                   'cal_anio_lectivo_id' => $anl ,
-                   'cal_alumno_id' => $alumno->alu_id
-                );
-                
-                $this->db->insert('calificaciones', $data); 
-            }
-        }
-        
-        function actualizar_notas_acta($resultado, $calificaciones, $trim, $mc, $anl){
-            foreach($resultado->result() as $alumno){
-                foreach($calificaciones->result() as $cal){
-                    if($alumno->alu_id == $cal->cal_alumno_id){
-                       
-                        $cal_id = $this->input->post("cal" .$cal->cal_id);
-                        $nota1 = $this->input->post("nt1" .$alumno->alu_id);
-                        $nota2 = $this->input->post("nt2" .$alumno->alu_id);
-                        $nota3 = $this->input->post("nt3" .$alumno->alu_id);
-                        $examen = $this->input->post("exa" .$alumno->alu_id);
-                        $total = $this->input->post("tot" .$alumno->alu_id);
-                        $promedio = $this->input->post("pro" .$alumno->alu_id);
-                        $conducta = $this->input->post("cond" .$alumno->alu_id);
-                        
-                        $data = array(
-                           'cal_nota1' => $nota1 ,
-                           'cal_nota2' => $nota2 ,
-                           'cal_nota3' => $nota3 ,
-                           'cal_examen' => $examen ,
-                           'cal_total' => $total ,
-                           'cal_promedio' => $promedio ,
-                           'cal_conducta' => $conducta ,
-                           'cal_periodo_escolar_id' => $trim,
-                           'cal_materia_curso_id' => $mc ,
-                           'cal_anio_lectivo_id' => $anl ,
-                           'cal_alumno_id' => $alumno->alu_id
-                        );
-                        
-                        $this->db->where("cal_id", $cal_id);
-                        $this->db->update('calificaciones', $data); 
-                        
-                    }
-                }
-            }
         }
         
     }

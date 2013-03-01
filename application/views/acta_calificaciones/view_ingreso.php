@@ -359,101 +359,100 @@
             </div>
         </div>
         <?=$menu?>
-        <form class="form-horizontal" id="formActa" name="formActa" action="<?=site_url("alumno/guardar") ?>" method="post" >
-            <fieldset>
-                <legend>Acta de Calificaciones</legend>
-                <div class="span3" style="margin-right: 50px;">
-                    <div class="span3 panel" style="width:230px;margin-left:15px;padding:10px 10px 0 20px;">
-                        <ul class="nav">
-                            <li><b>Jornada</b></li>
-                            <li><?php 
-                                    $js = 'id="cmbJornada"';
-                                    echo form_dropdown("cmbJornada",$jornada, null, $js);
-                                ?>
-                            </li>
-                            <br />
-                            <li><b>Nivel</b></li>
-                            <li><select id="cmbNivel" name="cmbNivel" disabled="disabled" ></select></li>
-                            <br />
-                            <li><b>Curso </b></li>
-                            <li><select id="cmbCurso" name="cmbCurso" disabled="disabled" ></select></li>
-                            <br />
-                            <li><b>Especializaci&oacute;n </b></li>
-                            <li><select id="cmbEspec" name="cmbEspec" disabled="disabled" ></select></li>
-                            <br />
-                            <li><b>Paralelo </b></li>
-                            <li><select id="cmbParalelo" name="cmbParalelo" disabled="disabled" ></select></li>
-                            <br />
-                        </ul>
-                    </div><!--/span-->
-                    <div class="span3" style="margin-left:50px;">
-                        <div class="well sidebar-nav">
-                            <ul class="nav nav-list">
-                              <li class="nav-header">Ayuda<i class="icon-question-sign" style="float: right;"></i></li>
-                              <li><a>En esta secci&oacute;n podr&aacute; <b>ingresar, consultar y modificar</b> las actas de calificaciones del per&iacute;odo actual.</a></li>
+        <div class="container-fluid">
+            <form class="form-horizontal" id="formActa" name="formActa" action="<?=site_url("alumno/guardar") ?>" method="post" >
+                <fieldset>
+                    <legend>Acta de Calificaciones</legend>
+                    <div class="span3" style="margin-right: 50px;">
+                        <div class="span3 panel" style="width:230px;margin-left:15px;padding:10px 10px 0 20px;">
+                            <ul class="nav">
+                                <li><b>Jornada*</b></li>
+                                <li><?php 
+                                        $js = 'id="cmbJornada"';
+                                        echo form_dropdown("cmbJornada",$jornada, null, $js);
+                                    ?>
+                                </li>
+                                <br />
+                                <li><b>Nivel*</b></li>
+                                <li><select id="cmbNivel" name="cmbNivel" disabled="disabled" ></select></li>
+                                <br />
+                                <li><b>Curso*</b></li>
+                                <li><select id="cmbCurso" name="cmbCurso" disabled="disabled" ></select></li>
+                                <br />
+                                <li><b>Especializaci&oacute;n*</b></li>
+                                <li><select id="cmbEspec" name="cmbEspec" disabled="disabled" ></select></li>
+                                <br />
+                                <li><b>Paralelo*</b></li>
+                                <li><select id="cmbParalelo" name="cmbParalelo" disabled="disabled" ></select></li>
+                                <br />
                             </ul>
-                        </div><!--/.well -->
-                    </div><!--/span-->  
-                </div> 
-                <div class="span9 panel" style="width:980px;padding:10px 20px 10px 0;">
-                    <div class="control-group span9">
-                        <label class="control-label"><b>Materias</b></label>
-                        <div class="controls">
-                            <select id="cmbMateria" name="cmbMateria" style="width:320px" disabled="disabled"></select>
-                        </div>
-                    </div>
-                    <div class="control-group span6">
-                        <label class="control-label"><b>M&oacute;dulo Escolar</b></label>
-                        <div class="controls">
-                           <select id="cmbModulo" name="cmbModulo" >
-                                <option value="1">Quinquemestre</option>
-                                <option value="2">Trimestre</option>
-                            </select>
-                        </div>
-                        
-                        <div id="quimestre"  style="margin: 20px 0 0 35px">
-                            <label class="checkbox inline">
-                                <input type="radio" name="radio" id="radio" value="1"> 1er Parcial
-                            </label>
-                            <label class="checkbox inline">
-                                <input type="radio" name="radio" id="radio" value="2"> 2do Parcial
-                            </label>
-                        </div>
-                        <div id="trimestre"  style="margin: 20px 0 0 35px; display: none">
-                            <label class="checkbox inline">
-                                <input type="radio" name="radio" id="radio" value="3"> 1er Trimestre
-                            </label>
-                            <label class="checkbox inline">
-                                <input type="radio" name="radio" id="radio" value="4"> 2do Trimestre
-                            </label>
-                            <label class="checkbox inline">
-                                <input type="radio" name="radio" id="radio" value="5"> 3er Trimestre
-                            </label>
-                        </div>
-                    </div>
-                    <div class="span3">
-                        <div class="control-group">
-                            <label class="control-label"><b>A&ntilde;o Lect&iacute;vo</b></label>
+                        </div><!--/span-->
+                        <div class="span3" style="margin-left:50px;">
+                            <div class="well sidebar-nav">
+                                <ul class="nav nav-list">
+                                  <li class="nav-header">Ayuda<i class="icon-question-sign" style="float: right;"></i></li>
+                                  <li><a>En esta secci&oacute;n podr&aacute; <b>ingresar, consultar y modificar</b> las actas de calificaciones del per&iacute;odo actual.</a></li>
+                                </ul>
+                            </div><!--/.well -->
+                        </div><!--/span-->  
+                    </div> 
+                    <div class="span9 panel" style="width:930px;padding:10px 20px 10px 0;">
+                        <div class="control-group span9">
+                            <label class="control-label"><b>Materia</b></label>
                             <div class="controls">
-                                <?php 
-                                    $js = 'id="cmbAnioLec" style="width:130px"';
-                                    echo form_dropdown("cmbAnioLec",$anioLect, $anlId, $js);
-                                ?>
+                                <select id="cmbMateria" name="cmbMateria" style="width:320px" disabled="disabled"></select>
                             </div>
                         </div>
-                        <a href="javascript:generar_acta()" id="btnGenerar" class="btn btn-primary" style="width: 100px; margin-left: 60px" ><i class="icon-calendar"></i>Visualizar</a>
-                    </div>
-                    <hr>
-                    <div id="listadoAlumnos" style="width: 980px; margin-top:150px; padding: 0 10px"></div>
-                </div>    
-            </fieldset> 
-        </form>
-        
-        <hr>
+                        <div class="control-group span6">
+                            <label class="control-label"><b>M&oacute;dulo Escolar</b></label>
+                            <div class="controls">
+                               <select id="cmbModulo" name="cmbModulo" >
+                                    <option value="1">Quinquemestre</option>
+                                    <option value="2">Trimestre</option>
+                                </select>
+                            </div>
 
-        <footer>
-            <h6>Realizado por Sedita &nbsp;&nbsp; - &nbsp;&nbsp; &copy; Company 2012</h6>
-        </footer> 
-    
+                            <div id="quimestre"  style="margin: 20px 0 0 35px">
+                                <label class="checkbox inline">
+                                    <input type="radio" name="radio" id="radio" value="1"> 1er Parcial
+                                </label>
+                                <label class="checkbox inline">
+                                    <input type="radio" name="radio" id="radio" value="2"> 2do Parcial
+                                </label>
+                            </div>
+                            <div id="trimestre"  style="margin: 20px 0 0 35px; display: none">
+                                <label class="checkbox inline">
+                                    <input type="radio" name="radio" id="radio" value="3"> 1er Trimestre
+                                </label>
+                                <label class="checkbox inline">
+                                    <input type="radio" name="radio" id="radio" value="4"> 2do Trimestre
+                                </label>
+                                <label class="checkbox inline">
+                                    <input type="radio" name="radio" id="radio" value="5"> 3er Trimestre
+                                </label>
+                            </div>
+                        </div>
+                        <div class="span3">
+                            <div class="control-group">
+                                <label class="control-label"><b>A&ntilde;o Lect&iacute;vo</b></label>
+                                <div class="controls">
+                                    <?php 
+                                        $js = 'id="cmbAnioLec" style="width:130px"';
+                                        echo form_dropdown("cmbAnioLec",$anioLect, $anlId, $js);
+                                    ?>
+                                </div>
+                            </div>
+                            <a href="javascript:generar_acta()" id="btnGenerar" class="btn btn-primary" style="width: 100px; margin-left: 60px" ><i class="icon-calendar"></i>Visualizar</a>
+                        </div>
+
+                        <div class="span9" id="listadoAlumnos" style="width: 910px; margin:10px 0 0 15px;"></div>
+                    </div>    
+                </fieldset> 
+            </form>
+            <hr>
+            <footer>
+                <h6>Realizado por Sedita &nbsp;&nbsp; - &nbsp;&nbsp; &copy; Company 2012</h6>
+            </footer> 
+        </div>
     </body>
 </html>
