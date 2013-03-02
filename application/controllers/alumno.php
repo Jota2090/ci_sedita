@@ -55,19 +55,19 @@
                     $e = $this->input->post("espec");
                     $p = $this->input->post("paral");
                     $anioLect= $this->input->post("strAnioLect");
-    				$indBachill=$this->input->post("indBachill");
-    				$this->listado_alumnos($j,$c,$e,$p,$anioLect,$indBachill);       
+                    $indBachill=$this->input->post("indBachill");
+                    $this->listado_alumnos($j,$c,$e,$p,$anioLect,$indBachill);       
                 }
-    			elseif($m == "consultar"){    
-    				$j = $this->input->post("jornada");
-    				$c = $this->input->post("curso");
-    				$e = $this->input->post("espec");
-    				$p = $this->input->post("paral");
-    				$anioLect= $this->input->post("strAnioLect");
-    				$indBachill=$this->input->post("indBachill");
-    				$indInicio = $this->input->post("indInicio");
-    				$this->consultar_alumnos($j,$c,$e,$p,$anioLect,$indBachill,$indInicio);
-    			}
+                elseif($m == "consultar"){    
+                    $j = $this->input->post("jornada");
+                    $c = $this->input->post("curso");
+                    $e = $this->input->post("espec");
+                    $p = $this->input->post("paral");
+                    $anioLect= $this->input->post("strAnioLect");
+                    $indBachill=$this->input->post("indBachill");
+                    $indInicio = $this->input->post("indInicio");
+                    $this->consultar_alumnos($j,$c,$e,$p,$anioLect,$indBachill,$indInicio);
+                }
                 else{    
                      $this->nuevoAlumno(); 
                 }
@@ -156,9 +156,7 @@
             $info="";
 
             foreach($rs->result() as $row){
-                //$info .="".$row->alu_apellidos."�";
-                
-                 $info .="".$row->alu_documentacion."_".
+                $info .="".$row->alu_documentacion."_".
                             $row->alu_nombres."_".
                             $row->alu_apellidos."_".
                             $row->alu_categoria_alumno_id."_".

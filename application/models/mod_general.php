@@ -331,6 +331,16 @@
             return $rs;
         }
         
+        
+        function nombre_jornada($j){
+            $this->db->select("jor_nombre");
+            $this->db->where("jor_id", $j);
+            $rs=$this->db->get("jornada");
+                
+            return $rs;
+        }
+        
+        
         function nombre_curso($cp){
             $this->db->select("cur_nombre, esp_id, esp_nombre, par_nombre");
             $this->db->where("cp_id", $cp);
@@ -343,13 +353,15 @@
             return $rs;
         }
         
-        function nombre_jornada($j){
-            $this->db->select("jor_nombre");
-            $this->db->where("jor_id", $j);
-            $rs=$this->db->get("jornada");
-                
+        function nombre_especializacion($e){
+            $this->db->select("esp_nombre, esp_id");
+            $this->db->from("especializacion");
+            $this->db->where("esp_id", $e);
+            $rs = $this->db->get();
+               
             return $rs;
         }
+        
         
         function nombre_anio_lectivo($anl){
             $this->db->where("anl_id", $anl);

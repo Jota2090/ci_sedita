@@ -177,22 +177,6 @@
             return $info;
         }
         
-        function nom_esp($e){
-            $info="";
-            
-            $this->db->select("esp_nombre, esp_id");
-            $this->db->from("especializacion");
-            $this->db->where("esp_id", $e);
-            $rs = $this->db->get();
-            
-            foreach ($rs->result() as $fila){
-                $info = $fila->esp_nombre;
-            }
-                
-            return $info;
-        }
-        
-        
         function cargar_id_anio_lectivo(){
             $this->db->where("anl_periodo", date('Y'));
             $rs=$this->db->get("anio_lectivo");

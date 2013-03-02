@@ -15,6 +15,7 @@
             parent::__construct();
             $this->load->library('grocery_CRUD');
             $this->load->model("mod_general","general");
+            $this->load->model("mod_acta_calificaciones","acta");
         }
         
         function _remap($m){
@@ -274,6 +275,16 @@
         }
         
         
+        function get_nom_jornada($j){
+            $info = "";
+            $rs=$this->general->nombre_jornada($j);
+            foreach ($rs->result() as $fila){
+                $info = $fila->jor_nombre;
+            }
+            return $info;
+        }
+        
+        
         function get_nom_curso($cp){
             $info = "";
             $rs=$this->general->nombre_curso($cp);
@@ -287,14 +298,16 @@
         }
         
         
-        function get_nom_jornada($j){
-            $info = "";
-            $rs=$this->general->nombre_jornada($j);
+        function get_nom_especializacion($e){
+            $info="";
+            $rs=$this->general->nombre_especializacion($e);
             foreach ($rs->result() as $fila){
-                $info = $fila->jor_nombre;
+                $info = $fila->esp_nombre;
             }
+            
             return $info;
         }
+        
         
         function get_anio_lectivo($anl){
             $info = "";
@@ -306,5 +319,16 @@
             }
             return $info;
         }
+        
+        
+        function lista_alumnos($cp, $anl){
+            $rs=$this->acta->listar_alumnos($cp,$anl);
+            $info="";
+            foreach($rs->result() as $row){
+                $info .="<option value='".$row->alu_id."'>".$row->alu_apellidos." ".$row->alu_nombres."</option>";
+            }
+            return $info;
+        }
+        
     } 
 ?>

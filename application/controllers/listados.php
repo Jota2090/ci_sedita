@@ -2,20 +2,22 @@
     if (! defined('BASEPATH'))
     exit ('No se puede ejecutar directamente este SCRIPT');
 
-    class Listados extends CI_Controller {
+    class Listados extends alumno {
         
         function __construct(){
             parent::__construct();
             $this->load->library('grocery_CRUD');
-            $this->load->model("mod_alumno2","alumno");
             $this->load->model("mod_acta_calificaciones","acta");
             $this->load->model("mod_libreta","libreta");
         }
         
         function _remap($metodo){
             if(!$this->clslogin->check()){
-				redirect(site_url("login"));
-			}
+                redirect(site_url("login"));
+            }
+            elseif($metodo=="hoja_matricula"){
+                $this->hoja_matricula();   
+            }
             elseif($metodo=="cuadro_honor"){
                 $this->cuadro_honor();   
             }
@@ -24,6 +26,31 @@
             }
             elseif($metodo=="cargar_alumnos"){
                 $this->combo_alumnos();
+            }
+            elseif($metodo=="listar_alumnos"){
+                $this->list_alu();
+            }
+            elseif($metodo=="exportar"){
+                $ind = $this->input->post("indicador");
+                $rd = $this->input->post("radio");
+                
+                if($ind==0||$ind==null)
+                    $this->nominas();
+                else{
+                    if($rd=="nomina"){
+                        $this->exportar_nomina($ind);
+                    }elseif($rd=="acta"){
+                        $this->exportar_acta($ind);
+                    }
+                }
+            }
+            elseif($metodo=="imp_hoja_matricula"){
+                $c = $this->input->post("cmbCurso");
+                
+                if($c==0||$c==""||$c==null)
+                    $this->hoja_matricula ();
+                else
+                    $this->imp_hoja($c);
             }
             elseif($metodo=="listar_materias"){
                 $c=$this->input->post("curso");
@@ -41,20 +68,6 @@
                     $this->cuadro_promocion(); 
                 else
                     $this->ver_promocion($j); 
-            }
-            elseif($metodo=="exportar"){
-                $ind = $this->input->post("indicador");
-                $rd = $this->input->post("radio");
-                
-                if($ind==0||$ind==null)
-                    $this->nominas();
-                else{
-                    if($rd=="nomina"){
-                        $this->exportar_nomina($ind);
-                    }elseif($rd=="acta"){
-                        $this->exportar_acta($ind);
-                    }
-                }
             }
             elseif($metodo=="generar_cuadro"){
                 $ind = $this->input->post("indicador");
@@ -90,13 +103,22 @@
         
         
         function nominas(){
-            $data["jornada"] = $this->alumno->cargar_jornadas();
-            $data["curso"] = $this->alumno->cargar_curso(0);
-            $data["anio_lectivo"] = $this->acta->cargar_anio_lectivo();
-            $data["trimestre"] = $this->acta->cargar_trimestre();
+            $data["jornada"] = $this->cargar_jornadas();
+            $data["anioLect"]=$this->cargar_aniosLectivos();
+            $data["anlId"]=$this->cargar_anlActual();
             $data["menu"]=$this->load->view("view_menu_administrador");
-            $this->load->view("listados/listados_nomina_alumnos", $data);   
+            $this->load->view("listados/nomina_alumnos", $data);   
         }
+        
+        
+        function hoja_matricula(){
+            $data["jornada"] = $this->cargar_jornadas();
+            $data["anioLect"]=$this->cargar_aniosLectivos();
+            $data["anlId"]=$this->cargar_anlActual();
+            $data["menu"]=$this->load->view("view_menu_administrador");
+            $this->load->view("listados/hoja_matricula", $data);   
+        }
+        
         
         function cuadro_honor(){
             $data["jornada"] = $this->alumno->cargar_jornadas();
@@ -105,7 +127,7 @@
             $data["anio_lectivo"] = $this->libreta->verificar_anl(date('Y'));
             $data["trimestre"] = $this->acta->cargar_trimestre();
             $data["menu"]=$this->load->view("view_menu_administrador");
-            $this->load->view("listados/listados_cuadro_honor", $data);   
+            $this->load->view("listados/cuadro_honor", $data);   
         }
         
         function cuadro_promocion(){
@@ -115,37 +137,33 @@
             $data["anio_lectivo"] = $this->libreta->verificar_anl(date('Y'));
             $data["trimestre"] = $this->acta->cargar_trimestre();
             $data["menu"]=$this->load->view("view_menu_administrador");
-            $this->load->view("listados/listados_cuadro_promocion", $data);   
+            $this->load->view("listados/cuadro_promocion", $data);   
         }
         
         function exportar_nomina($ind){
             $c = $this->input->post("cmbCurso");
             $j = $this->input->post("cmbJornada");
-            $e = $this->input->post("cmbEspecializacion");
+            $e = $this->input->post("cmbEspec");
             $p = $this->input->post("cmbParalelo");
-            $anl = $this->acta->cargar_id_anio_lectivo();
+            $anl = $this->input->post("cmbAnioLec");
             
             if($c<11||$c>14)
                 $e=-1;
             
-            $cp = $this->acta->verificar_curso($c, $e, $p, $j);
-            $alumnos = $this->acta->listar_alumnos($cp);
-            $curso = $this->acta->nom_cur($cp);
-            $esp = $this->acta->nom_esp($e);
-            $jornada = $this->acta->nombre_jornada($j);
-            
-            $fecha_actual = date('Y');
-            $fecha_despues = date('Y')+1;
-            $ano_lectivo = $fecha_actual ." - " .$fecha_despues ;
+            $cp = $this->encontrarIdCursoParalelo($j, $c, $e, $p);
+            $curso = $this->get_nom_curso($cp);
+            $jornada = $this->get_nom_jornada($j);
+            $ano_lectivo = $this->get_anio_lectivo($anl);
+            $alumnos = $this->acta->listar_alumnos($cp, $anl);
             
             if($ind==1){
                 $this->load->library('export_pdf');                 
                 
                 $pdf = new export_pdf();
                 
-                $pdf->exportToPDF_Nomina($alumnos,$ano_lectivo,$curso,$esp,$jornada);
-            }elseif($ind==2){
-                $curso = $this->acta->nombre_curso($cp);
+                $pdf->exportToPDF_Nomina($alumnos,$ano_lectivo,$curso,$jornada);    
+            }
+            elseif($ind==2){
                 $this->load->library('export_excel');
                 
                 $excel = new export_excel();
@@ -156,30 +174,28 @@
         function exportar_acta($ind){
             $c = $this->input->post("cmbCurso");
             $j = $this->input->post("cmbJornada");
-            $e = $this->input->post("cmbEspecializacion");
+            $e = $this->input->post("cmbEspec");
             $p = $this->input->post("cmbParalelo");
-            $t = $this->input->post("cmbTrimestre");
+            $mod = $this->input->post("parcial");
+            $anl = $this->input->post("cmbAnioLec");
             
             if($c<11||$c>14)
                 $e=-1;
             
-            $cp = $this->acta->verificar_curso($c, $e, $p, $j);
-            $alumnos = $this->acta->listar_alumnos($cp);
-            $calificaciones = $this->acta->listar_acta_alumnos(0, 0, 0);
-            $periodo = $this->acta->nombre_trimestre($t);
-            $curso = $this->acta->nombre_curso($cp);
-            $jornada = $this->acta->nombre_jornada($j);
-            
-            $fecha_actual = date('Y');
-            $fecha_despues = date('Y')+1;
-            $ano_lectivo = $fecha_actual ." - " .$fecha_despues ;
+            $cp = $this->encontrarIdCursoParalelo($j, $c, $e, $p);
+            $curso = $this->get_nom_curso($cp);
+            $jornada = $this->get_nom_jornada($j);
+            $periodo = $this->get_nom_periodo($mod);
+            $ano_lectivo = $this->get_anio_lectivo($anl);
+            $alumnos = $this->acta->listar_alumnos($cp, $anl);
+            $calificaciones = $this->acta->obtener_calificaciones(0, 0, 0);
             
             if($ind==1){
                 $this->load->library('export_pdf');                 
                 
                 $pdf = new export_pdf();
                 
-                $pdf->exportToPDF_Actas($alumnos,$calificaciones,$periodo,$ano_lectivo,$curso,$jornada,$t);
+                $pdf->exportToPDF_Actas($alumnos,$calificaciones,$periodo,$ano_lectivo,$curso,$jornada,$mod);
             }
             else{
                 $this->load->library('export_excel');
@@ -189,7 +205,35 @@
                                             $periodo,$ano_lectivo,$curso,$jornada);
             }
         }
+        
+        
+        function imp_hoja($c){
+            $this->load->library('export_pdf'); 
+            $this->load->model('mod_alumno','alumno'); 
+            
+            $j = $this->input->post("cmbJornada");
+            $e = $this->input->post("cmbEspec");
+            $p = $this->input->post("cmbParalelo");
+            $alu = $this->input->post("cmbAlumnos");
+            $anl = $this->input->post("cmbAnioLec");
+            
+            if($c<11||$c>14)
+                $e=-1;
+            
+            $cp = $this->encontrarIdCursoParalelo($j, $c, $e, $p);
+            $curso = $this->get_nom_curso($cp);
+            $jornada = $this->get_nom_jornada($j);
+            $ano_lectivo = $this->get_anio_lectivo($anl);
+            $alumno = $this->alumno->obtener_alumno($alu);
+            
+            foreach($alumno as $alu)
+                $datos_alu = $this->autocompletar_alumno($alu->alu_matricula);
+            
+            $pdf = new export_pdf();
+            $pdf->exportToPDF_Hoja_Matricula($datos_alu,$ano_lectivo,$curso,$jornada);
+        }
      
+        
         function generar_cuadro($ind){
             $c = $this->input->post("cmbCurso");
             $j = $this->input->post("cmbJornada");
@@ -374,6 +418,23 @@
             else{
                 $this->load->view("alertas/actas_vacias");
             }
-        }  
+        }
+        
+        
+        function list_alu(){
+            $c = $this->input->post("cur");
+            $j = $this->input->post("jor");
+            $e = $this->input->post("esp");
+            $p = $this->input->post("par");
+            $anl=$this->input->post("anl");
+            
+            if($c<11||$c>14)
+                $e=-1;
+            
+            $cp = $this->encontrarIdCursoParalelo($j, $c, $e, $p);
+            $alu = $this->lista_alumnos($cp,$anl);
+            
+            echo $alu;
+        }
     }
 ?>

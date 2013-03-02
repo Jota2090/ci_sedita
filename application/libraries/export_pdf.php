@@ -266,7 +266,7 @@
             $CI->cezpdf->ezStream();
         }
         
-        function exportToPDF_Nomina($alumnos,$ano_lectivo,$curso,$esp,$jornada){
+        function exportToPDF_Nomina($alumnos,$ano_lectivo,$curso,$jornada){
             $CI = & get_instance();
             
             $CI->load->library("cezpdf");
@@ -276,32 +276,29 @@
             header_pdf();
             footer_pdf();
             $CI->cezpdf->ezSetMargins(105,80,50,50);
-            $CI->cezpdf->ezText("N�MINA DE ALUMNOS",9, array('justification'=>'center'));
+            $CI->cezpdf->ezText(utf8_decode("NÓMINA DE ALUMNOS"),9, array('justification'=>'center'));
             $CI->cezpdf->line(98,691,290,691);
             $CI->cezpdf->line(425,691,525,691);
             $CI->cezpdf->addText(57,694,8,"<b>Inspector:</b>");
             $CI->cezpdf->addText(405,694,8,"<b>Mes:</b>");
             $CI->cezpdf->ezText("\n\n\n\n",10);
             $CI->cezpdf->setStrokeColor(0,0,0);            
-            $CI->cezpdf->rectangle(53,669,42,15);
-            $CI->cezpdf->setStrokeColor(0,0,0);
-            $CI->cezpdf->rectangle(95,669,58,15);
+            $CI->cezpdf->rectangle(53,669,25,15);
             $CI->cezpdf->setStrokeColor(0,0,0);            
-            $CI->cezpdf->rectangle(153,669,36,15);
+            $CI->cezpdf->rectangle(78,669,43,15);
             $CI->cezpdf->setStrokeColor(0,0,0);
-            $CI->cezpdf->rectangle(189,669,100,15);
-            $CI->cezpdf->setStrokeColor(0,0,0);
-            $CI->cezpdf->rectangle(289,669,35,15);
-            $CI->cezpdf->setStrokeColor(0,0,0);
-            $CI->cezpdf->rectangle(324,669,100,15);
+            $CI->cezpdf->rectangle(121,669,100,15);
             $CI->cezpdf->setStrokeColor(0,0,0);            
-            $CI->cezpdf->rectangle(424,669,48,15);
+            $CI->cezpdf->rectangle(221,669,36,15);
             $CI->cezpdf->setStrokeColor(0,0,0);
-            $CI->cezpdf->rectangle(472,669,60,15);
-            $CI->cezpdf->addText(57,674,8,"<b>Jornada:</b>    ".$jornada);
-            $CI->cezpdf->addText(157,674,8,"<b>Curso:</b>      ".$curso);
-            $CI->cezpdf->addText(293,674,8,"<b>Esp. :</b>       ".$esp);
-            $CI->cezpdf->addText(428,674,8,"<b>Año / Lec:</b>     ".$ano_lectivo);
+            $CI->cezpdf->rectangle(257,669,151,15);
+            $CI->cezpdf->setStrokeColor(0,0,0);           
+            $CI->cezpdf->rectangle(408,669,60,15);
+            $CI->cezpdf->setStrokeColor(0,0,0);
+            $CI->cezpdf->rectangle(468,669,64,15);
+            $CI->cezpdf->addText(82,674,8,"<b>Jornada:</b>         ".$jornada);
+            $CI->cezpdf->addText(225,674,8,"<b>Curso:</b>           ".utf8_decode($curso));
+            $CI->cezpdf->addText(412,674,8,"<b>".utf8_decode("Año Lectívo").":</b>        ".$ano_lectivo);
             
             $columnas = array("num"=>"<b>No.</b>",
                                 "a"=>"<b>                    Apellidos  -  Nombres</b>",
@@ -314,7 +311,7 @@
             $i=0;
             foreach($alumnos->result() as $fila){
                 $i++;
-                $data[] = array("num"=>$i,"a"=>$fila->alu_apellidos ." " .$fila->alu_nombres,
+                $data[] = array("num"=>$i,"a"=> strtoupper(utf8_decode($fila->alu_apellidos ." " .$fila->alu_nombres)),
                                 "n1"=>"","n2"=>"","n3"=>"","n4"=>"","n5"=>"","n6"=>"",
                                 "n7"=>"","n8"=>"","n9"=>"","n10"=>"","n11"=>"","n12"=>"",
                                 "n13"=>"","n14"=>"","n15"=>"","n16"=>"","n17"=>"","n18"=>"",
@@ -332,6 +329,55 @@
             
             $CI->cezpdf->ezStream();
         }
+        
+        
+        function exportToPDF_Hoja_Matricula($datos_alu,$ano_lectivo,$curso,$jornada){
+            $CI = & get_instance();
+            
+            $CI->load->library("cezpdf");
+            $CI->load->helper('pdf');
+            
+            $CI->cezpdf->selectFont('fonts/Helvetica.afm');
+            header_pdf();
+            footer_pdf();
+            $CI->cezpdf->ezSetMargins(105,80,50,50);
+            $CI->cezpdf->ezText(utf8_decode("HOJA DE MATRÍCULA"),10, array('justification'=>'center'));
+            $CI->cezpdf->line(98,691,290,691);
+            $CI->cezpdf->ezText(utf8_decode("Nº Matrícula"),8);
+            $CI->cezpdf->ezText("\n\n\n\n",10);
+            $CI->cezpdf->setStrokeColor(0,0,0);
+            $CI->cezpdf->rectangle(430,630,94,100);
+            
+            $columnas = array("num"=>"<b>No.</b>",
+                                "a"=>"<b>                    Apellidos  -  Nombres</b>",
+                                "n1"=>"","n2"=>"","n3"=>"","n4"=>"","n5"=>"","n6"=>"",
+                                "n7"=>"","n8"=>"","n9"=>"","n10"=>"","n11"=>"","n12"=>"",
+                                "n13"=>"","n14"=>"","n15"=>"","n16"=>"","n17"=>"","n18"=>"",
+                                "n19"=>"","n20"=>"","n21"=>"","n22"=>"","n23"=>"","n24"=>"");
+                                
+            $data = array();
+            $i=0;
+            /*foreach($alumnos->result() as $fila){
+                $i++;
+                $data[] = array("num"=>$i,"a"=> strtoupper(utf8_decode($fila->alu_apellidos ." " .$fila->alu_nombres)),
+                                "n1"=>"","n2"=>"","n3"=>"","n4"=>"","n5"=>"","n6"=>"",
+                                "n7"=>"","n8"=>"","n9"=>"","n10"=>"","n11"=>"","n12"=>"",
+                                "n13"=>"","n14"=>"","n15"=>"","n16"=>"","n17"=>"","n18"=>"",
+                                "n19"=>"","n20"=>"","n21"=>"","n22"=>"","n23"=>"","n24"=>"");
+            }                    
+                            
+            $CI->cezpdf->ezTable($data, $columnas, '', array('width'=>480,
+                                                             'shaded'=>0,
+                                                             'showLines'=>2,
+                                                             'fontSize'=>8,
+                                                             'cols'=>array('num'=>array('width'=>25),
+                                                                            'a'=>array('width'=>214))
+                                                            )
+                                );*/
+            
+            $CI->cezpdf->ezStream();
+        }
+        
         
         function exportToPDF_Libretas($list_alumnos,$materias,$dirigente,$anio,$anl,$curso,
                                                                 $jornada,$t,$mc,$c){

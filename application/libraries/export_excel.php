@@ -154,7 +154,7 @@
         function exportToExcel_Nomina($alumnos,$excel_file_name,$ano_lectivo,$curso,$jornada)  
         {  
             $header="<center><table border=1px><tr>";  
-            $header.="<th colspan='7' style='align:center;'>N�mina de Alumnos de ".$curso."</th>";
+            $header.="<th colspan='7' style='align:center;'>".utf8_decode("Nómina de Alumnos de ".$curso)."</th>";
             $header.="</tr>";
             
             $header.="<tr>";  
@@ -167,7 +167,7 @@
             $header.="<tr>";  
             $header.="<th>Jornada</th>";
             $header.="<th colspan='2'>".$jornada."</th>";
-            $header.="<th colspan='2'>Año Lectívo</th>";
+            $header.="<th colspan='2'>".utf8_decode("Año Lectívo")."</th>";
             $header.="<th colspan='2'>".$ano_lectivo."</th>";
             $header.="</tr>";
             
@@ -184,7 +184,7 @@
                 $i++;
                 $body.="<center><tr>";
                 $body.="<td>".$i."</td>";
-                $body.="<td>".$fila->alu_apellidos ." " .$fila->alu_nombres."</td>";
+                $body.="<td>".  strtoupper(utf8_decode($fila->alu_apellidos ." " .$fila->alu_nombres))."</td>";
                 $body.="<td></td>";$body.="<td></td>";$body.="<td></td>";$body.="<td></td>";$body.="<td></td>";
                 $body.="</tr>";
             }  

@@ -17,9 +17,6 @@
             {
                 redirect(site_url("login"));
             }
-            if($this->clslogin->getTipoUser() == 1){
-                $this->load->view("view_administrador");
-            }
             elseif($m=="generar_acta"){
                 $c = $this->input->post("cur");
                 
