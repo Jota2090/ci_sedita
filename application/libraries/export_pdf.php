@@ -334,46 +334,146 @@
         function exportToPDF_Hoja_Matricula($datos_alu,$ano_lectivo,$curso,$jornada){
             $CI = & get_instance();
             
+            $meses = array("01"=>"Enero","02"=>"Febrero","03"=>"Marzo","04"=>"Abril","05"=>"Mayo","06"=>"Junio",
+                            "07"=>"Julio","08"=>"Agosto","09"=>"Septiembre","10"=>"Octubre","11"=>"Noviembre",
+                            "12"=>"Diciembre");
+            
+            $array=explode("_", $datos_alu);
+            $strFechaBase=$array[8];
+            $arrayFecha= explode("-",$strFechaBase);
+            $strFechaAlu=$meses[$arrayFecha[1]]." ".$arrayFecha[2].", ".$arrayFecha[0];
+            
+            if($array[10]=="M")
+                $sexo="Masculino";
+            else
+                $sexo="Fememino";
+            
             $CI->load->library("cezpdf");
             $CI->load->helper('pdf');
             
             $CI->cezpdf->selectFont('fonts/Helvetica.afm');
             header_pdf();
-            footer_pdf();
-            $CI->cezpdf->ezSetMargins(105,80,50,50);
-            $CI->cezpdf->ezText(utf8_decode("HOJA DE MATRÍCULA"),10, array('justification'=>'center'));
-            $CI->cezpdf->line(98,691,290,691);
-            $CI->cezpdf->ezText(utf8_decode("Nº Matrícula"),8);
-            $CI->cezpdf->ezText("\n\n\n\n",10);
+            footer_hoja_pdf();
+            $CI->cezpdf->ezSetMargins(105,80,60,60);
+            $CI->cezpdf->ezText(utf8_decode("<b>HOJA DE MATRÍCULA</b>"),10, array('justification'=>'center'));
             $CI->cezpdf->setStrokeColor(0,0,0);
             $CI->cezpdf->rectangle(430,630,94,100);
+            $CI->cezpdf->ezText("\n\n",10);
+            $CI->cezpdf->ezText(utf8_decode("<b>Nº Matrícula :</b>    ").$array[26],9);
+            $CI->cezpdf->line(122,677,180,677);
+            $CI->cezpdf->ezText("\n",8);
+            $CI->cezpdf->ezText("<b>     Nombres :</b>    ".strtoupper(utf8_decode($array[1])),9);
+            $CI->cezpdf->line(122,648,350,648);
+            $CI->cezpdf->ezText("\n",8);
+            $CI->cezpdf->ezText("<b>     Apellidos :</b>    ".strtoupper(utf8_decode($array[2])),9);
+            $CI->cezpdf->line(122,619,350,619);
+            $CI->cezpdf->ezText("\n",8);
+            $CI->cezpdf->ezText(utf8_decode("<b>     Dirección :</b>    ").strtoupper(utf8_decode($array[4])),9);
+            $CI->cezpdf->line(122,590,350,590);
+            $CI->cezpdf->ezText("\n",8);
+            $CI->cezpdf->ezText(utf8_decode("<b>      Teléfono :</b>    ").strtoupper(utf8_decode($array[5])),9);
+            $CI->cezpdf->addText(235,563,9,"<b>Lugar / Nac. :</b>   ".strtoupper(utf8_decode($array[7])));
+            $CI->cezpdf->addText(405,563,9,utf8_decode("<b>País :</b>     ".strtoupper(utf8_decode($array[6]))));
+            $CI->cezpdf->line(122,560,215,560);
+            $CI->cezpdf->line(295,560,390,560);
+            $CI->cezpdf->line(435,560,530,560);
+            $CI->cezpdf->ezText("\n",8);
+            $CI->cezpdf->ezText("<b> Fecha / Nac.:</b>    ".$strFechaAlu,9);
+            $CI->cezpdf->addText(265,535,9,"<b>Edad :</b>   ".$array[9].utf8_decode(" Años"));
+            $CI->cezpdf->addText(401,535,9,"<b> Sexo :</b>   ".$sexo);
+            $CI->cezpdf->line(122,532,215,532);
+            $CI->cezpdf->line(295,532,390,532);
+            $CI->cezpdf->line(435,532,530,532);
+            $CI->cezpdf->ezText("\n",10);
             
-            $columnas = array("num"=>"<b>No.</b>",
-                                "a"=>"<b>                    Apellidos  -  Nombres</b>",
-                                "n1"=>"","n2"=>"","n3"=>"","n4"=>"","n5"=>"","n6"=>"",
-                                "n7"=>"","n8"=>"","n9"=>"","n10"=>"","n11"=>"","n12"=>"",
-                                "n13"=>"","n14"=>"","n15"=>"","n16"=>"","n17"=>"","n18"=>"",
-                                "n19"=>"","n20"=>"","n21"=>"","n22"=>"","n23"=>"","n24"=>"");
+            $columnas = array("num"=>"",
+                                "nombres"=>"<b>                                Nombres</b>",
+                                "ocup"=>utf8_decode("<b>            Ocupación</b>"),
+                                "pais"=>utf8_decode("<b>           País</b>"));
                                 
             $data = array();
-            $i=0;
-            /*foreach($alumnos->result() as $fila){
-                $i++;
-                $data[] = array("num"=>$i,"a"=> strtoupper(utf8_decode($fila->alu_apellidos ." " .$fila->alu_nombres)),
-                                "n1"=>"","n2"=>"","n3"=>"","n4"=>"","n5"=>"","n6"=>"",
-                                "n7"=>"","n8"=>"","n9"=>"","n10"=>"","n11"=>"","n12"=>"",
-                                "n13"=>"","n14"=>"","n15"=>"","n16"=>"","n17"=>"","n18"=>"",
-                                "n19"=>"","n20"=>"","n21"=>"","n22"=>"","n23"=>"","n24"=>"");
-            }                    
+            $data[] = array("num"=>"    <b>Padre :</b>",
+                            "nombres"=>"   ".strtoupper(utf8_decode($array[14])),
+                            "ocup"=>"   ".strtoupper(utf8_decode($array[15])),
+                            "pais"=>"   ".strtoupper(utf8_decode($array[16])));
+
+            $data[] = array("num"=>"    <b>Madre :</b>",
+                            "nombres"=>"   ".strtoupper(utf8_decode($array[11])),
+                            "ocup"=>"   ".strtoupper(utf8_decode($array[12])),
+                            "pais"=>"   ".strtoupper(utf8_decode($array[13])));
+            if($array[17]=="m"){
+                $data[] = array("num"=>"    <b>Represent. :</b>",
+                            "nombres"=>"   Madre",
+                            "ocup"=>utf8_decode(""),
+                            "pais"=>utf8_decode(""));
+                
+                $data[] = array("num"=>"    <b>Dat - Rep. :</b>",
+                                "nombres"=>"     ---     ",
+                                "ocup"=>"     ---     ",
+                                "pais"=>"     ---     ");  
+            }
+            elseif($array[17]=="p"){
+                $data[] = array("num"=>"    <b>Represent. :</b>",
+                            "nombres"=>"   Padre",
+                            "ocup"=>utf8_decode(""),
+                            "pais"=>utf8_decode(""));
+                
+                $data[] = array("num"=>"    <b>Dat - Rep. :</b>",
+                                "nombres"=>"     ---     ",
+                                "ocup"=>"     ---     ",
+                                "pais"=>"     ---     ");  
+            }
+            else{
+                $data[] = array("num"=>"    <b>Represent. :</b>",
+                            "nombres"=>"    Otro",
+                            "ocup"=>utf8_decode(""),
+                            "pais"=>utf8_decode(""));
+                
+                $data[] = array("num"=>"    <b>Dat - Rep. :</b>",
+                                "nombres"=>"   ".strtoupper(utf8_decode($array[21])),
+                                "ocup"=>"   ".strtoupper(utf8_decode($array[22])),
+                                "pais"=>"   ".strtoupper(utf8_decode($array[25])));  
+            }                
                             
             $CI->cezpdf->ezTable($data, $columnas, '', array('width'=>480,
                                                              'shaded'=>0,
                                                              'showLines'=>2,
-                                                             'fontSize'=>8,
-                                                             'cols'=>array('num'=>array('width'=>25),
-                                                                            'a'=>array('width'=>214))
+                                                             'fontSize'=>9,
+                                                             'rowGap'=>10,
+                                                             'cols'=>array('num'=>array('width'=>75),
+                                                                            'nombres'=>array('width'=>214))
                                                             )
-                                );*/
+                                );
+            $CI->cezpdf->ezText("\n",10);
+            $columnas = array("anio"=>utf8_decode("<b>Año Lectívo</b>"),
+                                "jornada"=>"<b>Jornada</b>",
+                                "curso"=>"<b>Curso</b>");
+                                
+            $data = array();
+            $data[] = array("anio"=>$ano_lectivo,
+                            "jornada"=>$jornada,
+                            "curso"=>utf8_decode($curso));             
+                            
+            $CI->cezpdf->ezTable($data, $columnas, '', array('width'=>480,
+                                                             'shaded'=>0,
+                                                             'showLines'=>2,
+                                                             'fontSize'=>9,
+                                                             'rowGap'=>10,
+                                                             'cols'=>array('anio'=>array('justification'=>'center',
+                                                                                          'width'=>100),
+                                                                            'jornada'=>array('justification'=>'center',
+                                                                                          'width'=>120),
+                                                                            'curso'=>array('justification'=>'center',
+                                                                                          'width'=>260))
+                                                            )
+                                );
+            
+            $CI->cezpdf->ezText("\n",10);
+            $CI->cezpdf->ezText("Notas Adicionales :",9);
+            $CI->cezpdf->setStrokeColor(0,0,0);
+            $CI->cezpdf->rectangle(50,170,485,60);
+            $CI->cezpdf->ezText("\n",6);
+            $CI->cezpdf->ezText(utf8_decode($array[18]),9);
             
             $CI->cezpdf->ezStream();
         }

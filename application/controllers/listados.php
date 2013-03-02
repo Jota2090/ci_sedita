@@ -226,7 +226,7 @@
             $ano_lectivo = $this->get_anio_lectivo($anl);
             $alumno = $this->alumno->obtener_alumno($alu);
             
-            foreach($alumno as $alu)
+            foreach($alumno->result() as $alu)
                 $datos_alu = $this->autocompletar_alumno($alu->alu_matricula);
             
             $pdf = new export_pdf();
