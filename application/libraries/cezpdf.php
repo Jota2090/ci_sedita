@@ -91,6 +91,7 @@ function Cezpdf($paper='a4',$orientation='portrait'){
 			case 'LEGAL': {$size = array(0,0,612.00,1008.00); break;}
 			case 'EXECUTIVE': {$size = array(0,0,521.86,756.00); break;}
 			case 'FOLIO': {$size = array(0,0,612.00,936.00); break;}
+                        case 'ESTADO': {$size = array(0,0,297.24,420.95); break;}
 		}
 		switch (strtolower($orientation)){
 			case 'landscape':

@@ -10,7 +10,7 @@
         
         /**
             * Initialize num_matricula
-            * Función que retorna un numero de matricula nuevo para los alumnos
+            * Funciï¿½n que retorna un numero de matricula nuevo para los alumnos
             * @access public
             * @return array
         */ 
@@ -36,7 +36,7 @@
         
            /**
             * Initialize cargar_categorias
-            * Función que retorna la consulta de todas las categorías de un alumno
+            * Funciï¿½n que retorna la consulta de todas las categorï¿½as de un alumno
             * @access public
             * @return array
         */ 
@@ -49,10 +49,10 @@
           
           /**
             * Initialize numAlumnos
-            * Función que obtiene el número de alumnos que se encuentra en un curso paralelo
+            * Funciï¿½n que obtiene el nï¿½mero de alumnos que se encuentra en un curso paralelo
             * @access public
             * @param integer $cpId: id del curso
-            * @param integer $idAnioLect: id del año lectivo
+            * @param integer $idAnioLect: id del aï¿½o lectivo
             * @return integer
         */ 
         function numAlumnos($cpId,$idAnioLect){
@@ -66,13 +66,13 @@
 
         /**
             * Initialize numAlumnosRepetCurso
-            * Función que obtiene el número de cincidencias entre los datos del alumno  que se 
+            * Funciï¿½n que obtiene el nï¿½mero de cincidencias entre los datos del alumno  que se 
             * quiere matricular vs. los alumnos que  ya se encuentran registrados en este curso
             * @access public
             * @param integer $cpId: id del curso
             * @param string $nombAlumn: nombres del alumno
             * @param string $apellAlumn: apellidos del alumno
-            * @param integer $$AnioId: id del año lectivo
+            * @param integer $$AnioId: id del aï¿½o lectivo
             * @return integer
         */ 
         function numAlumnosRepetCurso($cpId,$matricula,$AnioId)
@@ -89,13 +89,13 @@
         
           /**
             * Initialize numAlumnosRepetOtroCurso
-            * Función que obtiene el número de cincidencias entre los datos del alumno que se 
+            * Funciï¿½n que obtiene el nï¿½mero de cincidencias entre los datos del alumno que se 
             * quiere matricular vs. los alumnos que  ya se encuentran registrados en otros cursos
             * @access public
             * @param integer $cpId: id del curso
             * @param string $nombAlumn: nombres del alumno
             * @param string $apellAlumn: apellidos del alumno
-            * @param integer $$AnioId: id del año lectivo
+            * @param integer $$AnioId: id del aï¿½o lectivo
             * @return integer
         */ 
         function numAlumnosRepetOtroCurso($cpId,$matricula,$AnioId)
@@ -112,7 +112,7 @@
         
           /**
             * Initialize guardar_Alumno
-            * Función que guarda un alumno
+            * Funciï¿½n que guarda un alumno
             * @access public
             * @return void
         */ 
@@ -153,7 +153,7 @@
             * Initialize obtenerRepres
             * Obtiene el representante que coincida con el $datRepresentante
             * @access public
-            * @param array $post_array: array de variables pasadas a traves del método HTTP POST
+            * @param array $post_array: array de variables pasadas a traves del mï¿½todo HTTP POST
             * @param integer $value: id del curso_paralelo
             * @return array
         */ 
@@ -168,7 +168,7 @@
         
           /**
             * Initialize obtener_alumnoRepresentante
-            * Función que obtiene tanto los datos del alumno como el de su representante 
+            * Funciï¿½n que obtiene tanto los datos del alumno como el de su representante 
             * @access public
             * @param integer $idAlumno: id del alumno
             * @return array
@@ -184,13 +184,19 @@
         
           /**
             * Initialize obtener_alumno
-            * Función que obtiene los datos del alumno dde acuerdo con su id 
+            * Funciï¿½n que obtiene los datos del alumno dde acuerdo con su id 
             * @access public
             * @param integer $idAlumno: id del alumno
             * @return array
         */ 
         function obtener_alumno($idAlumno){            
             $this->db->from("alumno");
+            $this->db->join("categoria_alumno","cat_id=alu_categoria_alumno_id");
+            $this->db->join("curso_paralelo","cp_id=alu_curso_paralelo_id");
+            $this->db->join("curso","cp_curso_id=cur_id");
+            $this->db->join("especializacion","cp_especializacion_id=esp_id");
+            $this->db->join("paralelo","cp_paralelo_id=par_id");
+            $this->db->join("jornada","cp_jornada_id=jor_id");
             $this->db->where("alu_id",$idAlumno);
             $rs = $this->db->get();
             return $rs;
@@ -199,7 +205,7 @@
         
           /**
             * Initialize  obtener_representante
-            * Función que obtiene los datos del representante de acuerdo con su id 
+            * Funciï¿½n que obtiene los datos del representante de acuerdo con su id 
             * @access public
             * @param integer $idRepresentante: id del representante
             * @return array
@@ -214,7 +220,7 @@
         
           /**
             * Initialize buscarRepres
-            *Función que busca cuantas coincidencias hay entre el $data_representante con los representantes que ya han sido ingresados
+            *Funciï¿½n que busca cuantas coincidencias hay entre el $data_representante con los representantes que ya han sido ingresados
             * @access public
             * @param array $dataRepresentante: array de datos del representante
             * @return integer
@@ -258,11 +264,11 @@
       
           /**
             * Initialize actualizar_curso_paralelo_doc_Alumno
-            * Actualiza el curso_paralelo del alumno así como también si tiene o no docuentación
+            * Actualiza el curso_paralelo del alumno asï¿½ como tambiï¿½n si tiene o no docuentaciï¿½n
             * @access public
             * @param integer $pkAlumno: id del alumno
             * @param integer $idCursParal: id del curso_paralelo
-            * @param integer $alu_documentacion: 0 si no tienen documentación y 1 si es si la tiene
+            * @param integer $alu_documentacion: 0 si no tienen documentaciï¿½n y 1 si es si la tiene
             * @return string
         */ 
         function actualizar_curso_paralelo_doc_Alumno($pkAlumno,$idCursParal, $alu_documentacion){

@@ -15,7 +15,6 @@
             parent::__construct();
             $this->load->library('grocery_CRUD');
             $this->load->model("mod_alumno","alumno");
-            $this->load->model("mod_general","general");
             $this->load->helper("country_helper");
             $this->load->helper("form");
         }

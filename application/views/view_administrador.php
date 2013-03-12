@@ -69,9 +69,9 @@
                 <a class="span6 btn btn-large btn-primary" type="button" href="<?=site_url("libreta")?>">Libretas</a>
             </p>
             <p style="margin-top: 150px;">
-                <a class="span12 btn btn-large btn-primary" type="button" href="">Facturaci&oacute;n</a>
+                <a class="span12 btn btn-large btn-primary" type="button" href="<?=site_url("facturacion/cobros")?>">Facturaci&oacute;n</a>
             </p>
-            <p style="margin-top: 200px;">
+            <p style="margin-top: 210px;">
                 <a class="span12 btn btn-large btn-primary" type="button" href="<?=site_url("banda_guerra")?>">Control de Activos</a>
             </p>
         </div>

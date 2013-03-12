@@ -479,6 +479,166 @@
         }
         
         
+        function exportToPDF_EstadoCuenta($alumno,$matricula,$ano_lectivo,$curso,$jornada,$valores,$pagos){
+            $CI = & get_instance();
+            
+            $CI->load->library("cezpdf");
+            $CI->load->helper('pdf');
+            $CI->cezpdf->cezpdf('estado');
+            $CI->cezpdf->selectFont('fonts/Helvetica.afm');
+            footer_estado_cuenta();
+            $CI->cezpdf->ezImage(site_url("images/logo-escuela2.jpg"), 0, 60, 5, 'left');
+            $CI->cezpdf->addText(135,393,6,"Unidad  Educativa");
+            $CI->cezpdf->addText(120,380,9,"<b>&quot;La  Luz  de  Dios&quot;</b>");
+            $CI->cezpdf->addText(128,359,6,"ESTADO  DE  CUENTA");
+            $CI->cezpdf->addText(30,340,5,utf8_decode("<b>Matrícula  :</b>      ").$matricula);
+            $CI->cezpdf->addText(30,330,5,"<b>Alumno  :</b>         ".strtoupper(utf8_decode($alumno)));              
+            $CI->cezpdf->addText(30,320,5,"<b>Curso  :</b>            ".utf8_decode($curso));
+            $CI->cezpdf->addText(190,330,5,utf8_decode("<b>Año Lectívo  :</b>         ").$ano_lectivo);              
+            $CI->cezpdf->addText(190,320,5,"<b>Jornada  :</b>                ".$jornada);
+            $CI->cezpdf->setStrokeColor(0,0,0);
+            $CI->cezpdf->rectangle(25,298,30,8);
+            $CI->cezpdf->addText(30,300,6,"<b># Rec.</b>");
+            $CI->cezpdf->setStrokeColor(0,0,0);
+            $CI->cezpdf->rectangle(55,298,180,8);
+            $CI->cezpdf->addText(130,300,6,utf8_decode("<b>Descripción</b>"));
+            $CI->cezpdf->setStrokeColor(0,0,0);
+            $CI->cezpdf->rectangle(235,298,30,8);
+            $CI->cezpdf->addText(242,300,6,"<b>Valor</b>");
+            $CI->cezpdf->ezText("\n\n\n\n",12); 
+            
+            $columnas = array("rec"=>"", "desc"=>"", "valor"=>"");
+                                
+            $data = array();$cont=0;$i=1;
+            if($pagos["t1"]==1){
+                $cont=$cont+$valores["val1"];
+                $data[] = array("rec"=>$i,
+                            "desc"=>utf8_decode("Matrícula"),
+                            "valor"=>number_format($valores["val1"], 2, ".",""));
+                $i++;
+            }
+            if($pagos["t12"]==1){
+                $cont=$cont+$valores["val2"];
+                $data[] = array("rec"=>$i,
+                            "desc"=>utf8_decode("Derecho de Examen 1"),
+                            "valor"=>number_format($valores["val2"], 2, ".",""));
+                $i++;
+            }
+            if($pagos["t13"]==1){
+                $cont=$cont+$valores["val2"];
+                $data[] = array("rec"=>$i,
+                            "desc"=>utf8_decode("Derecho de Examen 2"),
+                            "valor"=>number_format($valores["val2"], 2, ".",""));
+                $i++;
+            }
+            if($pagos["t2"]==1){
+                $cont=$cont+$valores["val3"];
+                $data[] = array("rec"=>$i,
+                            "desc"=>utf8_decode("Mensualidad MAYO"),
+                            "valor"=>number_format($valores["val3"], 2, ".",""));
+                $i++;
+            }
+            if($pagos["t3"]==1){
+                $cont=$cont+$valores["val3"];
+                $data[] = array("rec"=>$i,
+                            "desc"=>utf8_decode("Mensualidad JUNIO"),
+                            "valor"=>number_format($valores["val3"], 2, ".",""));
+                $i++;
+            }
+            if($pagos["t4"]==1){
+                $cont=$cont+$valores["val3"];
+                $data[] = array("rec"=>$i,
+                            "desc"=>utf8_decode("Mensualidad JULIO"),
+                            "valor"=>number_format($valores["val3"], 2, ".",""));
+                $i++;
+            }
+            if($pagos["t5"]==1){
+                $cont=$cont+$valores["val3"];
+                $data[] = array("rec"=>$i,
+                            "desc"=>utf8_decode("Mensualidad AGOSTO"),
+                            "valor"=>number_format($valores["val3"], 2, ".",""));
+                $i++;
+            }
+            if($pagos["t6"]==1){
+                $cont=$cont+$valores["val3"];
+                $data[] = array("rec"=>$i,
+                            "desc"=>utf8_decode("Mensualidad SEPTIEMBRE"),
+                            "valor"=>number_format($valores["val3"], 2, ".",""));
+                $i++;
+            }
+            if($pagos["t7"]==1){
+                $cont=$cont+$valores["val3"];
+                $data[] = array("rec"=>$i,
+                            "desc"=>utf8_decode("Mensualidad OCTUBRE"),
+                            "valor"=>number_format($valores["val3"], 2, ".",""));
+                $i++;
+            }
+            if($pagos["t8"]==1){
+                $cont=$cont+$valores["val3"];
+                $data[] = array("rec"=>$i,
+                            "desc"=>utf8_decode("Mensualidad NOVIEMBRE"),
+                            "valor"=>number_format($valores["val3"], 2, ".",""));
+                $i++;
+            }
+            if($pagos["t9"]==1){
+                $cont=$cont+$valores["val3"];
+                $data[] = array("rec"=>$i,
+                            "desc"=>utf8_decode("Mensualidad DICIEMBRE"),
+                            "valor"=>number_format($valores["val3"], 2, ".",""));
+                $i++;
+            }
+            if($pagos["t10"]==1){
+                $cont=$cont+$valores["val3"];
+                $data[] = array("rec"=>$i,
+                            "desc"=>utf8_decode("Mensualidad ENERO"),
+                            "valor"=>number_format($valores["val3"], 2, ".",""));
+                $i++;
+            }
+            if($pagos["t11"]==1){
+                $cont=$cont+$valores["val3"];
+                $data[] = array("rec"=>$i,
+                            "desc"=>utf8_decode("Mensualidad FEBRERO"),
+                            "valor"=>number_format($valores["val3"], 2, ".",""));
+                $i++;
+            }
+            $CI->cezpdf->ezTable($data, $columnas, '', array('width'=>480,
+                                                             'shaded'=>0,
+                                                             'showLines'=>0,
+                                                             'fontSize'=>6,
+                                                             'showHeadings'=>0,
+                                                             'cols'=>array('rec'=>array('justification'=>'center',
+                                                                                          'width'=>30),
+                                                                           'desc'=>array('width'=>180),
+                                                                           'valor'=>array('justification'=>'right',
+                                                                                          'width'=>30))
+                                                            )
+                                );
+            
+            
+            $CI->cezpdf->ezSetMargins(10,10,20,70);
+            $CI->cezpdf->ezText("\n",8); 
+            $colmns = array("tot"=>"", "val"=>"");
+            $datos=array();
+            $datos[] = array("tot"=>"<b>Total Pagado</b>",
+                            "val"=>"$   ".number_format($cont, 2, ".",""));
+            
+            $CI->cezpdf->ezTable($datos, $colmns, '', array('width'=>450,
+                                                            'shaded'=>0,
+                                                             'fontSize'=>6,
+                                                             'xPos'=>'right',
+                                                             'showHeadings'=>0,
+                                                             'cols'=>array('tot'=>array('justification'=>'center',
+                                                                                          'width'=>48),
+                                                                           'val'=>array('justification'=>'right',
+                                                                                          'width'=>40))
+                                                            )
+                                );
+            
+            ob_end_clean();                  
+            $CI->cezpdf->ezStream();
+        }
+        
+        
         function exportToPDF_Libretas($list_alumnos,$materias,$dirigente,$anio,$anl,$curso,
                                                                 $jornada,$t,$mc,$c){
             $CI = & get_instance();

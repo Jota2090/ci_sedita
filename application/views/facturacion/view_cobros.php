@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Sedita Listados</title>
+    <title>Sedita Cobros</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="" />
     <meta name="Sedita" content="" />
@@ -47,13 +47,19 @@
                 var cmbCurso=document.getElementById("cmbCurso");
                 var cmbEspec=document.getElementById("cmbEspec");
                 var cmbParal=document.getElementById("cmbParalelo");
+                var cmbAlu=document.getElementById("cmbAlumnos");
 
+                cmbAlu.disabled=true;
                 cmbCurso.disabled=true;
                 cmbEspec.disabled=true;
                 cmbParal.disabled=true; 
+                $("#cat").attr('value','');
                 $("#cmbCurso").empty();
                 $("#cmbEspec").empty();
                 $("#cmbParalelo").empty();
+                $("#cobros").empty();
+                $("#pagos").empty();
+                $("#cmbAlumnos").empty();
 
                 if(idJornada==0){
                     cmbNivel.disabled=true;
@@ -80,11 +86,17 @@
                 var cmbCurso=document.getElementById("cmbCurso");
                 var cmbEspec=document.getElementById("cmbEspec");
                 var cmbParal=document.getElementById("cmbParalelo");
+                var cmbAlu=document.getElementById("cmbAlumnos");
 
+                cmbAlu.disabled=true;
                 cmbEspec.disabled=true;
                 cmbParal.disabled=true;
+                $("#cat").attr('value','');
                 $("#cmbEspec").empty();
                 $("#cmbParalelo").empty();
+                $("#cobros").empty();
+                $("#pagos").empty();
+                $("#cmbAlumnos").empty();
 
                 if(idNivel==0){
                     $("#cmbCurso").empty();
@@ -111,7 +123,14 @@
                 var idCurso= $("#cmbCurso").find(":selected").val();
                 var cmbParal=document.getElementById("cmbParalelo");
                 var cmbEspec=document.getElementById("cmbEspec");
+                var cmbAlu=document.getElementById("cmbAlumnos");
 
+                cmbAlu.disabled=true;
+                $("#cat").attr('value','');
+                $("#cobros").empty();
+                $("#pagos").empty();
+                $("#cmbAlumnos").empty();
+                
                 if(idCurso==0){
                     $("#cmbEspec").empty();
                     $("#cmbParalelo").empty();
@@ -160,7 +179,14 @@
                 var idCurso= $("#cmbCurso").find(":selected").val();
                 var cmbParal=document.getElementById("cmbParalelo");
                 var idEspec= $("#cmbEspec").find(":selected").val();
-
+                var cmbAlu=document.getElementById("cmbAlumnos");
+                
+                cmbAlu.disabled=true;
+                $("#cat").attr('value','');
+                $("#cobros").empty();
+                $("#pagos").empty();
+                $("#cmbAlumnos").empty();
+                
                 if(idEspec==0){
                     cmbParal.disabled=true;
                     $("#cmbParalelo").empty();
@@ -188,6 +214,10 @@
                 var par = $("#cmbParalelo").find(":selected").val();
                 var anl = $("#cmbAnioLec").find(":selected").val();
                 
+                $("#cobros").empty();
+                $("#pagos").empty();
+                $("#cat").attr('value','');
+                
                 if(par==0){
                     $("#cmbAlumnos").removeAttr('disabled');
                     $("#cmbAlumnos").empty();
@@ -208,6 +238,46 @@
             });
         });
         
+        
+        $(document).ready(function(){
+            $("#cmbAlumnos").change(function(){
+                var alu = $("#cmbAlumnos").find(":selected").val();
+                
+                if(alu>0 && alu!=null){
+                    $.ajax({
+                        type:"post",
+                        url: "<?=site_url("facturacion/cat_alumno")?>",
+                        data:"alu="+alu,
+                        success:function(info){
+                            $("#cat").empty();
+                            $("#cat").attr('value',info);
+                        }
+                    });
+                    
+                    $.ajax({
+                        type:"post",
+                        url: "<?=site_url("facturacion/cobros_pagos")?>",
+                        data:"alu="+alu+"&ind=1",
+                        success:function(info){
+                            $("#cobros").empty();
+                            $("#cobros").html(info);
+                        }
+                    });
+
+                    $.ajax({
+                        type:"post",
+                        url: "<?=site_url("facturacion/cobros_pagos")?>",
+                        data:"alu="+alu+"&ind=0",
+                        success:function(info){
+                            $("#pagos").empty();
+                            $("#pagos").html(info);
+                        }
+                    });
+                }
+            });
+        });
+        
+        
         $(document).ready(function(){
             $("#cmbAnioLec").change(function(){
                 var jor = $("#cmbJornada").find(":selected").val();
@@ -215,6 +285,13 @@
                 var esp = $("#cmbEspec").find(":selected").val();
                 var par = $("#cmbParalelo").find(":selected").val();
                 var anl = $("#cmbAnioLec").find(":selected").val();
+                var cmbAlu=document.getElementById("cmbAlumnos");
+
+                cmbAlu.disabled=true;
+                $("#cmbAlumnos").empty();
+                $("#cobros").empty();
+                $("#pagos").empty();
+                $("#cat").attr('value','');
                 
                 if(par>0&&par!=null){
                     $.ajax({
@@ -231,57 +308,39 @@
             });
         });
         
-        function imprimir(){
-            var jor = $("#cmbJornada").find(":selected").val();
-            var cur = $("#cmbCurso").find(":selected").val();
-            var esp = $("#cmbEspec").find(":selected").val();
-            var par = $("#cmbParalelo").find(":selected").val();
-            var alu = $("#cmbAlumnos").find(":selected").val();
-            
-            if(jor==0){
-                alert("Debe elegir una jornada");
-            }
-            else{
-                if(cur==0||cur==null){
-                    alert("Debe elegir un curso");
+        
+        $(function(){
+            $("#selectall").click(function () {
+                  $('.case').attr('checked', this.checked);
+            });
+
+            $(".case").click(function(){
+                if($(".case").length == $(".case:checked").length) {
+                    $("#selectall").attr("checked", "checked");
+                } else {
+                    $("#selectall").removeAttr("checked");
                 }
-                else{
-                    if((cur >11 && cur < 14) && esp==0){
-                        alert("Debe elegir una especializacion");
-                    }
-                    else{
-                        if(par==0||par==null){
-                            alert("Debe elegir un paralelo");
-                        }
-                        else{
-                            if(alu==""||alu==null){
-                                alert("Debe elegir un alumno");
-                            }
-                            else{
-                                document.forma.submit();
-                            }
-                        }       
-                    }
-                }
-            }
-        };
+
+            });
+        });
     </script>
   </head>
 
   <body data-spy="scroll" data-target=".bs-docs-sidebar">
-      <?=$menu?>
+    <?=$menu?>
     <div class="container-fluid">
       <div class="row-fluid">
         <div class="span3">
             <div class="well sidebar-nav" style="width:300px;">
                 <ul class="nav nav-list">
-                  <li class="nav-header">Alumnos</li>
-                  <li><a href="<?=site_url("listados/nomina_alumnos")?>">N&oacute;minas o Actas</a></li>
-                  <li class="active"><a href="<?=site_url("listados/hoja_matricula")?>">Hoja de Matr&iacute;cula</a></li>
+                  <li class="nav-header">Mensualidades</li>
+                  <li class="active"><a href="<?=site_url("facturacion/cobros")?>">Cobros Y Estados de Cuenta</a></li>
                   <br />
-                  <li class="nav-header">Libretas</li>
-                  <li><a href="<?=site_url("listados/cuadro_honor")?>">Cuadro de Honor</a></li>
-                  <li><a href="<?=site_url("listados/cuadro_promocion")?>">Cuadro de Promoci&oacute;n</a></li>
+                  <li class="nav-header">Reportes</li>
+                  <li><a href="<?=site_url("facturacion/pagos_detalles")?>">Pagos en Detalle</a></li>
+                  <li><a href="<?=site_url("facturacion/pagos_descripcion")?>">Pagos por Descripci&oacute;n</a></li>
+                  <li><a href="<?=site_url("facturacion/pagos_curso")?>">Pagos por Curso</a></li>
+                  <li><a href="<?=site_url("facturacion/pagos_general")?>">Pagos General</a></li>
                 </ul>
             </div><!--/.well -->
             <div class="well sidebar-nav" style="float:left;width:200px;margin:30px 0 0 50px">
@@ -296,8 +355,8 @@
                 <form target="_blank" style="padding-right: 100px;" id="forma" name="forma" class="form-horizontal" action="<?=site_url("listados/imp_hoja_matricula")?>" method="post" >
                    <input type="hidden" id="indicador" name="indicador" />
                    <fieldset>
-                       <legend>Hoja de Matr&iacute;cula</legend>
-                        <div class="control-group" style="width:390px;float:left;">
+                       <legend>Cobro de Mensualidades</legend>
+                        <div class="control-group span5" style="width:420px;float:left;">
                             <label class="control-label"><b>Jornada *</b></label>
                             <div class="controls">
                                 <?php 
@@ -334,18 +393,48 @@
                                 ?>
                             </div>
                             
+                            <label class="control-label" style="margin-top: 30px;" ><b>Categor&iacute;a:</b></label>
+                            <div class="controls" style="margin-top: 30px;">
+                                <input style="height:30px" disabled="disabled" id="cat" name="cat" type="text" />
+                            </div>
+                            <div class="panel span5" style="width:420px; padding:15px; margin-top: 10px;">
+                                <div>
+                                    <b>Por Cobrar</b>
+                                </div>
+                                <div id="cobros" style="margin-top:10px">
+                                    <table class="table-bordered">
+                                        <tr>
+                                            <th>CONCEPTOS</th>
+                                        </tr>
+                                        <tr>
+                                            <td>No hay Datos que Presentar</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                         
-                        <div class="control-group" style="width:300px;float:left; margin-top: 0px;" >
-                            <div style="margin: 5px 0 0 50px;">
+                        <div class="control-group" style="width:350px;float:left; padding: 10px" >
+                            <div>
                                 <b>Alumnos *</b>
                                  <!--<input style="margin-left:50px" type="checkbox"> Todos-->
                             </div>
-                            <div style="margin: 5px 0 0 50px;">
-                                <select disabled="disabled" size="9" style="width:360px"  id="cmbAlumnos" name="cmbAlumnos"></select>
+                            <div>
+                                <select disabled="disabled" size="9" style="width:350px"  id="cmbAlumnos" name="cmbAlumnos"></select>
                             </div>
-                            <div  style="margin: 40px 0 0 160px; float:left; width:350px;">
-                                <a style="float:left; width: 125px;" href="javascript:imprimir()" id="btnImprimir" class="btn btn-primary" ><i class="icon-print"></i>Generar</a>
+                        </div>
+                       
+                       <div class="control-group panel span4" style="margin-top:55px;width:350px;float:left; padding: 15px" >
+                            <div><b>Pagado</b></div>
+                            <div id="pagos" style="margin-top:10px">
+                                <table class="table-bordered">
+                                    <tr>
+                                        <th>CONCEPTOS</th>
+                                    </tr>
+                                    <tr>
+                                        <td>No hay Datos para Presentar</td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                    </fieldset>
@@ -354,7 +443,7 @@
         </div><!--/span-->
         <div class="span2"></div>
       </div><!--/row-->
-
+      
       <hr>
 
       <footer>

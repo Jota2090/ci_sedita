@@ -58,6 +58,28 @@
     	$CI->cezpdf->addObject($all,'all');
     }
     
+    function footer_estado_cuenta($orientation = 'portrait')
+    {   
+        $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+	
+    	$CI = & get_instance();
+    	
+    	$CI->cezpdf->selectFont(base_url() . '/fonts');	
+    	
+    	$all = $CI->cezpdf->openObject();
+    	$CI->cezpdf->saveState();
+    	$CI->cezpdf->setStrokeColor(0,0,0,1);
+        $CI->cezpdf->ezStartPageNumbers(270,28,6,'','{PAGENUM}',1);
+        $CI->cezpdf->line(120,48,190,48);
+        $CI->cezpdf->addText(140,40,6,  utf8_decode('Colecturía'));
+        $CI->cezpdf->addText(20,32,6,$meses[date('n')-1]."  " .date('d').",   ".date('y'));
+        $CI->cezpdf->addText(15,22,6,"    ".date('h:i:s a'));
+        
+    	$CI->cezpdf->restoreState();
+    	$CI->cezpdf->closeObject();
+    	$CI->cezpdf->addObject($all,'all');
+    }
+    
     function header_pdf($orientation = 'portrait')
     {
     	$CI = & get_instance();
