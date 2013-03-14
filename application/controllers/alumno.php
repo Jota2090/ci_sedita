@@ -15,6 +15,7 @@
             parent::__construct();
             $this->load->library('grocery_CRUD');
             $this->load->model("mod_alumno","alumno");
+            $this->load->model("mod_general","general");
             $this->load->helper("country_helper");
             $this->load->helper("form");
         }
@@ -30,10 +31,10 @@
                     $this->validarAlumno();
                     //$this->guardar();
                 }
-                elseif($m == "num_matricula"){
+                /*elseif($m == "num_matricula"){
                     $r=$this->alumno->num_matricula();
                     echo "<input style='width: 80px;' type='text' name='txtMatricula' id='txtMatricula' disabled='disabled' value='$r' />";
-                }
+                }*/
                 elseif($m == "num_Alumnos"){
                     $m= $this->input->post("jornada");
                     $n= $this->input->post("curso");
@@ -177,11 +178,15 @@
                             $row->alu_representante_id."_".
                             $row->alu_curso_paralelo_id."_".
                             $row->rep_nombres."_".
+                            $row->rep_cedula."_".
                             $row->rep_ocupacion."_".
                             $row->rep_telefono."_".
                             $row->rep_domicilio."_".
                             $row->rep_pais."_".
-                            $row->alu_matricula.""
+                            $row->alu_matricula."_".
+                            $row->alu_madre_cedula."_".
+                            $row->alu_padre_cedula."_".
+                            $row->alu_representante_cedula
                 ;
                 break;     
             }
@@ -276,6 +281,7 @@
                 {
                     $dataRepresentante = array(
                                                 "rep_nombres"=>$this->input->post("txtNombMadre"),
+                                                "rep_cedula"=>$this->input->post("txtCedMadre"),
                                                 "rep_ocupacion"=>$this->input->post("txtOcupMadre"),
                                                 "rep_telefono"=>$this->input->post("txtTelef"),
                                                 "rep_domicilio"=>$this->input->post("txtDomicilio"),
@@ -294,6 +300,7 @@
                 {
                         $dataRepresentante = array(
                                                                 "rep_nombres"=>$this->input->post("txtNombPadre"),
+                                                                "rep_cedula"=>$this->input->post("txtCedPadre"),
                                                                 "rep_ocupacion"=>$this->input->post("txtOcupPadre"),
                                                                 "rep_telefono"=>$this->input->post("txtTelef"),
                                                                 "rep_domicilio"=>$this->input->post("txtDomicilio"),
@@ -311,6 +318,7 @@
                 {
                         $dataRepresentante = array(
                                                             "rep_nombres"=>$this->input->post("txtNombPerson"),
+                                                            "rep_cedula"=>$this->input->post("txtCedPerson"),
                                                             "rep_ocupacion"=>$this->input->post("txtOcupPerson"),
                                                             "rep_telefono"=>$this->input->post("txtTelefPerson"),
                                                             "rep_domicilio"=>$this->input->post("txtDomicilioPerson"),
@@ -357,8 +365,11 @@
         function guardar_Alumno()
         {
             $infoInsertAlu="";
+            //validar inicialmente se setea txtmatricula con "000000000"
+            //si no esta registrado txtmatricula es "000000000" y se genera un nueva matricula
             
-            $matricula=$this->input->post("txtMatricula");
+                $matricula=$this->input->post("txtmatricula");
+            
             $AnioId=$this->input->post("cmbAnioLectivo");
             $jornada=$this->input->post("cmbJornada");
             $curso=$this->input->post("cmbCurso");
@@ -405,9 +416,11 @@
                         $rbSexo=$this->input->post("rbSexo");
                         $edad=$this->input->post("txtEdad");
                         $nombMadre=$this->input->post("txtNombMadre");
+                        $cedMadre=$this->input->post("txtCedMadre");
                         $ocupMadre=$this->input->post("txtOcupMadre");
                         $paisMadre=$this->input->post("cmbPaisMadre");
                         $nombPadre=$this->input->post("txtNombPadre");
+                        $cedPadre=$this->input->post("txtCedPadre");
                         $ocupPadre=$this->input->post("txtOcupPadre");
                         $paisPadre=$this->input->post("cmbPaisPadre");
                         $rbRepresent=$this->input->post("rbRepresent");
@@ -415,7 +428,7 @@
                         $comentarios=$this->input->post("txtComentarios");
                         $categoria=$this->input->post("cmbCategoria");
                                                                        
-                        $this->alumno->guardar_Alumno($matricula,$nombAlumn,$apellAlumn,$domicilio,$telef,$pais,$lugarNac,$mifecha,$rbSexo,$edad,$nombMadre,$ocupMadre,$paisMadre,$nombPadre,$ocupPadre,$paisPadre,$rbRepresent,$check,$comentarios,$categoria,$repId,$cpId,$AnioId);
+                        $this->alumno->guardar_Alumno($matricula,$nombAlumn,$apellAlumn,$domicilio,$telef,$pais,$lugarNac,$mifecha,$rbSexo,$edad,$nombMadre,$cedMadre,$ocupMadre,$paisMadre,$nombPadre,$cedPadre,$ocupPadre,$paisPadre,$rbRepresent,$check,$comentarios,$categoria,$repId,$cpId,$AnioId);
 
                         //$infoInsertAlu.="Los datos han sido guardados con &eacute;xito";
                         $infoInsertAlu=2;
@@ -532,7 +545,10 @@
             
             $crud->display_as('alu_madre_nombres','Nombres de la madre');
             $crud->set_rules('alu_madre_nombres','Nombres de la madre','required|max_length[40]|callback_alpha_space_tildes');
-                                 
+            
+            $crud->display_as('alu_madre_cedula','C&eacute; de la Madre');
+            $crud->set_rules('alu_madre_cedula','C&eacute; de la Madre','required||max_length[10]|is_natural_no_zero');                     
+            
             $crud->display_as('alu_madre_ocupacion','Ocupaci&oacute;n de la madre');
             $crud->set_rules('alu_madre_ocupacion','Ocupaci&oacute;n de la madre','max_length[25]|callback_alpha_space_tildes');
                       
@@ -541,6 +557,9 @@
           
             $crud->display_as('alu_padre_nombres','Nombres del padre');
             $crud->set_rules('alu_padre_nombres','Nombres de padre','required|max_length[40]|callback_alpha_space_tildes');
+            
+            $crud->display_as('alu_padre_cedula','C&eacute; del Padre');
+            $crud->set_rules('alu_padre_cedula','C&eacute; del Padre','required||max_length[10]|is_natural_no_zero');
                                   
             $crud->display_as('alu_padre_ocupacion','Ocupaci&oacute;n del padre');
             $crud->set_rules('alu_padre_ocupacion','Ocupaci&oacute;n del padre','max_length[25]|callback_alpha_space_tildes');
@@ -632,6 +651,7 @@
                         foreach($rs->result() as $row)
                         {
                         $info .="Nombres del Representante  <input type='text' id='txtNombPerson' name='txtNombPerson' value='".$row->rep_nombres."' /><br /><br />"
+                               ."C&eacute;dula  <input type='text' id='txtCedPerson' name='txtCedPerson' value='".$row->rep_cedula."' /><br /><br />"
                                ."Ocupaci&oacute;n  <input type='text' id='txtOcupPerson' name='txtOcupPerson' value='".$row->rep_ocupacion."' /><br /><br />"
                                ."Direcci&oacute;n  <input type='text' id='txtDomicilioPerson' name='txtDomicilioPerson' value='".$row->rep_domicilio."' /><br /><br />"
                                ."Tel&eacute;fono  <input type='text' id='txtTelefPerson' name='txtTelefPerson' value='".$row->rep_telefono."' /><br /><br />"
@@ -912,6 +932,7 @@
                 if($opcRepres=="m")
                 {
                     $nomb_rep=$post_array['alu_madre_nombres'];
+                    $ced_rep=$post_array['alu_madre_cedula'];
                     $ocup_rep=$post_array['alu_madre_ocupacion'];
                     $dom_rep=$post_array['alu_domicilio'];
                     $tel_rep=$post_array['alu_telefono'];
@@ -921,6 +942,7 @@
                 elseif($opcRepres=="p")
                 {
                     $nomb_rep=$post_array['alu_padre_nombres'];
+                    $ced_rep=$post_array['alu_padre_cedula'];
                     $ocup_rep=$post_array['alu_padre_ocupacion'];
                     $dom_rep=$post_array['alu_domicilio'];
                     $tel_rep=$post_array['alu_telefono'];
@@ -931,6 +953,7 @@
                 elseif($opcRepres=="o")
                 {
                     $nomb_rep=$post_array['txtNombPerson'];
+                    $ced_rep=$post_array['txtCedPerson'];
                     $ocup_rep=$post_array['txtOcupPerson'];
                     $dom_rep=$post_array['txtDomicilioPerson'];
                     $tel_rep=$post_array['txtTelefPerson'];
@@ -944,7 +967,7 @@
                             $strIdRepres .="".$row->alu_representante_id."";
                 }
             $idRepres = (int)$strIdRepres;
-            $this->alumno->actualizar_representante($idRepres,$nomb_rep, $ocup_rep, $dom_rep, $tel_rep, $pais_rep);
+            $this->alumno->actualizar_representante($idRepres,$nomb_rep, $ced_rep, $ocup_rep, $dom_rep, $tel_rep, $pais_rep);
         
         }
         

@@ -49,7 +49,9 @@
                                     document.getElementById("chkDocument").checked=true;
                                 }
                                 
-                                document.getElementById('txtMatricula').value = array[26];
+                                document.getElementById('groupMatricula').setAttribute("style","margin-top: 10px;visible:inherit;height:30px");                                
+                                document.getElementById('txtMatricula').setAttribute("disabled","disabled"); 
+                                document.getElementById('txtMatricula').value = array[27];
                                 document.getElementById('txtNombres').value = array[1];
                                 document.getElementById('txtApellidos').value = array[2];
                                 document.getElementById('cmbCategoria').value = array[3];
@@ -76,9 +78,12 @@
                                     document.getElementById("rbSexoF").checked=true;
                                 }
                                 document.getElementById('txtNombMadre').value = array[11];
+                                document.getElementById('txtCedMadre').value = array[28];
                                 document.getElementById('txtOcupMadre').value = array[12];
                                 document.getElementById('cmbPaisMadre').value = array[13];
+                                
                                 document.getElementById('txtNombPadre').value = array[14];
+                                document.getElementById('txtCedPadre').value = array[29];
                                 document.getElementById('txtOcupPadre').value = array[15];
                                 document.getElementById('cmbPaisPadre').value = array[16];
                              
@@ -95,7 +100,6 @@
                                     document.getElementById("rbRepresentM").checked=false;
                                     document.getElementById("rbRepresentP").checked=true;
                                     document.getElementById("rbRepresentO").checked=false;
-                                    
                                     document.getElementById("div_otra_persona").style.display = "none";
                                 }
                             
@@ -107,6 +111,7 @@
                                     document.getElementById("div_otra_persona").style.display = "block";
                                     
                                     document.getElementById('txtNombPerson').value = array[21];
+                                    document.getElementById('txtCedPerson').value = array[30];
                                     document.getElementById('txtOcupPerson').value = array[22];
                                     document.getElementById('txtTelefPerson').value = array[23];
                                     document.getElementById('txtDomicilioPerson').value = array[24];
@@ -141,6 +146,7 @@
             
             function validarSoloNumeros(e) 
             {
+                                
                 tecla = (document.all) ? e.keyCode : e.which;
                 if (tecla==8) return true;
                 else if (tecla==0||tecla==9)  return true;
@@ -393,14 +399,14 @@
                     }
                 });
                 
-                $("#txtMatricula").attr('disabled', 'disabled');
+                //$("#txtMatricula").attr('disabled', 'disabled');
                 $("#cmbJornada").attr('disabled', 'disabled');
                 $("#cmbNivel").attr('disabled', 'disabled');
                 $("#cmbCurso").attr('disabled', 'disabled');
                 $("#cmbEspec").attr('disabled', 'disabled');
                 $("#cmbParalelo").attr('disabled', 'disabled');
                 $("#txtNumAlumn").attr('disabled', 'disabled');
-                
+                $("#txtEdad").attr('disabled', 'disabled');
                 $.ajax({
                     type:"post",
                     url: "<?=site_url("alumno/num_matricula")?>",
@@ -452,7 +458,7 @@
                 if((elemento.value=="m") || (elemento.value=="p")) {
                     document.getElementById("div_otra_persona").style.display = "none";
                 } 
-                else {
+                if(elemento.value=="o") {
                     document.getElementById("div_otra_persona").style.display = "block";
                 }
             }
@@ -460,7 +466,71 @@
         
          <!--Submit-->
         <script language="javascript">
+            
+                    
+            function changeCSSRequire( identificador ){
+                if(document.getElementById("txt"+identificador).value==""){
+                    document.getElementById("txt"+identificador).setAttribute("required","true");                                
+                    document.getElementById("txt"+identificador).setAttribute("style","border-color: #B94A48; float left; width: 200px; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;");
+                    document.getElementById("lb"+identificador).setAttribute("style","color: #B94A48; float: left; width: 100px; margin-left: 20px;");    
+                }
+                else changeCSSNoRequire( identificador );
+            }
+            
+            function changeCSSNoRequire( identificador ){
+                document.getElementById("txt"+identificador).removeAttribute("required");                
+                document.getElementById("txt"+identificador).setAttribute("style","float left; width: 200px;");
+                document.getElementById("lb"+identificador).setAttribute("style","float: left; width: 100px; margin-left: 20px;");
+            }
+            
+            
+            function requerirRepresentante(){
+                changeCSSRequire("Nombres");
+                changeCSSRequire("Apellidos");
+                changeCSSRequire("Domicilio");
+                changeCSSRequire("Telef");
+                changeCSSRequire("CedMadre");
+                changeCSSRequire("LugarNac");
+                                
+                if(document.getElementById('rbRepresentM').checked){
+                    changeCSSRequire("NombMadre");
+                    changeCSSRequire("CedMadre");
+                    changeCSSRequire("OcupMadre");
+                }
+                else{
+                    changeCSSNoRequire("NombMadre");
+                    changeCSSNoRequire("CedMadre");
+                    changeCSSNoRequire("OcupMadre");
+                }
+                    
+                if(document.getElementById('rbRepresentP').checked){
+                    changeCSSRequire("NombPadre");
+                    changeCSSRequire("CedPadre");
+                    changeCSSRequire("OcupPadre");
+                }
+                else{
+                    changeCSSNoRequire("NombPadre");
+                    changeCSSNoRequire("CedPadre");
+                    changeCSSNoRequire("OcupPadre");
+                }    
+                if(document.getElementById('rbRepresentO').checked){
+                    changeCSSRequire("NombPerson");
+                    changeCSSRequire("CedPerson");
+                    changeCSSRequire("OcupPerson");
+                    changeCSSRequire("DomicilioPerson");
+                    changeCSSRequire("TelefPerson");
+                }
+                else{
+                    changeCSSNoRequire("NombPerson");
+                    changeCSSNoRequire("CedPerson");
+                    changeCSSNoRequire("OcupPerson");
+                    changeCSSNoRequire("DomicilioPerson");
+                    changeCSSNoRequire("TelefPerson");
+                }
+            }
+            
             $(document).ready(function() {
+                                                
                 var va = $("#formAlumno").validate({
                     rules:{
                     	txtNombres:{required: true},
@@ -469,7 +539,11 @@
                         txtTelef:{required: true, minlength: 7, maxlength: 10},
                         txtLugarNac:{required: true},
                         txtEdad:{required: true, maxlength: 2},
-                        dateArrival:{required: true,date: true}
+                        dateArrival:{required: true,date: true},
+                        
+                        txtCedMadre:{minlength:10,maxlength:10},
+                        txtCedPadre:{minlength:10,maxlength:10},
+                        txtCedPerson:{minlength:10,maxlength:10},
                         
                     },
                     messages:{
@@ -479,18 +553,15 @@
                         txtTelef:{required: "", minlength:"Minimo 7 n&uacute;meros", maxlength:"Maximo 10 n&uacute;meros"},
                         txtLugarNac:{required: ""},
                         txtEdad:{required: "", maxlength:"Maximo 2 n&uacute;meros"},
-                        dateArrival:{required: "", date:"Fecha No V�lida (dd/mm/yyyy"}
+                        dateArrival:{required: "", date:"<label style='color:#B94A48; margin: -10px -30px;font-size: 16px;'>Fecha no V&aacute;lida</label>"},
+                        
+                        txtCedMadre:{required:"",minlength:"La c&eacute;dula debe tener m&iacute;nimo 10 n&uacute;meros",maxlength:"La c&eacute;dula debe tener m&aacute;ximo 10 n&uacute;meros"},
+                        txtCedPadre:{minlength:"La c&eacute;dula debe tener m&iacute;nimo 10 n&uacute;meros",maxlength:"La c&eacute;dula debe tener m&aacute;ximo 10 n&uacute;meros"},
+                        txtCedPerson:{minlength:"La c&eacute;dula debe tener m&iacute;nimo 10 n&uacute;meros",maxlength:"La c&eacute;dula debe tener m&aacute;ximo 10 n&uacute;meros"},
                     },
-                    
                     submitHandler: function(){
                         // Interceptamos el evento submit
                         $('#formAlumno').submit(function() {
-                            $("#cmbEspec").removeAttr('disabled');
-                            $("#cmbJornada").removeAttr('disabled');
-                            $("#cmbCurso").removeAttr('disabled');
-                            $("#cmbParalelo").removeAttr('disabled');
-                            $("#txtMatricula").removeAttr('disabled');
-                            
                             $.ajax({
                                 type: 'POST',
                                 url: $(this).attr('action'),
@@ -509,6 +580,12 @@
                                     }                                  
                                     else if(data==2)
                                     {
+                                        document.getElementById("divAlumnoGuardado").innerHTML="<strong>Alumno:</strong>"+" "+
+                                                                                               document.getElementById("txtNombres").value+
+                                                                                               document.getElementById("txtApellidos").value+
+                                                                                               "<br/><strong>Matricula:</strong>"+" "+
+                                                                                               document.getElementById("txtMatricula").value;
+                                                                                               
                                         $('#alumnoGuardado').modal();
                                         cancelar();
                                     }
@@ -539,6 +616,8 @@
                 
                 limpiaForm($("#formAlumno"));
                 
+                document.getElementById("groupMatricula").setAttribute("style","height:0px;visibility:hidden");
+                document.getElementById("txtMatricula").value= '000000000';
                 document.getElementById('cmbPais').value = 'Ecuador';
                 document.getElementById('cmbPaisMadre').value = 'Ecuador';
                 document.getElementById('cmbPaisPadre').value = 'Ecuador';
@@ -562,7 +641,8 @@
                 if(idCurso>11 && idCurso<14){
                     $("#cmbEspec").removeAttr('disabled');
                 }
-                
+                document.getElementById("groupMatricula").setAttribute("style","height:0px;visibility:hidden");
+                document.getElementById("txtMatricula").value= '000000000';
                 $("#cmbJornada").removeAttr('disabled');
                 $("#cmbNivel").removeAttr('disabled');
                 $("#cmbCurso").removeAttr('disabled');
@@ -574,6 +654,13 @@
                 document.getElementById('rbSexoM').checked=true;
                 document.getElementById('rbRepresentM').checked=true;
                 document.getElementById("div_otra_persona").style.display = "none";
+            }
+            function setearEdad()
+            {   
+                var fecha= document.getElementById('dateArrival').value;
+                var edad=2013-fecha.substring(6);
+                
+                document.getElementById('txtEdad').value= edad;
             }
         </script>                    
 
@@ -650,6 +737,9 @@
             </div>
             <div class="modal-body">
                 <p>Los datos del alumno fueron registrados <strong>exitosamente!</strong></p>
+                
+                <div id="divAlumnoGuardado" style="padding: 0px 20px;">                </div>     
+                           
             </div>
         </div>
         
@@ -762,6 +852,17 @@
                             <br />
                             <li><b>Paralelo </b></li>
                             <li><select id="cmbParalelo" name="cmbParalelo" disabled="disabled" ></select></li>
+                            <br />
+                            <li><b>A&ntilde;o Lectivo</b></li>
+                            <li>
+                                <?php 
+                                    $js = "id='cmbAnioLectivo' disabled='disabled' style='width:130px;'";
+                                    echo form_dropdown("cmbAnioLectivo",$anLects,null, $js);
+                                ?>
+                            </li>
+                            <br />
+                            <li><b>No. de Matriculados</b></li>
+                            <li><input type="text" name="txtNumAlumn" id="txtNumAlumn" disabled="disabled" /></li>
                         </ul>
                     </div><!--/span-->
                     <div class="span3" style="margin-left:50px;">
@@ -775,31 +876,30 @@
                 </div> 
                 <div class="span9 panel" style="width:980px;padding:10px 20px 0 0;">
                     <div class="span4" style="padding-right:280px;border-right: 1px solid #000000">
-                        <div class="span4" style="margin-top: 10px;">
+                        
+                        <!--<div class="span4" style="margin-top: 10px;">
                             <label class="control-label"><b>No. de Matriculados</b></label>
                             <div class="controls">
                                 <input style="width: 60px;" type="text" name="txtNumAlumn" id="txtNumAlumn" disabled="disabled" />
                             </div>
-                        </div>
-                        
-                        <div class="span2" style="margin-top: 10px;">
+                        </div>--!>
+                        <div class="span2" id="groupMatricula" style="display:none">
                             <label class="control-label"><b>Matr&iacute;cula</b></label>
-                            <div class="controls" id="matricula">
+                            <div class="controls" id="divmatricula">
                                 <input style="width: 80px;" type="text" name="txtMatricula" id="txtMatricula" disabled="disabled" value="<?=$matricula?>" />
                             </div>
                         </div>
-                        
-                        <div class="span1" style="margin: 10px 0 0 80px;">
+                        <!--<div class="span1" style="margin: 10px 0 0 80px;">
                             <label class="control-label"><b>A&ntilde;o Lectivo</b></label>
                             <div class="controls">
                                 <?php 
                                     $js = "id='cmbAnioLectivo' disabled='disabled' style='width:130px;'";
                                     echo form_dropdown("cmbAnioLectivo",$anLects,null, $js);
-                                ?>
+                                ?>--!>
                                 <!--<input style="width: 120px;" type="text" name="txtAnoLectivo" id="txtAnoLectivo" disabled="disabled" />-->
-                            </div>
+                        <!--    </div>
                         </div>
-                        
+                        --!>
                         <div class="span2" style="margin-top: 10px;">
                             <label class="control-label" ><b>Con documentaci&oacute;n</b></label>
                             <div class="controls">
@@ -820,31 +920,31 @@
                         <div class="control-group span4" style="margin-top: 15px;">
                             <label class="control-label"><b>Nombres*</b></label>
                             <div class="controls">
-                                <input style="width:342px;" type="text" name="txtNombres" id="txtNombres" disabled="disabled" onkeypress="return validarSoloLetras(event)"   />
+                                <input onkeyup="changeCSSRequire('Nombres')" style="width:342px;" type="text" name="txtNombres" id="txtNombres" disabled="disabled" onkeypress="return validarSoloLetras(event)"   />
                             </div>
                         </div>
                         
                         <div class="control-group span4">
                             <label class="control-label"><b>Apellidos*</b></label>
                             <div class="controls">
-                                <input style="width:342px;"  disabled="disabled" type="text" name="txtApellidos" id="txtApellidos"  onkeypress="return validarSoloLetras(event)"  />
+                                <input onkeyup="changeCSSRequire('Apellidos')" style="width:342px;"  disabled="disabled" type="text" name="txtApellidos" id="txtApellidos"  onkeypress="return validarSoloLetras(event)"  />
                             </div>
                         </div>
                         
                         <div class="control-group span4">
                             <label class="control-label"><b>Direcci&oacute;n*</b></label>
                             <div class="controls">
-                                <input style="width: 342px;" type="text" name="txtDomicilio" id="txtDomicilio" disabled="disabled" />
+                                <input onkeyup="changeCSSRequire('Domicilio')" style="width: 342px;" type="text" name="txtDomicilio" id="txtDomicilio" disabled="disabled" />
                             </div>
                         </div>
                         
                         <div class="control-group span2">
                             <label class="control-label"><b>Tel&eacute;fono*</b></label>
                             <div class="controls">
-                                <input style="width: 120px;" type="text" name="txtTelef" id="txtTelef" disabled="disabled" onkeypress="return validarSoloNumeros(event)"  />
+                                <input onkeyup="changeCSSRequire('Telef')" style="width: 120px;" type="text" name="txtTelef" id="txtTelef" disabled="disabled" onkeypress="return validarSoloNumeros(event)"  />
                             </div>
                         </div>
-                        
+                                                
                         <div class="control-group span1" style="margin-left:80px;">
                             <label class="control-label" ><b>Pa&iacute;s</b></label>
                             <div class="controls">
@@ -857,7 +957,7 @@
                         <div class="control-group span2">
                             <label class="control-label"><b>Lugar de nacimiento*</b></label>
                             <div class="controls">
-                                <input style="width: 120px;" type="text" name="txtLugarNac" id="txtLugarNac" disabled="disabled"  type="text" onkeypress="return validarSoloLetras(event)"  />
+                                <input onkeyup="changeCSSRequire('LugarNac')" style="width: 120px;" type="text" name="txtLugarNac" id="txtLugarNac" disabled="disabled"  type="text" onkeypress="return validarSoloLetras(event)"  />
                             </div>
                         </div>
                         
@@ -868,11 +968,14 @@
                             </div>
                         </div>
                         
-                        <div class="control-group span4">
+                        <div class="control-group span4" style="margin-bottom: -5px;" >
                             <label class="control-label"><b>Fecha de Nacimiento*</b></label>
                             <div class="controls" style="width:165px;">
-                                <input placeholder="dd/mm/yyyy" name="dateArrival" id="dateArrival" type="text" disabled="disabled" size="10" style="width: 120px;" value="//" class="easyui-validatebox" data-options="required:true"  />
-                                <a onclick="displayCalendar(document.forms[0].dateArrival,'dd/mm/yyyy',this)"><i class="icon-calendar" style="float:right;margin-top:8px"></i></a>
+                                <a id="linkCalendar" onclick="displayCalendar(document.forms[0].dateArrival,'dd/mm/yyyy',this);" style="float: right;padding: 0 0 10px 165px;">
+                                    <i class="icon-calendar" style="float:right;position: relative;" id="calendar"></i>
+                                    <input onchange="setearEdad();" placeholder="dd/mm/yyyy" name="dateArrival" id="dateArrival" type="text" disabled="disabled" size="10" style="width: 120px;right: 30px;bottom: 25px;position: relative;" class="easyui-validatebox" data-options="required:true"  />                                                                        
+                                </a>
+                                
                             </div>
                         </div>
                         
@@ -888,42 +991,51 @@
                         <div class="control-group span6">                        
                             <label class="control-label"><b>Representante*</b></label>
                             <label class="checkbox inline">
-                                <input type="radio" name="rbRepresent" value="m" onclick="toggle_otra_persona(this)" id="rbRepresentM" checked="checked" disabled="disabled" />Madre
+                                <input onchange="requerirRepresentante();" type="radio"  class="rbRepresent" name="rbRepresent" value="m" onclick="toggle_otra_persona(this)" id="rbRepresentM" checked="checked" disabled="disabled" />Madre
                             </label>
                             <label class="checkbox inline">
-                                <input type="radio" name="rbRepresent" value="p" onclick="toggle_otra_persona(this)" id="rbRepresentP"  disabled="disabled"/>Padre
+                                <input onchange="requerirRepresentante();" type="radio" class="rbRepresent" name="rbRepresent" value="p" onclick="toggle_otra_persona(this)" id="rbRepresentP"  disabled="disabled"/>Padre
                             </label>
                             <label class="checkbox inline">
-                                <input type="radio" name="rbRepresent" value="o" onclick="toggle_otra_persona(this)" id="rbRepresentO"  disabled="disabled"/>Otra persona
+                                <input onchange="requerirRepresentante();" type="radio" class="rbRepresent" name="rbRepresent" value="o" onclick="toggle_otra_persona(this)" id="rbRepresentO"  disabled="disabled"/>Otra persona
                             </label>                            
                         </div>
                         
-                        <div class="span4 panel" style="display:none; width:440px;padding:10px 20px 30px 20px;margin-top:20px" id="div_otra_persona" >
+                        <div class="span4 panel" style="display:none; width:470px;padding:10px 20px 30px 20px;margin-top:20px" id="div_otra_persona" >
                             <fieldset>
                                 <legend>Representante</legend>
                                 <div class="control-group">
-                                    <label class="control-label"><b>Nombres*</b></label>
+                                    <label id="lbNombPerson" class="control-label"><b>Nombres*</b></label>
                                     <div class="controls">
-                                        <input type="text" name="txtNombPerson" id="txtNombPerson" disabled="disabled" onkeypress="return validarSoloLetras(event)" />
-                                    </div>
-                                </div>
-                                
-                                <label class="control-label" style="margin-top: 10px;"><b>Ocupaci&oacute;n</b></label>
-                                <div class="controls" style="margin-top: 10px;">
-                                    <input type="text" name="txtOcupPerson" id="txtOcupPerson" disabled="disabled" onkeypress="return validarSoloLetras(event)"  />
-                                </div>
-                                
-                                <div class="control-group">
-                                    <label class="control-label"><b>Direcci&oacute;n*</b></label>
-                                    <div class="controls">
-                                        <input type="text" name="txtDomicilioPerson" id="txtDomicilioPerson" disabled="disabled" />
+                                        <input onkeyup="changeCSSRequire('NombPerson')" type="text" name="txtNombPerson" id="txtNombPerson" disabled="disabled" onkeypress="return validarSoloLetras(event)" />
                                     </div>
                                 </div>
                                 
                                 <div class="control-group">
-                                    <label class="control-label"><b>Tel&eacute;fono*</b></label>
+                                    <label id="lbCedPerson" class="control-label" style="margin-top: 10px;"><b>N. C&eacute;dula</b></label>
+                                    <div class="controls" style="margin-top: 10px;">
+                                        <input onkeyup="changeCSSRequire('CedPerson')" type="text" name="txtCedPerson" id="txtCedPerson" disabled="disabled" onkeypress="return validarSoloNumeros(event)"  />
+                                    </div>
+                                </div>
+                                
+                                <div class="control-group">
+                                    <label id="lbOcupPerson" class="control-label" style="margin-top: 10px;"><b>Ocupaci&oacute;n</b></label>
+                                    <div class="controls" style="margin-top: 10px;">
+                                        <input onkeyup="changeCSSRequire('OcupPerson')" type="text" name="txtOcupPerson" id="txtOcupPerson" disabled="disabled" onkeypress="return validarSoloLetras(event)"  />
+                                    </div>
+                                </div>
+                                
+                                <div class="control-group">
+                                    <label id="lbDomicilioPerson" class="control-label"><b>Direcci&oacute;n*</b></label>
                                     <div class="controls">
-                                        <input type="text" name="txtTelefPerson" id="txtTelefPerson"  disabled="disabled" onkeypress="return validarSoloNumeros(event)" />
+                                        <input onkeyup="changeCSSRequire('DomicilioPerson')" type="text" name="txtDomicilioPerson" id="txtDomicilioPerson" disabled="disabled" />
+                                    </div>
+                                </div>
+                                
+                                <div class="control-group">
+                                    <label id="lbTelefPerson" class="control-label"><b>Tel&eacute;fono*</b></label>
+                                    <div class="controls">
+                                        <input onkeyup="changeCSSRequire('TelefPerson')" type="text" name="txtTelefPerson" id="txtTelefPerson"  disabled="disabled" onkeypress="return validarSoloNumeros(event)" />
                                     </div>
                                 </div>
                                 
@@ -945,18 +1057,27 @@
                         <fieldset>
                             <legend style="width: 340px;">Madre</legend>
                             <div class="control-group">
-                                <label style="width:100px;margin-left:20px;"><b>Nombres*</b></label>
+                                <label  id="lbNombMadre" style="float:left;width:100px;margin-left:20px;"><b>Nombres*</b></label>
                                 <div style="margin-left:10px;">
-                                    <input style="width:300px;" type="text" name="txtNombMadre" id="txtNombMadre" disabled="disabled" checked="checked" onkeypress="return validarSoloLetras(event)"  />
+                                    <input onkeyup="changeCSSRequire('NombMadre')" style="width:200px;" type="text" name="txtNombMadre" id="txtNombMadre" disabled="disabled" checked="checked" onkeypress="return validarSoloLetras(event)"  />
                                 </div>
                             </div>
-                             
-                            <label style="width:100px;margin:20px 80px 0 20px;float:left;"><b>Ocupaci&oacute;n</b></label>
-                            <div style="margin:5px 0 0 10px;">
-                                <input style="width:300px;" type="text" name="txtOcupMadre" id="txtOcupMadre" disabled="disabled" onkeypress="return validarSoloLetras(event)"  />
+                            
+                            <div class="control-group">
+                                <label id="lbCedMadre" style="float:left;width:100px;margin-left:20px;"><b>N. C&eacute;dula</b></label>
+                                <div style="margin:5px 0 0 10px;">
+                                    <input onkeyup="changeCSSRequire('CedMadre')" style="width:200px;" type="text" name="txtCedMadre" id="txtCedMadre" disabled="disabled" onkeypress="return validarSoloNumeros(event)"  />
+                                </div>
                             </div>
                             
-                            <label style="width:50px;margin:20px 30px 0 25px;float:left;"><b>Pa&iacute;s</b></label>
+                            <div class="control-group">
+                                <label id="lbOcupMadre" style="float:left;width:100px;margin-left:20px;"><b>Ocupaci&oacute;n</b></label>
+                                <div style="margin:5px 0 0 10px;">
+                                    <input onkeyup="changeCSSRequire('OcupMadre')" style="width:200px;" type="text" name="txtOcupMadre" id="txtOcupMadre" disabled="disabled" onkeypress="return validarSoloLetras(event)"  />
+                                </div>
+                            </div>
+                            
+                            <label style="width:50px;margin:20px 30px 0 30px;float:left;"><b>Pa&iacute;s</b></label>
                             <div style="margin:15px 0 0 10px;float: left;">
                                 <?php echo country_dropdown('cmbPaisMadre','cmbPaisMadre',
                                 array('US','CA','GB','DE','BR','IT','ES','AU','NZ','HK'));?>
@@ -968,18 +1089,26 @@
                         <fieldset>
                             <legend style="width: 340px;">Padre</legend>
                             <div class="control-group">
-                                <label style="width:100px;margin-left:20px;"><b>Nombres*</b></label>
+                                <label id="lbNombPadre" style="float:left;width:100px;margin-left:20px;"><b>Nombres*</b></label>
                                 <div style="margin-left:10px;">
-                                    <input style="width:300px;" type="text" name="txtNombPadre" id="txtNombPadre" disabled="disabled" onkeypress="return validarSoloLetras(event)"  />
+                                    <input onkeyup="changeCSSRequire('NombPadre')" style="width:200px;" type="text" name="txtNombPadre" id="txtNombPadre" disabled="disabled" onkeypress="return validarSoloLetras(event)"  />
                                 </div>
                             </div>
                             
-                            <label style="width:100px;margin:20px 80px 0 20px;float:left;"><b>Ocupaci&oacute;n</b></label>
-                            <div style="margin:5px 0 0 10px;">
-                                <input style="width:300px;" type="text" name="txtOcupPadre" id="txtOcupPadre" disabled="disabled" onkeypress="return validarSoloLetras(event)"  />
+                            <div class="control-group">
+                                <label id="lbCedPadre" style="float:left;width:100px;margin-left:20px;"><b>N. C&eacute;dula</b></label>
+                                <div style="margin:5px 0 0 10px;">
+                                    <input onkeyup="changeCSSRequire('CedPadre')" style="width:200px;" type="text" name="txtCedPadre" id="txtCedPadre" disabled="disabled" onkeypress="return validarSoloNumeros(event)"  />
+                                </div>
                             </div>
                             
-                            <label style="width:50px;margin:20px 30px 0 25px;float:left;"><b>Pa&iacute;s</b></label>
+                            <div class="control-group">
+                                <label id="lbOcupPadre" style="float:left;width:100px;margin-left:20px;"><b>Ocupaci&oacute;n</b></label>
+                                <div style="margin:5px 0 0 10px;">
+                                    <input onkeyup="changeCSSRequire('OcupPadre')" style="width:200px;" type="text" name="txtOcupPadre" id="txtOcupPadre" disabled="disabled" onkeypress="return validarSoloLetras(event)"  />
+                                </div>
+                            </div>
+                            <label style="width:50px;margin:20px 30px 0 30px;float:left;"><b>Pa&iacute;s</b></label>
                             <div style="margin:15px 0 0 10px;float: left;">
                              <?php echo country_dropdown('cmbPaisPadre','cmbPaisPadre',
                                 array('US','CA','GB','DE','BR','IT','ES','AU','NZ','HK'));?>
@@ -988,7 +1117,7 @@
                         </fieldset>
                     </div>
                     <div class="span9" style="margin:30px 0 20px 380px;">
-                        <input class="btn btn-primary"  type="submit" name="btnEnviar" id="btnEnviar" value="Enviar" disabled="disabled"/>
+                        <input class="btn btn-primary"  type="submit" name="btnEnviar" id="btnEnviar" value="Enviar" disabled="disabled" onclick="requerirRepresentante();" />
                         <input class="btn" style="margin-left: 100px;" type="button" name="btnCancelar" id="btnCancelar" value="Cancelar" disabled="disabled" onclick="javascript:cancelar()"/>
                     </div> 
                 </div>    

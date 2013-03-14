@@ -595,7 +595,7 @@ function createYearDiv()
 
 	var startYear = d.getFullYear()/1 - 5;
 
-    var yearSpan = 10;
+    var yearSpan = 5;
 	if (! turnOffYearSpan) {
     	var subDiv = document.createElement('DIV');
     	subDiv.innerHTML = '&nbsp;&nbsp;- ';
@@ -1265,8 +1265,8 @@ function getleftPos(inputObj)
 
 function positionCalendar(inputObj)
 {
-	calendarDiv.style.left = getleftPos(inputObj) + 'px';
-	calendarDiv.style.top = getTopPos(inputObj) + 'px';
+	calendarDiv.style.left = getleftPos(inputObj)+90+ 'px';
+	calendarDiv.style.top = getTopPos(inputObj)-35+'px';
 	if(iframeObj){
 		iframeObj.style.left = calendarDiv.style.left;
 		iframeObj.style.top =  calendarDiv.style.top;
@@ -1403,7 +1403,7 @@ function displayCalendar(inputField,format,buttonObj,displayTime,timeInput)
 	}else{
 		var d = new Date();
 		currentMonth = d.getMonth();
-		currentYear = d.getFullYear();
+		currentYear = d.getFullYear()-4;
 		currentHour = '08';
 		currentMinute = '00';
 		inputDay = d.getDate()/1;
