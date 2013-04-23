@@ -54,6 +54,9 @@
                     $r=$this->cargar_paralBachill($j,$n,$o);
                     echo $r;
                 }
+                elseif($m=="listar_alumnos"){
+                    $this->list_alu();
+                }
             }
             
         }
@@ -328,6 +331,23 @@
                 $info .="<option value='".$row->alu_id."'>".$row->alu_apellidos." ".$row->alu_nombres."</option>";
             }
             return $info;
+        }
+        
+        
+        function list_alu(){
+            $c = $this->input->post("cur");
+            $j = $this->input->post("jor");
+            $e = $this->input->post("esp");
+            $p = $this->input->post("par");
+            $anl=$this->input->post("anl");
+            
+            if($c<11||$c>14)
+                $e=-1;
+            
+            $cp = $this->encontrarIdCursoParalelo($j, $c, $e, $p);
+            $alu = $this->lista_alumnos($cp,$anl);
+            
+            echo $alu;
         }
         
     } 

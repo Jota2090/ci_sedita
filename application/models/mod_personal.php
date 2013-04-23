@@ -66,18 +66,18 @@
             return $info;
         }
         
-        function cargar_materias($c,$e){
-            $this->db->order_by("mat_nombre");
-            $this->db->where("mc_curso_id",$c);
-            $this->db->where("mc_especializacion_id",$e);
-            $this->db->join("materia","mc_materia_id=mat_id");
-            $rs=$this->db->get("materia_curso");
+        
+        function mat_prof_dirigente($cp, $anl){
+            $this->db->from("personal_curso");
+            $this->db->where("pc_curso_paralelo_id",$cp);
+            $this->db->where("pc_dirigente","SI");
+            $this->db->where("pc_anio_lectivo_id",$anl);
             
+            $rs= $this->db->get();
             $info="";
-            foreach ($rs->result() as $fila){
-                $info .= "<option value='".$fila->mc_id."'>".$fila->mat_nombre."</option>";
+            foreach($rs->result() as $fila){
+                $info=$fila->pc_materia_id;
             }
-            
             return $info;
         }
         

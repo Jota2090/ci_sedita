@@ -8,57 +8,21 @@
             parent::__construct();
         }
         
-        function cargar_anl(){
-            $rs=$this->db->get("anio_lectivo");
+        
+        function calificaciones_actas($mod, $anl, $alu){
+            $this->db->order_by("cal_periodo_escolar_id");
+            $this->db->from("calificaciones");
+            $this->db->where("cal_anio_lectivo_id", $anl);
+            $this->db->where("cal_alumno_id", $alu);
             
-            $info=array();
+            if($mod>0)
+                $this->db->where("cal_periodo_escolar_id", $mod);
             
-            foreach($rs->result() as $fila)
-                $info[$fila->anl_id] = $fila->anl_periodo." - ".($fila->anl_periodo+1);
+            $rs = $this->db->get();
             
-            return $info;
+            return $rs;
         }
         
-        function nom_anl($anl){
-            $this->db->where("anl_id",$anl);
-            $rs=$this->db->get("anio_lectivo");
-            
-            $info="";
-            foreach($rs->result() as $fila)
-                $info = $fila->anl_periodo." - ".($fila->anl_periodo+1);
-            
-            return $info;
-        }
-        
-        function verificar_anl($anl){
-            
-            if(date('n')<3)
-                $anl=$anl-1;
-                
-            $this->db->from("anio_lectivo");
-            $this->db->where("anl_periodo", $anl);
-            $rs=$this->db->get();
-            
-            $info="";
-            
-            foreach($rs->result() as $fila)
-                $info=$fila->anl_id;
-            
-            return $info;
-        }
-        
-        function nombre_anl($anl){
-            $this->db->from("anio_lectivo");
-            $this->db->where("anl_id", $anl);
-            $rs=$this->db->get();
-            
-            $info="";
-            
-            foreach($rs->result() as $fila)
-                $info=$fila->anl_periodo." - ".($fila->anl_periodo+1);
-            
-            return $info;
-        }
         
         function listar_materias_curso($c, $e){
             $this->db->select("mc_id, mat_nombre");
@@ -72,23 +36,10 @@
             return $rs;
         }
         
-        function calificaciones_actas($t, $anl, $alu){
-            $this->db->order_by("cal_periodo_escolar_id");
-            $this->db->from("calificaciones");
-            $this->db->where("cal_anio_lectivo_id", $anl);
-            $this->db->where("cal_alumno_id", $alu);
-            
-            if($t>0)
-                $this->db->where("cal_periodo_escolar_id", $t);
-            
-            $rs = $this->db->get();
-            
-            return $rs;
-        }
         
-        function calificacion_conducta($t, $mc, $anl, $alu){
+        function calificacion_conducta($mod, $mc, $anl, $alu){
             $this->db->from("calificaciones");
-            $this->db->where("cal_periodo_escolar_id", $t);
+            $this->db->where("cal_periodo_escolar_id", $mod);
             $this->db->where("cal_materia_curso_id", $mc);
             $this->db->where("cal_anio_lectivo_id", $anl);
             $this->db->where("cal_alumno_id", $alu);
@@ -113,34 +64,6 @@
             return $rs;
         }
         
-        function dir_curso($c, $e, $p, $j){
-            $this->db->from("personal_curso");
-            $this->db->where("pc_curso_id",$c);
-            $this->db->where("pc_especializacion_id",$e);
-            $this->db->where("pc_paralelo_id",$p);
-            $this->db->where("pc_jornada_id",$j);
-            $this->db->where("pc_dirigente","SI");
-            
-            $rs= $this->db->get();
-            $info="";
-            foreach($rs->result() as $fila){
-                $info=$fila->pc_materia_id;
-            }
-            return $info;
-        }
-        
-        function getIdDirigente($cp){
-            $this->db->from("dirigente");
-            $this->db->where("dir_curso_paralelo_id",$cp);
-            
-            $rs= $this->db->get();
-            $info="";
-            
-            foreach($rs->result() as $row){
-                $info=$row->dir_personal_id;
-            }
-            return $info;
-        }
         
         function insertar_promedios_alumnos($t, $anl, $mc, $alu){
             $data = array(

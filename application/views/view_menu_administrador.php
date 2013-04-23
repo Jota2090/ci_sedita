@@ -37,7 +37,7 @@
                         <a tabindex="-1" href="<?=site_url("listados/nomina_alumnos")?>">Listados</a>
                         <ul class="dropdown-menu">
                             <li><a tabindex="-1" href="<?=site_url("listados/nomina_alumnos")?>">N&oacute;mina o Actas de Alumnos</a></li>
-
+                            <li><a tabindex="-1" href="<?=site_url("listados/hoja_matricula")?>">Hoja de Matr&iacute;cula</a></li>
                         </ul>
                     </li>
                 </ul>

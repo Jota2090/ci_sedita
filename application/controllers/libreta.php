@@ -2,36 +2,27 @@
     if (! defined('BASEPATH'))
     exit ('No se puede ejecutar directamente este SCRIPT');
 
-    class Libreta extends CI_Controller {
+    class Libreta extends Alumno {
         
         function __construct(){
             parent::__construct();
             $this->load->library('grocery_CRUD');
-            $this->load->model("mod_alumno2","alumno");
-            $this->load->model("mod_acta_calificaciones","acta");
+            $this->load->model("mod_personal","personal");
             $this->load->model("mod_libreta","libreta");
         }
         
         function _remap($m){
             if(!$this->clslogin->check())
             {
-				redirect(site_url("login"));
-			}
-            elseif($m=="listar_alumnos"){
-                $t = $this->input->post("tri");
-                
-                if($t=="")
-                    $this->libreta_vacia();
-                else
-                    $this->combo_alumnos($t);
+                redirect(site_url("login"));
             }
-            elseif($m=="visualizar_libretas"){
-                $t = $this->input->post("tri");
+            elseif($m=="generar_libreta"){
+                $c = $this->input->post("cur");
                 
-                if($t=="")
+                if($c=="")
                     $this->libreta_vacia();
                 else
-                    $this->ver_libretas($t);
+                    $this->ver_libretas($c);
             }
             elseif($m=="imprimir_libretas"){
                 $t = $this->input->post("cmbTrimestre");
@@ -81,46 +72,23 @@
         
         function libreta_vacia(){
             $data["menu"]=$this->load->view("view_menu_administrador");
-            $data["jornada"] = $this->alumno->cargar_jornadas();
-            $data["curso"] = $this->alumno->cargar_curso(0);
-            $data["per_lectivos"]=$this->libreta->cargar_anl();
-            $data["anio_lectivo"] = $this->libreta->verificar_anl(date('Y'));
-            $data["trimestre"] = $this->acta->cargar_trimestre();
+            $data["jornada"]= $this->cargar_jornadas();
+            $data["anioLect"]=$this->cargar_aniosLectivos();
+            $data["anlId"]=$this->cargar_anlActual();
             $data["mensaje"] = "";
             
-            $this->load->view("view_libreta.php", $data); 
+            $this->load->view("libretas/consultar", $data); 
         }
         
-        function combo_alumnos($t){
-            $c = $this->input->post("cur");
-            $e = $this->input->post("esp");
-            $p = $this->input->post("par");
-            $j = $this->input->post("jor");
-            $anl=$this->input->post("anl");
-            
-            if($e==0)
-                $e=-1;
-            
-            $vc = $this->acta->verificar_curso($c, $e, $p, $j);
-            $alumnos = $this->acta->listar_alumnos($vc,$anl);
-            $info = array();
-            
-            foreach($alumnos->result() as $alu){
-                $info[$alu->alu_id] = $alu->alu_apellidos ." " .$alu->alu_nombres;
-            }
-            
-            $data["alumnos"] = $info;
-            $this->load->view("view_combo_alumno", $data);
-        }
         
-        function ver_libretas($t){
-            $ind = $this->input->post("indicador");
+        function ver_libretas($c){
+            $ind = $this->input->post("ind");
             $j = $this->input->post("jor");
-            $c = $this->input->post("cur");
             $e = $this->input->post("esp");
             $p = $this->input->post("par");
+            $mod = $this->input->post("mod");
             
-            if($ind>0 || $ind!=null){
+            /**if($ind>0 || $ind!=null){
                 $this->load->library('export_pdf');     
                 
                 $vc=$this->input->post("curso_paralelo");
@@ -140,9 +108,9 @@
             
                 $pdf = new export_pdf();
                 $pdf->exportToPDF_LibretaAlumno($calificaciones,$materias,$dirigente,$anio,$anl,$curso,
-                                                                            $jornada,$t,$conducta,$alu);
-                    
-            }else{
+                                                                            $jornada,$t,$conducta,$alu);        
+            }**/
+            //else{
                 $data["conducta"]="";
                 $alu = $this->input->post("alu");
                 $anl = $this->input->post("anl");
@@ -150,32 +118,31 @@
                 if($e==0)
                     $e=-1;
                 
-                $vc = $this->acta->verificar_curso($c, $e, $p, $j);
-                $calificaciones = $this->libreta->calificaciones_actas($t, $anl, $alu);
+                $calificaciones = $this->libreta->calificaciones_actas($mod, $anl, $alu);
                 $materias = $this->libreta->listar_materias_curso($c, $e);
                 
                 if($materias->num_rows == $calificaciones->num_rows){
-                    $dir = $this->libreta->dir_curso($c, $e, $p, $j);
-                    $mc=$this->acta->materia_curso($dir,$vc);
+                    $cp=$this->encontrarIdCursoParalelo($j, $c, $e, $p);
+                    $md = $this->personal->mat_prof_dirigente($cp, $anl);
                     
-                    $data["conducta"] = $this->libreta->calificacion_conducta($t,$mc,$anl,$alu);
+                    $data["conducta"] = $this->libreta->calificacion_conducta($mod,$md,$anl,$alu);
                     $data["calificaciones"] = $calificaciones;
                     $data["materias"] = $materias;
                     $data["alumno"] = $alu;
-                    $data["periodo"] = $t;
+                    $data["periodo"] = $mod;
                     $data["anio_lectivo"] = $anl;  
-                    $data["curso_paralelo"] = $vc;
+                    $data["curso_paralelo"] = $cp;
                     $data["jornada"] = $j;
                     $data["curso"] = $c;
                     $data["paralelo"] = $p;
                     $data["especializacion"] = $e;  
                     
-                    $this->load->view("ajax/libreta_consultar", $data);   
+                    $this->load->view("libretas/visualizar", $data);   
                 }
                 else{
                     $this->load->view("alertas/actas_vacias");
                 }
-            }
+            //}
         }
         
         function imprimir_libretas($t){

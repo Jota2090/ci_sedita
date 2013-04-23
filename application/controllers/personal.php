@@ -24,15 +24,6 @@
                 else
                     $this->guardar($n);
             }
-            elseif($metodo=="cargar_materias"){
-                $c=$this->input->post("cur");
-                $e=$this->input->post("esp");
-                
-                if($c<11||$c>14)
-                    $e=-1;
-                
-                echo $this->personal->cargar_materias($c,$e);
-            }
             elseif($metodo=="cd_guardar"){
                 $c=$this->input->post("cur");
                 

@@ -27,9 +27,6 @@
             elseif($metodo=="cargar_alumnos"){
                 $this->combo_alumnos();
             }
-            elseif($metodo=="listar_alumnos"){
-                $this->list_alu();
-            }
             elseif($metodo=="exportar"){
                 $ind = $this->input->post("indicador");
                 $rd = $this->input->post("radio");
@@ -418,23 +415,6 @@
             else{
                 $this->load->view("alertas/actas_vacias");
             }
-        }
-        
-        
-        function list_alu(){
-            $c = $this->input->post("cur");
-            $j = $this->input->post("jor");
-            $e = $this->input->post("esp");
-            $p = $this->input->post("par");
-            $anl=$this->input->post("anl");
-            
-            if($c<11||$c>14)
-                $e=-1;
-            
-            $cp = $this->encontrarIdCursoParalelo($j, $c, $e, $p);
-            $alu = $this->lista_alumnos($cp,$anl);
-            
-            echo $alu;
         }
     }
 ?>

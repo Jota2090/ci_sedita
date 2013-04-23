@@ -8,7 +8,6 @@
             parent::__construct();
             $this->load->library('grocery_CRUD');
             $this->load->model("mod_acta_calificaciones","acta");
-            $this->load->model("mod_alumno2","alumno");
             $this->load->model("mod_libreta","libreta");
         }
         
@@ -48,6 +47,15 @@
                     $this->acta_nueva();
                 else
                     $this->exp_acta($mod);
+            }
+            elseif($m=="cargar_materias"){
+                $c=$this->input->post("cur");
+                $e=$this->input->post("esp");
+                
+                if($c<11||$c>14)
+                    $e=-1;
+                
+                echo $this->acta->cargar_materias($c,$e);
             }
             else{
                 $this->acta_nueva();

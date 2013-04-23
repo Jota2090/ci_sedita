@@ -27,14 +27,16 @@
             }
             else
             {
-                if($m == "guardar"){
-                    $this->validarAlumno();
-                    //$this->guardar();
+                if($m=="guardar"){
+                    $this->guardar_Alumno();
                 }
-                /*elseif($m == "num_matricula"){
-                    $r=$this->alumno->num_matricula();
-                    echo "<input style='width: 80px;' type='text' name='txtMatricula' id='txtMatricula' disabled='disabled' value='$r' />";
-                }*/
+                elseif($m == "datosRepetidos"){
+                    $rs=$this->alumno->datosRepetidos();
+                    echo $rs;
+                }
+                elseif($m == "alumnoRepetidoCurso"){
+                    $this->alumnosRepetidos();
+                }
                 elseif($m == "num_Alumnos"){
                     $m= $this->input->post("jornada");
                     $n= $this->input->post("curso");
@@ -104,7 +106,7 @@
             $data["categoria_alumno"]= $this->cargar_categorias(); 
             $data["jornada"]= $this->cargar_jornadas();
             $data["anLects"] = $this->cargar_anios_registro();
-            $data["matricula"] = $this->alumno->num_matricula();
+            //$data["matricula"] = $this->alumno->num_matricula();
             $this->load->view("alumno/view_registro",$data);       
         }
         
@@ -235,38 +237,6 @@
         }
         
         
-         /**
-            * Initialize validarAlumno
-            * Esta funci�n valida que si otra persona ser� el representante del alumno, estos datos se conviertan en 
-            * campos obligatorios , por el contrario si no existe ning�n problema guardar� dicho alumno
-            * @access public
-            * @return integer
-            */  
-        function validarAlumno(){
-            $opcRepresent=$this->input->post("rbRepresent");
-            $nombOtraPers = $this->input->post("txtNombPerson");
-            $domOtraPers = $this->input->post("txtDomicilioPerson");
-            $telefOtraPers = $this->input->post("txtTelefPerson");
-            $ocupOtraPers = $this->input->post("txtOcupPerson");
-            
-            $longNombOtraPers=strlen($telefOtraPers);
-            $longDomOtraPers=strlen($telefOtraPers);
-            $longTelefOtraPers=strlen($telefOtraPers);
-            $longOcupOtraPers=strlen($telefOtraPers);
-   
-            if(($opcRepresent=="o")&&(($longNombOtraPers==0)||($longNombOtraPers>51)||($longDomOtraPers==0)||($longDomOtraPers>100)||($longTelefOtraPers==0)||($longTelefOtraPers>10)||($longOcupOtraPers>30)))
-            {
-                echo 3; 
-            }
-            else
-            {
-                $inforInsertAlu=$this->guardar_Alumno();
-                echo $inforInsertAlu; 
-            }
-  
-        }
-        
-        
         /**
             * Initialize guardarRepresentante
             * Esta funci�n registra un representante en caso de no estar a�n registrado y retorna el id de dicho representante
@@ -280,64 +250,49 @@
                 if($opcRepresent=="m")
                 {
                     $dataRepresentante = array(
-                                                "rep_nombres"=>$this->input->post("txtNombMadre"),
+                                                "rep_nombres"=>utf8_encode(strtoupper($this->input->post("txtNombMadre"))),
                                                 "rep_cedula"=>$this->input->post("txtCedMadre"),
-                                                "rep_ocupacion"=>$this->input->post("txtOcupMadre"),
+                                                "rep_ocupacion"=>utf8_encode(strtoupper($this->input->post("txtOcupMadre"))),
                                                 "rep_telefono"=>$this->input->post("txtTelef"),
-                                                "rep_domicilio"=>$this->input->post("txtDomicilio"),
-                                                //"rep_celular"=>$this->input->post("txtTelef"),
+                                                "rep_domicilio"=>utf8_encode(strtoupper($this->input->post("txtDomicilio"))),
                                                 "rep_pais"=>$this->input->post("cmbPaisMadre")
 
                                                 );
                                                     
-                        $dataExisteRepres= array(
-                                                    "rep_nombres"=>$this->input->post("txtNombMadre"),
-
-                                                 );
+                    $dataExisteRepres= array("rep_nombres"=>utf8_encode(strtoupper($this->input->post("txtNombMadre"))));
                 }
                                             
                 elseif($opcRepresent=="p")
                 {
                         $dataRepresentante = array(
-                                                                "rep_nombres"=>$this->input->post("txtNombPadre"),
-                                                                "rep_cedula"=>$this->input->post("txtCedPadre"),
-                                                                "rep_ocupacion"=>$this->input->post("txtOcupPadre"),
-                                                                "rep_telefono"=>$this->input->post("txtTelef"),
-                                                                "rep_domicilio"=>$this->input->post("txtDomicilio"),
-                                                                //"rep_celular"=>$this->input->post("txtTelef"),
-                                                                "rep_pais"=>$this->input->post("cmbPaisPadre")
-                                                    
+                                                    "rep_nombres"=>utf8_encode(strtoupper($this->input->post("txtNombPadre"))),
+                                                    "rep_cedula"=>$this->input->post("txtCedPadre"),
+                                                    "rep_ocupacion"=>utf8_encode(strtoupper($this->input->post("txtOcupPadre"))),
+                                                    "rep_telefono"=>$this->input->post("txtTelef"),
+                                                    "rep_domicilio"=>utf8_encode(strtoupper($this->input->post("txtDomicilio"))),
+                                                    "rep_pais"=>$this->input->post("cmbPaisPadre")
                                                     );
                                                     
-                        $dataExisteRepres= array(
-                                                                "rep_nombres"=>$this->input->post("txtNombPadre")
-                                                    );
+                        $dataExisteRepres= array("rep_nombres"=>utf8_encode(strtoupper($this->input->post("txtNombPadre"))));
                 }
                                             
                 else
                 {
                         $dataRepresentante = array(
-                                                            "rep_nombres"=>$this->input->post("txtNombPerson"),
-                                                            "rep_cedula"=>$this->input->post("txtCedPerson"),
-                                                            "rep_ocupacion"=>$this->input->post("txtOcupPerson"),
-                                                            "rep_telefono"=>$this->input->post("txtTelefPerson"),
-                                                            "rep_domicilio"=>$this->input->post("txtDomicilioPerson"),
-                                                            
-                                                            "rep_pais"=>$this->input->post("cmbPaisPerson")
-                                                
+                                                    "rep_nombres"=>utf8_encode(strtoupper($this->input->post("txtNombPerson"))),
+                                                    "rep_cedula"=>$this->input->post("txtCedPerson"),
+                                                    "rep_ocupacion"=>utf8_encode(strtoupper($this->input->post("txtOcupPerson"))),
+                                                    "rep_telefono"=>$this->input->post("txtTelefPerson"),
+                                                    "rep_domicilio"=>utf8_encode(strtoupper($this->input->post("txtDomicilioPerson"))),
+                                                    "rep_pais"=>$this->input->post("cmbPaisPerson")
                                                 );
                                                 
-                        $dataExisteRepres= array(
-                                                            "rep_nombres"=>$this->input->post("txtNombPerson"),
-                                                );
+                        $dataExisteRepres= array("rep_nombres"=>utf8_encode(strtoupper($this->input->post("txtNombPerson"))));
                 }
                 
                  $numResultRepres=$this->alumno->buscarRepres($dataRepresentante);
 
-                 if($numResultRepres==0)
-                 {
-                        $this->alumno->guardarRepresentante($dataRepresentante);
-                 }
+                 if($numResultRepres==0){$this->alumno->guardarRepresentante($dataRepresentante);}
   
                  $strRepId="";
                  $rs1=$this->alumno->obtenerRepres($dataRepresentante);
@@ -346,10 +301,7 @@
                     $strRepId .="".$row->rep_id."";
                  }
                  
-                 $repId = (int)$strRepId;
-                 
-                 return $repId;
-                
+                 return $strRepId;
         }
         
         
@@ -364,79 +316,36 @@
         
         function guardar_Alumno()
         {
-            $infoInsertAlu="";
-            //validar inicialmente se setea txtmatricula con "000000000"
-            //si no esta registrado txtmatricula es "000000000" y se genera un nueva matricula
+            $keys= array_keys($_POST);
+            for($i=0; $i<count($keys); $i++):       $$keys[$i]= trim($_POST[$keys[$i]]);
+            endfor;
             
-                $matricula=$this->input->post("txtmatricula");
-            
-            $AnioId=$this->input->post("cmbAnioLectivo");
-            $jornada=$this->input->post("cmbJornada");
-            $curso=$this->input->post("cmbCurso");
-            $especializacion=$this->input->post("cmbEspec");
-            $paralelo=$this->input->post("cmbParalelo");
-            
+            if($cmbCurso<12&&$cmbCurso!==13){$cmbEspec=0;}
             //Encontrar alu_curso_paralelo_id
-            $cpId=$this->encontrarIdCursoParalelo($jornada,$curso,$especializacion,$paralelo); 
-                
-            $nombAlumn=$this->input->post("txtNombres");
-            $apellAlumn=$this->input->post("txtApellidos");            
- 
-            $numAlumnosRepet=$this->alumno->numAlumnosRepetCurso($cpId,$matricula,$AnioId);
-            
-            if($numAlumnosRepet>0)
-            {
-                //$infoInsertAlu.="Este Alumno ya est&aacute; registrado en este curso";
-                $infoInsertAlu=0;
-            }   
-            else
-            { 
-                 $numAlumnosRepetOtroCurso=$this->alumno->numAlumnosRepetOtroCurso($cpId,$matricula,$AnioId);
-                   
-                 //$numAlumnosRepetOtroCurso>0 se encuentra en otro curso
-                 if($numAlumnosRepetOtroCurso>0)
-                 {
-                       $infoInsertAlu=1; 
-                 }  
-                 else
-                 {
-                        $opcRepresent=$this->input->post("rbRepresent");
-                        $repId=$this->guardarRepresentante($opcRepresent);
-                          
-                        
-                        $domicilio=$this->input->post("txtDomicilio");
-                        $telef=$this->input->post("txtTelef");
-                        $pais=$this->input->post("cmbPais");
-                        $lugarNac=$this->input->post("txtLugarNac");
-                        
-                        $txtFecha=$this->input->post("dateArrival");
-                        $objetoFecha = DateTime::createFromFormat("d/m/Y", $txtFecha );
-                        $mifecha = $objetoFecha ->format("Y-m-d"); 
-                        
-                        $rbSexo=$this->input->post("rbSexo");
-                        $edad=$this->input->post("txtEdad");
-                        $nombMadre=$this->input->post("txtNombMadre");
-                        $cedMadre=$this->input->post("txtCedMadre");
-                        $ocupMadre=$this->input->post("txtOcupMadre");
-                        $paisMadre=$this->input->post("cmbPaisMadre");
-                        $nombPadre=$this->input->post("txtNombPadre");
-                        $cedPadre=$this->input->post("txtCedPadre");
-                        $ocupPadre=$this->input->post("txtOcupPadre");
-                        $paisPadre=$this->input->post("cmbPaisPadre");
-                        $rbRepresent=$this->input->post("rbRepresent");
-                        $check = $this->input->post('chkDocument',TRUE)==null ? 0 : 1;
-                        $comentarios=$this->input->post("txtComentarios");
-                        $categoria=$this->input->post("cmbCategoria");
-                                                                       
-                        $this->alumno->guardar_Alumno($matricula,$nombAlumn,$apellAlumn,$domicilio,$telef,$pais,$lugarNac,$mifecha,$rbSexo,$edad,$nombMadre,$cedMadre,$ocupMadre,$paisMadre,$nombPadre,$cedPadre,$ocupPadre,$paisPadre,$rbRepresent,$check,$comentarios,$categoria,$repId,$cpId,$AnioId);
-
-                        //$infoInsertAlu.="Los datos han sido guardados con &eacute;xito";
-                        $infoInsertAlu=2;
-                 }    
-                
-            }
+            $cpId=$this->encontrarIdCursoParalelo($cmbJornada,$cmbCurso,$cmbEspec,$cmbParalelo);
+            $repId=$this->guardarRepresentante($rbRepresent);
+            $this->alumno->guardar_Alumno($_POST,$cpId,$repId);
+            $infoInsertAlu=2;
             
             return $infoInsertAlu;
+        }
+        
+        function alumnosRepetidos(){
+            $cmbJornada=$this->uri->segment(3); $cmbCurso=$this->uri->segment(4);
+            $cmbParalelo=$this->uri->segment(5); $cmbEspec=$this->uri->segment(6);
+            $cmbAnioLectivo=$this->uri->segment(7); $txtMatricula=$this->uri->segment(8);
+            
+            $cpId=$this->encontrarIdCursoParalelo($cmbJornada,$cmbCurso,$cmbEspec,$cmbParalelo);
+            $data1 = array("alu_matricula"=>$txtMatricula,"alu_curso_paralelo_id"=>$cpId,
+                          "alu_ano_lectivo_id"=>$cmbAnioLectivo);
+            $rs1=$this->alumno->alumnoRepetCurso($data1);
+            if($rs1>0){return 1;}
+            
+            $data = array("alu_matricula"=>$txtMatricula,"alu_ano_lectivo_id"=>$cmbAnioLectivo);
+            $rs=$this->alumno->numAlumnosRepetOtroCurso($cpId,$data);
+            if($rs>0){return 2;}
+            
+            return 0;
         }
         
 

@@ -81,6 +81,7 @@
             }
         }
         
+        
         function actualizar_notas_acta($resultado, $calificaciones, $mod, $mc, $anl){
             foreach($resultado->result() as $alumno){
                 foreach($calificaciones->result() as $cal){
@@ -115,6 +116,23 @@
                 }
             }
         }
+        
+        
+        function cargar_materias($c,$e){
+            $this->db->order_by("mat_nombre");
+            $this->db->where("mc_curso_id",$c);
+            $this->db->where("mc_especializacion_id",$e);
+            $this->db->join("materia","mc_materia_id=mat_id");
+            $rs=$this->db->get("materia_curso");
+            
+            $info="";
+            foreach ($rs->result() as $fila){
+                $info .= "<option value='".$fila->mc_id."'>".$fila->mat_nombre."</option>";
+            }
+            
+            return $info;
+        }
+        /*******************************************************************/
         
         
         function nombre_alumno($alu){

@@ -2,7 +2,7 @@
 <html lang="es">
     <head>
     	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title>Sedita Acta Calificaciones</title>
+        <title>Sedita Libretas</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="" />
         <meta name="Sedita" content="" />
@@ -32,16 +32,16 @@
                     var cmbCurso=document.getElementById("cmbCurso");
                     var cmbEspec=document.getElementById("cmbEspec");
                     var cmbParal=document.getElementById("cmbParalelo");
-                    var cmbMat=document.getElementById("cmbMateria");
+                    var cmbAlu=document.getElementById("cmbAlumnos");
                     
                     cmbCurso.disabled=true;
                     cmbEspec.disabled=true;
                     cmbParal.disabled=true;
-                    cmbMat.disabled=true;
+                    cmbAlu.disabled=true;
                     $("#cmbCurso").empty();
                     $("#cmbEspec").empty();
                     $("#cmbParalelo").empty();
-                    $("#cmbMateria").empty();
+                    $("#cmbAlumnos").empty();
                     
                     if(idJornada==0){
                         cmbNivel.disabled=true;
@@ -69,14 +69,14 @@
                     var cmbCurso=document.getElementById("cmbCurso");
                     var cmbEspec=document.getElementById("cmbEspec");
                     var cmbParal=document.getElementById("cmbParalelo");
-                    var cmbMat=document.getElementById("cmbMateria");
+                    var cmbAlu=document.getElementById("cmbAlumnos");
                     
                     cmbEspec.disabled=true;
                     cmbParal.disabled=true;
-                    cmbMat.disabled=true;
+                    cmbAlu.disabled=true;
                     $("#cmbEspec").empty();
                     $("#cmbParalelo").empty();
-                    $("#cmbMateria").empty();
+                    $("#cmbAlumnos").empty();
                     
                     if(idNivel==0){
                         $("#cmbCurso").empty();
@@ -104,15 +104,15 @@
                     var idCurso= $("#cmbCurso").find(":selected").val();
                     var cmbParal=document.getElementById("cmbParalelo");
                     var cmbEspec=document.getElementById("cmbEspec");
-                    var cmbMat=document.getElementById("cmbMateria");
+                    var cmbAlu=document.getElementById("cmbAlumnos");
                     
                     if(idCurso==0){
                         $("#cmbEspec").empty();
                         $("#cmbParalelo").empty();
-                        $("#cmbMateria").empty();
+                        $("#cmbAlumnos").empty();
                         cmbEspec.disabled=true;
                         cmbParal.disabled=true;
-                        cmbMat.disabled=true;
+                        cmbAlu.disabled=true;
                     }
                     else{
                         //idCurso==12 o 13, 5to y 6to bachillerato
@@ -120,9 +120,9 @@
                         {
                             cmbEspec.disabled=false;
                             cmbParal.disabled=true;
-                            cmbMat.disabled=true;
+                            cmbAlu.disabled=true;
                             $("#cmbParalelo").empty();
-                            $("#cmbMateria").empty();
+                            $("#cmbAlumnos").empty();
                             
                             $.ajax({
                                 type:"post",
@@ -138,23 +138,15 @@
                             cmbEspec.disabled=true;
                             $("#cmbEspec").empty();
                             cmbParal.disabled=false;
+                            cmbAlu.disabled=true;
+                            $("#cmbAlumnos").empty();
+                            
                             $.ajax({
                                 type:"post",
                                 url: "<?=site_url("general/cargar_paralelos")?>",
                                 data:"jornada="+idJornada+"&curso="+idCurso,
                                 success:function(info){
                                     $("#cmbParalelo").html(info);
-                                }
-                            });
-                            
-                            cmbMat.disabled=false;
-                            var esp = -1;
-                            $.ajax({
-                                type:"post",
-                                url: "<?=site_url("acta_calificaciones/cargar_materias")?>",
-                                data:"cur="+idCurso+"&esp="+esp,
-                                success:function(info){
-                                    $("#cmbMateria").html(info);
                                 }
                             });
                         }
@@ -169,13 +161,15 @@
                     var idCurso= $("#cmbCurso").find(":selected").val();
                     var cmbParal=document.getElementById("cmbParalelo");
                     var idEspec= $("#cmbEspec").find(":selected").val();
-                    var cmbMat=document.getElementById("cmbMateria");
+                    var cmbAlu=document.getElementById("cmbAlumnos");
                     
+                    cmbAlu.disabled=true;
+                    $("#cmbAlumnos").empty();
+                        
                     if(idEspec==0){
                         cmbParal.disabled=true;
                         $("#cmbParalelo").empty();
-                        cmbMat.disabled=true;
-                        $("#cmbMateria").empty();
+                        
                     }
                     else{
                         cmbParal.disabled=false;
@@ -187,14 +181,62 @@
                                 $("#cmbParalelo").html(info);
                             }
                         });
-                        
-                        cmbMat.disabled=false;
+                    } 
+                });
+            });
+            
+            
+            $(document).ready(function(){
+                $("#cmbParalelo").change(function(){
+                    var idJornada= $("#cmbJornada").find(":selected").val();
+                    var idCurso= $("#cmbCurso").find(":selected").val();
+                    var cmbParal=document.getElementById("cmbParalelo");
+                    var idEspec= $("#cmbEspec").find(":selected").val();
+                    var idPar= $("#cmbParalelo").find(":selected").val();
+                    var anl= $("#cmbAnioLec").find(":selected").val();
+                    var cmbAlu=document.getElementById("cmbAlumnos");
+                    
+                    if(idPar==0){
+                        cmbAlu.disabled=true;
+                        $("#cmbAlumnos").empty();
+                    }
+                    else{
+                        cmbAlu.disabled=false;
                         $.ajax({
                             type:"post",
-                            url: "<?=site_url("acta_calificaciones/cargar_materias")?>",
-                            data:"cur="+idCurso+"&esp="+idEspec,
+                            url: "<?=site_url("general/listar_alumnos")?>",
+                            data:"cur="+idCurso+"&esp="+idEspec+"&par="+idPar+"&jor="+idJornada+"&anl="+anl,
                             success:function(info){
-                                $("#cmbMateria").html(info)
+                                $("#cmbAlumnos").html(info);
+                            }
+                        });
+                    } 
+                });
+            });
+            
+            
+            $(document).ready(function(){
+                $("#cmbAnioLec").change(function(){
+                    var idJornada= $("#cmbJornada").find(":selected").val();
+                    var idCurso= $("#cmbCurso").find(":selected").val();
+                    var cmbParal=document.getElementById("cmbParalelo");
+                    var idEspec= $("#cmbEspec").find(":selected").val();
+                    var idPar= $("#cmbParalelo").find(":selected").val();
+                    var anl= $("#cmbAnioLec").find(":selected").val();
+                    var cmbAlu=document.getElementById("cmbAlumnos");
+                    
+                    if(idPar==0){
+                        cmbAlu.disabled=true;
+                        $("#cmbAlumnos").empty();
+                    }
+                    else{
+                        cmbAlu.disabled=false;
+                        $.ajax({
+                            type:"post",
+                            url: "<?=site_url("general/listar_alumnos")?>",
+                            data:"cur="+idCurso+"&esp="+idEspec+"&par="+idPar+"&jor="+idJornada+"&anl="+anl,
+                            success:function(info){
+                                $("#cmbAlumnos").html(info);
                             }
                         });
                     } 
@@ -219,12 +261,12 @@
         </script>
         
         <script>
-            function generar_acta(){
+            function generar_libreta(){
                 var jor = $("#cmbJornada").find(":selected").val();
                 var cur = $("#cmbCurso").find(":selected").val();
                 var esp = $("#cmbEspec").find(":selected").val();
                 var par = $("#cmbParalelo").find(":selected").val();
-                var mat = $("#cmbMateria").find(":selected").val();
+                var alu = $("#cmbAlumnos").find(":selected").val();
                 var anl = $("#cmbAnioLec").find(":selected").val();
                 var mod = $("input[name=radio]:checked").val();
                 
@@ -253,14 +295,14 @@
                                 else{
                                     $.ajax({
                                         type:"post",
-                                        url: "<?=site_url("acta_calificaciones/generar_acta")?>",
-                                        data:"cur="+cur+"&jor="+jor+"&esp="+esp+"&par="+par
-                                                +"&mod="+mod+"&anl="+anl+"&mat="+mat,
+                                        url: "<?=site_url("libreta/generar_libreta")?>",
+                                        data:"cur="+cur+"&jor="+jor+"&esp="+esp+"&par="+par+"&mod="+mod+
+                                             "&anl="+anl+"&alu="+alu+"&ind=0",
                                         success:function(info){
                                             disabled($("#formActa"));
                                             $("#btnGenerar").attr('href', 'javascript:disable');
                                             $("#btnGenerar").attr('disabled', 'disabled');
-                                            $("#listadoAlumnos").html(info);
+                                            $("#libreta").html(info);
                                         }
                                     });
                                 } 
@@ -278,10 +320,10 @@
                 if(cur<12||cur>13)
                     $("#cmbEspec").attr('disabled','disabled');
                 
-                $("#btnGenerar").attr('href', 'javascript:generar_acta()');
+                $("#btnGenerar").attr('href', 'javascript:generar_libreta()');
                 $("#btnGenerar").removeAttr('disabled');
                         
-                $("#listadoAlumnos").html(""); 
+                $("#libreta").html(""); 
             };
         </script>
         
@@ -360,9 +402,9 @@
         </div>
         <?=$menu?>
         <div class="container-fluid">
-            <form class="form-horizontal" id="formActa" name="formActa" action="<?=site_url("alumno/guardar") ?>" method="post" >
+            <form class="form-horizontal" id="formActa" name="formActa" method="post" >
                 <fieldset>
-                    <legend>Acta de Calificaciones</legend>
+                    <legend>Libretas</legend>
                     <div class="span3" style="margin-right: 50px;">
                         <div class="span3 panel" style="width:230px;margin-left:15px;padding:10px 10px 0 20px;">
                             <ul class="nav">
@@ -391,16 +433,17 @@
                             <div class="well sidebar-nav">
                                 <ul class="nav nav-list">
                                   <li class="nav-header">Ayuda<i class="icon-question-sign" style="float: right;"></i></li>
-                                  <li><a>En esta secci&oacute;n podr&aacute; <b>ingresar, consultar y modificar</b> las actas de calificaciones del per&iacute;odo actual.</a></li>
+                                  <li><a>En esta secci&oacute;n podr&aacute; <b>consultar las libretas de un respectivo curso y agregar faltas u observaciones</b> correspondiente a cada estudiante.<br />
+                                        Adem&aacute;s podr&aacute; mandar a <b>imprimir las libretas.</b></a></li>
                                 </ul>
                             </div><!--/.well -->
                         </div><!--/span-->  
                     </div> 
                     <div class="span9 panel" style="width:930px;padding:10px 20px 10px 0;">
                         <div class="control-group span9">
-                            <label class="control-label"><b>Materia</b></label>
+                            <label class="control-label"><b>Alumnos</b></label>
                             <div class="controls">
-                                <select id="cmbMateria" name="cmbMateria" style="width:320px" disabled="disabled"></select>
+                                <select id="cmbAlumnos" name="cmbAlumnos" style="width:320px" disabled="disabled"></select>
                             </div>
                         </div>
                         <div class="control-group span6">
@@ -442,10 +485,10 @@
                                     ?>
                                 </div>
                             </div>
-                            <a href="javascript:generar_acta()" id="btnGenerar" class="btn btn-primary" style="width: 100px; margin-left: 60px" ><i class="icon-calendar"></i>Visualizar</a>
+                            <a href="javascript:generar_libreta()" id="btnGenerar" class="btn btn-primary" style="width: 100px; margin-left: 60px" ><i class="icon-calendar"></i>Visualizar</a>
                         </div>
 
-                        <div class="span9" id="listadoAlumnos" style="width: 910px; margin:10px 0 0 15px;"></div>
+                        <div class="span9" id="libreta" style="width: 910px; margin:10px 0 0 15px;"></div>
                     </div>    
                 </fieldset> 
             </form>
@@ -456,3 +499,4 @@
         </div>
     </body>
 </html>
+

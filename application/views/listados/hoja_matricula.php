@@ -196,7 +196,7 @@
                 else{
                     $.ajax({
                         type:"post",
-                        url: "<?=site_url("listados/listar_alumnos")?>",
+                        url: "<?=site_url("general/listar_alumnos")?>",
                         data:"jor="+jor+"&cur="+cur+"&esp="+esp+"&par="+par+"&anl="+anl,
                         success:function(info){
                             $("#cmbAlumnos").empty();
@@ -219,7 +219,7 @@
                 if(par>0&&par!=null){
                     $.ajax({
                         type:"post",
-                        url: "<?=site_url("listados/listar_alumnos")?>",
+                        url: "<?=site_url("general/listar_alumnos")?>",
                         data:"jor="+jor+"&cur="+cur+"&esp="+esp+"&par="+par+"&anl="+anl,
                         success:function(info){
                             $("#cmbAlumnos").empty();
