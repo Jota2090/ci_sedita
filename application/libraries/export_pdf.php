@@ -359,7 +359,7 @@
             $CI->cezpdf->setStrokeColor(0,0,0);
             $CI->cezpdf->rectangle(430,630,94,100);
             $CI->cezpdf->ezText("\n\n",10);
-            $CI->cezpdf->ezText(utf8_decode("<b>Nº Matrícula :</b>    ").$array[26],9);
+            $CI->cezpdf->ezText(utf8_decode("<b>Nº Matrícula :</b>    ").$array[27],9);
             $CI->cezpdf->line(122,677,180,677);
             $CI->cezpdf->ezText("\n",8);
             $CI->cezpdf->ezText("<b>     Nombres :</b>    ".strtoupper(utf8_decode($array[1])),9);
@@ -387,9 +387,9 @@
             $CI->cezpdf->ezText("\n",10);
             
             $columnas = array("num"=>"",
-                                "nombres"=>"<b>                                Nombres</b>",
-                                "ocup"=>utf8_decode("<b>            Ocupación</b>"),
-                                "pais"=>utf8_decode("<b>           País</b>"));
+                                "nombres"=>"<b>Nombres</b>",
+                                "ocup"=>utf8_decode("<b>Oupación</b>"),
+                                "pais"=>utf8_decode("<b>País</b>"));
                                 
             $data = array();
             $data[] = array("num"=>"    <b>Padre :</b>",
@@ -431,8 +431,8 @@
                 
                 $data[] = array("num"=>"    <b>Dat - Rep. :</b>",
                                 "nombres"=>"   ".strtoupper(utf8_decode($array[21])),
-                                "ocup"=>"   ".strtoupper(utf8_decode($array[22])),
-                                "pais"=>"   ".strtoupper(utf8_decode($array[25])));  
+                                "ocup"=>"   ".strtoupper(utf8_decode($array[23])),
+                                "pais"=>"   ".strtoupper(utf8_decode($array[26])));  
             }                
                             
             $CI->cezpdf->ezTable($data, $columnas, '', array('width'=>480,
@@ -441,7 +441,12 @@
                                                              'fontSize'=>9,
                                                              'rowGap'=>10,
                                                              'cols'=>array('num'=>array('width'=>75),
-                                                                            'nombres'=>array('width'=>214))
+                                                                            'nombres'=>array('width'=>205,
+                                                                                             'justification'=>'center'),
+                                                                            'ocup'=>array('width'=>100,
+                                                                                             'justification'=>'center'),
+                                                                            'pais'=>array('width'=>100,
+                                                                                             'justification'=>'center'))
                                                             )
                                 );
             $CI->cezpdf->ezText("\n",10);
@@ -470,10 +475,19 @@
             
             $CI->cezpdf->ezText("\n",10);
             $CI->cezpdf->ezText("Notas Adicionales :",9);
-            $CI->cezpdf->setStrokeColor(0,0,0);
-            $CI->cezpdf->rectangle(50,170,485,60);
-            $CI->cezpdf->ezText("\n",6);
-            $CI->cezpdf->ezText(utf8_decode($array[18]),9);
+            $columnas = array("notas"=>"");
+            $data = array();
+            $data[] = array("notas"=>utf8_decode($array[19]));             
+                            
+            $CI->cezpdf->ezTable($data, $columnas, '', array('width'=>480,
+                                                             'shaded'=>0,
+                                                             'showLines'=>2,
+                                                             'showHeadings'=>0,
+                                                             'fontSize'=>9,
+                                                             'rowGap'=>30,
+                                                             'cols'=>array('notas'=>array('width'=>480))
+                                                            )
+                                );
             
             $CI->cezpdf->ezStream();
         }

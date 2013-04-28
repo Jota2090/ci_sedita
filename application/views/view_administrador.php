@@ -57,7 +57,7 @@
             <img style="margin-left: 100px;" width="250px" alt="Imagen Login" src="assets/img/logo-escuela.png" />
         </div>
         <div class="span4">
-            <p style="margin-top: 20px;"><a class="btn btn-large btn-block btn-primary" type="button" href="<?=site_url("alumno")?>" >Matriculaci&oacute;n de Estudiantes</a></p>
+            <p style="margin-top: 20px;"><a class="btn btn-large btn-block btn-primary" type="button" href="<?=site_url("alumno/nuevoAlumno")?>" >Matriculaci&oacute;n de Estudiantes</a></p>
             <p style="margin-top: 20px;"><a class="btn btn-large btn-block btn-primary" type="button" href="<?=site_url("personal")?>" >Registro del Personal</a></p>
             <p style="margin-top: 20px;">
                 <a class="span6 btn btn-large btn-primary" type="button" href="<?=site_url("listados/nomina_alumnos")?>">Listados</a>

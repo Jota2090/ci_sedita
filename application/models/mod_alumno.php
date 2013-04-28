@@ -161,15 +161,18 @@
                             
             $this->db->insert("alumno",$data);
             
+            $this->db->select("alu_id");
+            $this->db->where($data);
+            $rs=$this->db->get("alumno")->row();
+            
             if($txtMatricula===""){
-                $this->db->select("alu_id");
-                $this->db->where($data);
-                $rs=$this->db->get("alumno")->row();
                 $matricula=$this->num_matricula($rs->alu_id);
                 $d = array("alu_matricula"=>$matricula);
                 $this->db->where("alu_id",$rs->alu_id);
                 $this->db->update("alumno",$d);
             }
+            
+            return $rs->alu_id;
         }
         
         
@@ -197,10 +200,10 @@
             * @param integer $idAlumno: id del alumno
             * @return array
         */ 
-        function obtener_alumnoRepresentante($idAlumno){
+        function obtener_alumnoRepresentante($matricula){
             $this->db->from("alumno");
             $this->db->join("representante", "rep_id=alu_representante_id");
-            $this->db->where("alu_matricula",$idAlumno);
+            $this->db->where("alu_matricula",$matricula);
             $this->db->order_by("alu_id","desc");
             $rs = $this->db->get();
             return $rs;

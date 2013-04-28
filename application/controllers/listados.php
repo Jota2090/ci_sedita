@@ -100,24 +100,27 @@
         
         
         function nominas(){
-            $data["jornada"] = $this->cargar_jornadas();
-            $data["anioLect"]=$this->cargar_aniosLectivos();
-            $data["anlId"]=$this->cargar_anlActual();
+            $general = new General();
+            $data["jornada"] = $general->cargar_jornadas();
+            $data["anioLect"]=$general->cargar_aniosLectivos();
+            $data["anlId"]=$general->cargar_anlActual();
             $data["menu"]=$this->load->view("view_menu_administrador");
             $this->load->view("listados/nomina_alumnos", $data);   
         }
         
         
         function hoja_matricula(){
-            $data["jornada"] = $this->cargar_jornadas();
-            $data["anioLect"]=$this->cargar_aniosLectivos();
-            $data["anlId"]=$this->cargar_anlActual();
+            $general = new General();
+            $data["jornada"] = $general->cargar_jornadas();
+            $data["anioLect"]=$general->cargar_aniosLectivos();
+            $data["anlId"]=$general->cargar_anlActual();
             $data["menu"]=$this->load->view("view_menu_administrador");
             $this->load->view("listados/hoja_matricula", $data);   
         }
         
         
         function cuadro_honor(){
+            $general = new General();
             $data["jornada"] = $this->alumno->cargar_jornadas();
             $data["curso"] = $this->alumno->cargar_curso(0);
             $data["per_lectivos"]=$this->libreta->cargar_anl();
@@ -128,6 +131,7 @@
         }
         
         function cuadro_promocion(){
+            $general = new General();
             $data["jornada"] = $this->alumno->cargar_jornadas();
             $data["curso"] = $this->alumno->cargar_curso(0);
             $data["per_lectivos"]=$this->libreta->cargar_anl();
@@ -205,6 +209,7 @@
         
         
         function imp_hoja($c){
+            $general= new General();
             $this->load->library('export_pdf'); 
             $this->load->model('mod_alumno','alumno'); 
             
@@ -217,10 +222,10 @@
             if($c<11||$c>14)
                 $e=-1;
             
-            $cp = $this->encontrarIdCursoParalelo($j, $c, $e, $p);
-            $curso = $this->get_nom_curso($cp);
-            $jornada = $this->get_nom_jornada($j);
-            $ano_lectivo = $this->get_anio_lectivo($anl);
+            $cp = $general->encontrarIdCursoParalelo($j, $c, $e, $p);
+            $curso = $general->get_nom_curso($cp);
+            $jornada = $general->get_nom_jornada($j);
+            $ano_lectivo = $general->get_anio_lectivo($anl);
             $alumno = $this->alumno->obtener_alumno($alu);
             
             foreach($alumno->result() as $alu)

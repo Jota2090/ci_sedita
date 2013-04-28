@@ -341,6 +341,7 @@
                 });
             });
         </script>
+
               
         <!--Quitar atributo disabled de los campos del formulario alumno-->
         <script>
@@ -353,17 +354,20 @@
                     //limpiamos los valores de los campos�
                     if (type == 'text' || type == 'password' || tag == 'textarea')
                     {
-                        if(this.disabled){
+                        if(this.disabled)
+                        {
                             this.disabled=false;
                         }
                         else{
                             this.value = "";
                         }
                     }
-                    else if (type == 'checkbox' || type == 'radio'){
+                    else if (type == 'checkbox' || type == 'radio')
+                    {
                         this.disabled = false;
                     }
-                    else if (tag == 'select'){
+                    else if (tag == 'select')
+                    {
                        this.disabled = false;
                     }
                 });
@@ -464,6 +468,7 @@
                             data:"nombres="+nombres+"&apellidos="+apellidos+"&pais="+pais+"&fecha="+fecha,
                             url: "<?=site_url("alumno/datosRepetidos/")?>",
                             success:function(info){
+                                alert(info);
                                 if(info==0){
                                     document.getElementById("cmbJornada").disabled=false;
                                     document.getElementById("cmbCurso").disabled=false;
@@ -489,9 +494,7 @@
                             anl = $("#cmbAnioLectivo").find(":selected").val();
                         $.ajax({
                             type:"post",
-                            data:"jornada="+idJornada+"&curso="+idCurso+"&paralelo="+idParal+"&especializacion="+idEspec
-                                    +"&anl="+anl+"&matricula="+matricula,
-                            url: "<?=site_url("alumno/alumnoRepetidoCurso/")?>",
+                            url: "<?=site_url("alumno/alumnoRepetidoCurso/")?>"+idJornada+"/"+idCurso+"/"+idParal+"/"+idEspec+"/"+anl+"/"+matricula,
                             success:function(info){
                                 if(info==0){
                                     document.getElementById("txtEdad").disabled=false;
@@ -572,8 +575,8 @@
 
         <style type="text/css">
             body {
-                width: 1280px;
-                padding-top: 10px;
+                width: 1320px;
+                padding-top: 60px;
                 padding-bottom: 40px;
                 margin: 0 auto;
                 font-family: Arial;
@@ -585,12 +588,12 @@
         </style>
     </head>
 
-    <body>
-        <form class="form-horizontal" id="formAlumno" name="formAlumno" action="<?=site_url("alumno/guardar") ?>" method="post" >
+    <body data-spy="scroll" data-target=".bs-docs-sidebar">
+        <form class="form-horizontal" id="formAlumno" name="formAlumno" action="<?=site_url("alumno/guardar") ?>" method="post" target="_blank" >
             <fieldset>
                 <legend>Matricular Alumno</legend>
-                <div style="margin-right:15px; float: left">
-                    <div class="panel" style="clear:left; width:230px;padding:10px 10px 0 20px;">
+                <div class="span3" style="margin-right: 50px;">
+                    <div class="span3 panel" style="width:230px;margin-left:15px;padding:10px 10px 0 20px;">
                         <ul class="nav">
                             <li><b>Jornada</b></li>
                             <li><?php 
@@ -625,7 +628,7 @@
                             <li><input type="text" name="txtNumAlumn" id="txtNumAlumn" disabled="disabled" /></li>
                         </ul>
                     </div><!--/span-->
-                    <div class="span3" style="clear: left; margin-left:30px;">
+                    <div class="span3" style="margin-left:50px;">
                         <div class="well sidebar-nav">
                             <ul class="nav nav-list">
                               <li class="nav-header">Ayuda<i class="icon-question-sign" style="float: right;"></i></li>
@@ -634,7 +637,7 @@
                         </div><!--/.well -->
                     </div><!--/span-->
                 </div> 
-                <div class="panel" style="float: left; width:980px;padding:10px 20px 0 0;">
+                <div class="span9 panel" style="width:980px;padding:10px 20px 0 0;">
                     <div class="span4" style="padding-right:280px;border-right: 1px solid #000000">
                         <input type="hidden" name="txtMatricula" id="txtMatricula" value="" />
                         <div class="span2" style="margin-top: 10px;">
@@ -643,7 +646,7 @@
                                 <input type="checkbox" name="chkDocument" id="chkDocument" value="1" disabled="disabled" />
                             </div>
                         </div>
-
+                        
                         <div class="span1" style="margin: 10px 0 0 80px;">
                             <label class="control-label"><b>Categor&iacute;a</b></label>
                             <div class="controls">
@@ -653,34 +656,39 @@
                                 ?>
                             </div>
                         </div>
+                        
                         <div class="control-group span4" style="margin-top: 15px;">
                             <label id="lbNombres" class="control-label"><b>Nombres*</b></label>
                             <div class="controls">
                                 <input class="span2" onkeyup="changeCSSRequire('Nombres','342px','155px')" style="width:342px;" type="text" name="txtNombres" id="txtNombres" disabled="disabled" onkeypress="return validarSoloLetras(event)">
+                                <!--<div class="input-append">
+                                    <input class="span2" onkeyup="changeCSSRequire('Nombres','288px','155px')" style="width:288px;" type="text" name="txtNombres" id="txtNombres" disabled="disabled" onkeypress="return validarSoloLetras(event)">
+                                    <button class="btn" type="button"><i class="icon-search"></i></button>
+                                </div>-->
                             </div>
                         </div>
-
+                        
                         <div class="control-group span4">
                             <label id="lbApellidos" class="control-label"><b>Apellidos*</b></label>
                             <div class="controls">
                                 <input onkeyup="changeCSSRequire('Apellidos','342px','155px')" style="width:342px;"  disabled="disabled" type="text" name="txtApellidos" id="txtApellidos"  onkeypress="return validarSoloLetras(event)"  />
                             </div>
                         </div>
-
+                        
                         <div class="control-group span4">
                             <label id="lbDomicilio" class="control-label"><b>Direcci&oacute;n*</b></label>
                             <div class="controls">
                                 <input onkeyup="changeCSSRequire('Domicilio','342px','155px')" style="width: 342px;" type="text" name="txtDomicilio" id="txtDomicilio" disabled="disabled" />
                             </div>
                         </div>
-
+                        
                         <div class="control-group span2">
                             <label id="lbTelef" class="control-label"><b>Tel&eacute;fono*</b></label>
                             <div class="controls">
                                 <input onkeyup="changeCSSRequire('Telef','120px','155px')" style="width: 120px;" type="text" name="txtTelef" id="txtTelef" disabled="disabled" maxlength="10" onkeypress="return validarSoloNumeros(event)" />
                             </div>
                         </div>
-
+                                                
                         <div class="control-group span1" style="margin-left:80px;">
                             <label class="control-label" ><b>Pa&iacute;s</b></label>
                             <div class="controls">
@@ -688,33 +696,33 @@
                                         array('US','CA','GB','DE','BR','IT','ES','AU','NZ','HK'));?>
                             </div>
                         </div>
-
-
+                        
+                        
                         <div class="control-group span2">
                             <label id="lbLugarNac" class="control-label"><b>Lugar de nacimiento*</b></label>
                             <div class="controls">
                                 <input onkeyup="changeCSSRequire('LugarNac','120px','')" style="width: 120px;" type="text" name="txtLugarNac" id="txtLugarNac" disabled="disabled"  type="text" onkeypress="return validarSoloLetras(event)"  />
                             </div>
                         </div>
-
+                        
                         <div class="control-group span1" style="margin-left:80px;">
                             <label class="control-label" ><b>Edad*</b></label>
                             <div class="controls">
                                 <input style="width:50px" type="text" name="txtEdad" id="txtEdad"  disabled="disabled" onkeypress="return validarSoloNumeros(event)"  />
                             </div>
                         </div>
-
+                        
                         <div class="control-group span4" style="margin-bottom: -5px;" >
                             <label id="lbdateArrival" class="control-label"><b>Fecha de Nacimiento*</b></label>
                             <div class="controls" style="width:165px;">
                                 <a id="linkCalendar" onclick="displayCalendar(document.forms[0].txtdateArrival,'dd/mm/yyyy',this);" style="float: right;padding: 0 0 10px 165px;">
                                     <i class="icon-calendar" style="float:right;position: relative;" id="calendar"></i>
-                                    <input autocomplete="off" onkeydown="displayCalendar(document.forms[0].txtdateArrival,'dd/mm/yyyy',this);" onchange="setearEdad();changeCSSRequire('dateArrival','120px','');" placeholder="dd/mm/yyyy" name="txtdateArrival" id="txtdateArrival" type="text" disabled="disabled" size="10" style="width: 120px;right: 30px;bottom: 25px;position: relative;" />                                                                        
+                                    <input onkeydown="displayCalendar(document.forms[0].txtdateArrival,'dd/mm/yyyy',this);" onchange="setearEdad();changeCSSRequire('dateArrival','120px','');" placeholder="dd/mm/yyyy" name="txtdateArrival" id="txtdateArrival" type="text" disabled="disabled" size="10" style="width: 120px;right: 30px;bottom: 25px;position: relative;" />                                                                        
                                 </a>
-
+                                
                             </div>
                         </div>
-
+                        
                         <div class="control-group span6">
                             <label class="control-label"><b>Sexo</b></label>
                             <label class="checkbox inline">
@@ -736,7 +744,7 @@
                                 <input type="radio" id="rbRepresent" name="rbRepresent" value="o" onclick="toggle_otra_persona(this)" disabled="disabled"/>Otra persona
                             </label>                            
                         </div>
-
+                        
                         <div class="span4 panel" style="display:none; width:470px;padding:10px 20px 30px 20px;margin-top:20px" id="div_otra_persona" >
                             <fieldset>
                                 <legend>Representante</legend>
@@ -746,35 +754,35 @@
                                         <input onkeyup="requerirRepresentante()" type="text" name="txtNombPerson" id="txtNombPerson" disabled="disabled" onkeypress="return validarSoloLetras(event)" />
                                     </div>
                                 </div>
-
+                                
                                 <div class="control-group">
                                     <label id="lbCedPerson" class="control-label" style="margin-top: 10px;"><b>N. C&eacute;dula</b></label>
                                     <div class="controls" style="margin-top: 10px;">
                                         <input onkeyup="requerirRepresentante()" maxlength="10" type="text" name="txtCedPerson" id="txtCedPerson" disabled="disabled" onkeypress="return validarSoloNumeros(event)"  />
                                     </div>
                                 </div>
-
+                                
                                 <div class="control-group">
                                     <label id="lbOcupPerson" class="control-label" style="margin-top: 10px;"><b>Ocupaci&oacute;n</b></label>
                                     <div class="controls" style="margin-top: 10px;">
                                         <input onkeyup="requerirRepresentante()" type="text" name="txtOcupPerson" id="txtOcupPerson" disabled="disabled" onkeypress="return validarSoloLetras(event)"  />
                                     </div>
                                 </div>
-
+                                
                                 <div class="control-group">
                                     <label id="lbDomicilioPerson" class="control-label"><b>Direcci&oacute;n*</b></label>
                                     <div class="controls">
                                         <input onkeyup="requerirRepresentante()" type="text" name="txtDomicilioPerson" id="txtDomicilioPerson" disabled="disabled" />
                                     </div>
                                 </div>
-
+                                
                                 <div class="control-group">
                                     <label id="lbTelefPerson" class="control-label"><b>Tel&eacute;fono*</b></label>
                                     <div class="controls">
                                         <input onkeyup="requerirRepresentante()" maxlength="10" type="text" name="txtTelefPerson" id="txtTelefPerson"  disabled="disabled" onkeypress="return validarSoloNumeros(event)" />
                                     </div>
                                 </div>
-
+                                
                                 <label class="control-label" style="margin-top: 20px;"><b>Pa&iacute;s</b></label>
                                 <div class="controls" style="margin-top: 20px;">
                                     <?php echo country_dropdown('cmbPaisPerson','cmbPaisPerson',
@@ -782,7 +790,7 @@
                                 </div>
                             </fieldset>
                         </div>
-
+                        
                         <div class="span4">
                             <label class="control-label" style="margin-top: 10px;"><b>Comentarios</b></label><br /><br />
                              <textarea style="width: 345px; height: 100px; margin-left: 180px;" name="txtComentarios" id="txtComentarios" disabled="disabled"  name="comments" id="comments"  > </textarea>
@@ -797,21 +805,21 @@
                                     <input onkeyup="requerirRepresentante()" style="width:200px;" type="text" name="txtNombMadre" id="txtNombMadre" disabled="disabled" checked="checked" onkeypress="return validarSoloLetras(event)"  />
                                 </div>
                             </div>
-
+                            
                             <div class="control-group">
                                 <label id="lbCedMadre" style="float:left;width:100px;margin-left:20px;"><b>N. C&eacute;dula</b></label>
                                 <div style="margin:5px 0 0 10px;">
                                     <input onkeyup="requerirRepresentante()" maxlength="10" style="width:200px;" type="text" name="txtCedMadre" id="txtCedMadre" disabled="disabled" onkeypress="return validarSoloNumeros(event)"  />
                                 </div>
                             </div>
-
+                            
                             <div class="control-group">
                                 <label id="lbOcupMadre" style="float:left;width:100px;margin-left:20px;"><b>Ocupaci&oacute;n</b></label>
                                 <div style="margin:5px 0 0 10px;">
                                     <input onkeyup="requerirRepresentante()" style="width:200px;" type="text" name="txtOcupMadre" id="txtOcupMadre" disabled="disabled" onkeypress="return validarSoloLetras(event)"  />
                                 </div>
                             </div>
-
+                            
                             <label style="width:50px;margin:20px 30px 0 30px;float:left;"><b>Pa&iacute;s</b></label>
                             <div style="margin:15px 0 0 10px;float: left;">
                                 <?php echo country_dropdown('cmbPaisMadre','cmbPaisMadre',
@@ -819,7 +827,7 @@
                             </div>
                         </fieldset>
                     </div>
-
+                    
                     <div class="span5" style="width:300px;margin: 20px 0 0 30px;">
                         <fieldset>
                             <legend style="width: 340px;">Padre</legend>
@@ -829,14 +837,14 @@
                                     <input onkeyup="requerirRepresentante()" style="width:200px;" type="text" name="txtNombPadre" id="txtNombPadre" disabled="disabled" onkeypress="return validarSoloLetras(event)"  />
                                 </div>
                             </div>
-
+                            
                             <div class="control-group">
                                 <label id="lbCedPadre" style="float:left;width:100px;margin-left:20px;"><b>N. C&eacute;dula</b></label>
                                 <div style="margin:5px 0 0 10px;">
                                     <input onkeyup="requerirRepresentante()" maxlength="10" style="width:200px;" type="text" name="txtCedPadre" id="txtCedPadre" disabled="disabled" onkeypress="return validarSoloNumeros(event)"  />
                                 </div>
                             </div>
-
+                            
                             <div class="control-group">
                                 <label id="lbOcupPadre" style="float:left;width:100px;margin-left:20px;"><b>Ocupaci&oacute;n</b></label>
                                 <div style="margin:5px 0 0 10px;">
@@ -857,5 +865,12 @@
                 </div>    
             </fieldset> 
         </form>
+        
+        <hr>
+
+        <footer>
+            <h6>Realizado por Sedita &nbsp;&nbsp; - &nbsp;&nbsp; &copy; Company 2012</h6>
+        </footer> 
+    
     </body>
 </html>

@@ -43,3 +43,9 @@ ERROR - 2013-04-23 04:39:41 --> Severity: Notice  --> Undefined variable: result
 ERROR - 2013-04-23 04:48:56 --> Severity: Notice  --> Undefined variable: cont C:\wamp\www\ci_sedita\application\libraries\cezpdf.php 1309
 ERROR - 2013-04-23 04:48:56 --> Severity: 8192  --> Function set_magic_quotes_runtime() is deprecated C:\wamp\www\ci_sedita\application\libraries\class.pdf.php 3130
 ERROR - 2013-04-23 04:48:56 --> Severity: 8192  --> Function set_magic_quotes_runtime() is deprecated C:\wamp\www\ci_sedita\application\libraries\class.pdf.php 3132
+ERROR - 2013-04-23 05:00:41 --> Severity: Notice  --> Undefined variable: result C:\wamp\www\ci_sedita\application\controllers\autocomplete.php 25
+ERROR - 2013-04-23 05:02:02 --> Severity: Notice  --> Undefined variable: ano_lectivo C:\wamp\www\ci_sedita\application\controllers\alumno.php 338
+ERROR - 2013-04-23 05:02:03 --> Severity: Notice  --> Undefined variable: cont C:\wamp\www\ci_sedita\application\libraries\cezpdf.php 1309
+ERROR - 2013-04-23 05:02:03 --> Severity: 8192  --> Function set_magic_quotes_runtime() is deprecated C:\wamp\www\ci_sedita\application\libraries\class.pdf.php 3130
+ERROR - 2013-04-23 05:02:03 --> Severity: 8192  --> Function set_magic_quotes_runtime() is deprecated C:\wamp\www\ci_sedita\application\libraries\class.pdf.php 3132
+ERROR - 2013-04-23 05:28:32 --> 404 Page Not Found --> index.html
