@@ -3918,9 +3918,9 @@ class grocery_CRUD extends grocery_CRUD_States
 		$unique_id = substr($label,0,1).substr(md5($label.$link_url),-8); //The unique id is used for class name so it must begin with a string
 		
 		$this->actions[$unique_id]  = (object)array(
-			'label' 		=> $label, 
+			'label' 	=> $label, 
 			'image_url' 	=> $image_url,
-			'link_url'		=> $link_url,
+			'link_url'      => $link_url,
 			'css_class' 	=> $css_class,
 			'url_callback' 	=> $url_callback,
 			'url_has_http'	=> substr($link_url,0,7) == 'http://' ? true : false

@@ -477,7 +477,7 @@
             $CI->cezpdf->ezText("Notas Adicionales :",9);
             $columnas = array("notas"=>"");
             $data = array();
-            $data[] = array("notas"=>utf8_decode($array[19]));             
+            $data[] = array("notas"=>utf8_decode($array[18]));             
                             
             $CI->cezpdf->ezTable($data, $columnas, '', array('width'=>480,
                                                              'shaded'=>0,

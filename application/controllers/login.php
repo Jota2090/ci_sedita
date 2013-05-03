@@ -14,7 +14,7 @@
                 $c = $this->input->post("txtClave");
                 
                 if($this->clslogin->login($u, $c)){
-                    redirect(site_url("main"));
+                    redirect(site_url("main/menu"));
                 }
                 else{
                     $data["error"]="<div class='alert alert-error' style='text-align:center; 
@@ -31,10 +31,10 @@
             }
             elseif($metodo="cerrar"){
                 $this->clslogin->logout();
-                redirect(site_url("main"));
+                redirect(site_url("main/menu"));
             }
             else{
-                redirect(site_url("main"));
+                redirect(site_url("main/menu"));
             }
         }
         

@@ -2,7 +2,7 @@
 <html lang="es">
     <head>
     	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title>Sedita Registro Alumno</title>
+        <title>Sedita</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="" />
         <meta name="Sedita" content="" />
@@ -35,7 +35,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                   </a>
-                  <a class="brand" href="<?=site_url("main")?>">Sistema Sedita</a>
+                  <a class="brand" href="<?=site_url("main/menu")?>">Sistema Sedita</a>
                   <div class="nav-collapse collapse">
                     <p class="navbar-text pull-right">
                         <a href="<?=site_url("login/cerrar")?>" class="navbar-link">Cerrar Sesion</a>
@@ -48,9 +48,9 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li class="dropdown-submenu">
-                                    <a tabindex="-1" href="<?=site_url("alumno")?>">Alumnos</a>
+                                    <a tabindex="-1" href="<?=site_url("alumno/nuevo/matricular")?>">Alumnos</a>
                                     <ul class="dropdown-menu">
-                                        <li><a tabindex="-1" href="<?=site_url("alumno/nuevoAlumno")?>">Matriculaci&oacute;n</a></li>
+                                        <li><a tabindex="-1" href="<?=site_url("alumno/nuevo/matricular")?>">Matriculaci&oacute;n</a></li>
                                         <li><a tabindex="-1" href="<?=site_url("alumno/consultar")?>">Consultar o Actualizar</a></li>
                                     </ul>
                                 </li>
@@ -63,10 +63,10 @@
                                     </ul>
                                 </li>
                                 <li class="dropdown-submenu">
-                                    <a tabindex="-1" href="<?=site_url("listados/nomina_alumnos")?>">Listados</a>
+                                    <a tabindex="-1" href="<?=site_url("listados/nuevo/nominas")?>">Listados</a>
                                     <ul class="dropdown-menu">
-                                        <li><a tabindex="-1" href="<?=site_url("listados/nomina_alumnos")?>">N&oacute;mina o Actas de Alumnos</a></li>
-
+                                        <li><a tabindex="-1" href="<?=site_url("listados/nuevo/nominas")?>">N&oacute;mina o Actas de Alumnos</a></li>
+                                        <li><a tabindex="-1" href="<?=site_url("listados/nuevo/hoja_matricula")?>">Hoja de Matr&iacute;cula</a></li>
                                     </ul>
                                 </li>
                             </ul>

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="" />
     <meta name="Sedita" content="" />
-	<base href="<?=site_url()?>" />
+    <base href="<?=site_url()?>" />
     
     <!-- Le styles -->
     <link href="assets/css/bootstrap.css" rel="stylesheet" />
@@ -25,11 +25,11 @@
     <style type="text/css">
         body {
             width: 1320px;
-            padding-top: 60px;
+            padding-top: 10px;
             padding-bottom: 40px;
             margin: 0 auto;
             font-family: Arial;
-        	font-size: 14px;        
+            font-size: 14px;
         }
         .sidebar-nav {
             padding: 9px 0;
@@ -57,10 +57,10 @@
             <img style="margin-left: 100px;" width="250px" alt="Imagen Login" src="assets/img/logo-escuela.png" />
         </div>
         <div class="span4">
-            <p style="margin-top: 20px;"><a class="btn btn-large btn-block btn-primary" type="button" href="<?=site_url("alumno/nuevoAlumno")?>" >Matriculaci&oacute;n de Estudiantes</a></p>
+            <p style="margin-top: 20px;"><a class="btn btn-large btn-block btn-primary" type="button" href="<?=site_url("alumno/matricular")?>" >Matriculaci&oacute;n de Estudiantes</a></p>
             <p style="margin-top: 20px;"><a class="btn btn-large btn-block btn-primary" type="button" href="<?=site_url("personal")?>" >Registro del Personal</a></p>
             <p style="margin-top: 20px;">
-                <a class="span6 btn btn-large btn-primary" type="button" href="<?=site_url("listados/nomina_alumnos")?>">Listados</a>
+                <a class="span6 btn btn-large btn-primary" type="button" href="<?=site_url("listados/nominas")?>">Listados</a>
                 <a class="span6 btn btn-large btn-primary" type="button" href="<?=site_url("alumno/consultar")?>">Actualizaci&oacute;n de Datos</a>
             </p>
             <p style="margin-top: 80px;">

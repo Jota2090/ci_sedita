@@ -1,4 +1,4 @@
-<?php
+ <?php
     if (! defined('BASEPATH'))
     exit ('No se puede ejecutar directamente este SCRIPT');
 
@@ -36,10 +36,11 @@
             return $info;
         }
         
-        function nuevoAlumno(){
+        function nuevo(){
             if(!$this->clslogin->check()) redirect(site_url("login"));
-            $data["link"]=base_url()."alumno/matricular";
-            $this->load->view("view_plantilla",$data); 
+            $funcion = $this->uri->segment(3);
+            $data["link"]=base_url()."alumno/".$funcion;
+            $this->load->view("view_plantilla",$data);
         }
         
         function matricular(){
@@ -276,9 +277,10 @@
             else return TRUE;
         }
                                  
-         function consultar($j,$c,$e,$p,$anioLect,$indBachill,$indInicio){
+         function consultar(){
             if(!$this->clslogin->check()) redirect(site_url("login"));
             
+            $general=new General();
             $j = $this->input->post("jornada");
             $c = $this->input->post("curso");
             $e = $this->input->post("espec");
@@ -286,7 +288,7 @@
             $anioLect= $this->input->post("strAnioLect");
             $indBachill=$this->input->post("indBachill");
             $indInicio = $this->input->post("indInicio");
-            $idAnioLect = $this->get_idAnioLect($anioLect);
+            $idAnioLect = $general->get_idAnioLect($anioLect);
 
             $crud = new grocery_CRUD();
             $crud->set_subject('Alumnos');  
@@ -359,8 +361,8 @@
             $output = $crud->render();
              
             if($indInicio == 0){   
-             $output->anio_lectivo= $this->cargar_aniosLectivos();
-             $output->jornada=$this->cargar_jornadas(); 
+             $output->anio_lectivo= $general->cargar_aniosLectivos();
+             $output->jornada=$general->cargar_jornadas(); 
              $output->menu=$this->load->view("view_menu_administrador");
              $this->load->view('alumno/view_consulta',$output);
             }

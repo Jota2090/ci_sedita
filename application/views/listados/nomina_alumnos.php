@@ -28,11 +28,11 @@
     <style type="text/css">
         body {
             width: 1320px;
-            padding-top: 60px;
+            padding-top: 10px;
             padding-bottom: 40px;
             margin: 0 auto;
             font-family: Arial;
-        	font-size: 14px;        
+            font-size: 14px;        
         }
         .sidebar-nav {
             padding: 9px 0;
@@ -278,14 +278,13 @@
   </head>
 
   <body data-spy="scroll" data-target=".bs-docs-sidebar">
-      <?=$menu?>
     <div class="container-fluid">
       <div class="row-fluid">
         <div class="span3">
             <div class="well sidebar-nav" style="width:300px;">
                 <ul class="nav nav-list">
                   <li class="nav-header">Alumnos</li>
-                  <li class="active"><a href="<?=site_url("listados/nomina_alumnos")?>">N&oacute;minas o Actas</a></li>
+                  <li class="active"><a href="<?=site_url("listados/nominas")?>">N&oacute;minas o Actas</a></li>
                   <li><a href="<?=site_url("listados/hoja_matricula")?>">Hoja de Matr&iacute;cula</a></li>
                   <br />
                   <li class="nav-header">Libretas</li>
@@ -393,13 +392,6 @@
         </div><!--/span-->
         <div class="span2"></div>
       </div><!--/row-->
-
-      <hr>
-
-      <footer>
-        <h6>Realizado por Sedita &nbsp;&nbsp; - &nbsp;&nbsp; &copy; Company 2012</h6>
-      </footer>
-
     </div><!--/.fluid-container-->
     
   </body>

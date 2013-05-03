@@ -2,16 +2,60 @@
     if (! defined('BASEPATH'))
     exit ('No se puede ejecutar directamente este SCRIPT');
 
-    class Listados extends alumno {
+    class Listados extends CI_Controller {
         
         function __construct(){
             parent::__construct();
             $this->load->library('grocery_CRUD');
             $this->load->model("mod_acta_calificaciones","acta");
             $this->load->model("mod_libreta","libreta");
+            $this->load->model("mod_alumno","alumno");
         }
         
-        function _remap($metodo){
+        function nuevo(){
+            if(!$this->clslogin->check()) redirect(site_url("login"));
+            $funcion = $this->uri->segment(3);
+            $data["link"]=base_url()."listados/".$funcion;
+            $this->load->view("view_plantilla",$data);
+        }
+        
+        function buscar_alumnos(){
+            if(!$this->clslogin->check()) redirect(site_url("login"));
+            $cobros=$this->uri->segment(3);
+            if($cobros=="cobros"):
+                $matricula=$this->uri->segment(4); $nombres=$this->uri->segment(5);
+                $apellidos=$this->uri->segment(6); $anl=$this->uri->segment(7);
+            else:
+                $matricula=$this->input->post("matricula"); $nombres=$this->input->post("nombres");
+                $apellidos=$this->input->post("apellidos"); $anl=$this->input->post("anl");
+            endif;
+            
+            $crud = new grocery_CRUD();
+            $crud->set_subject('Alumnos');  
+            $crud->set_theme('datatables');
+            $crud->set_table('alumno');
+            $crud->set_relation('alu_curso_paralelo_id','curso_paralelo','cp_id');
+            $crud->set_model('cursoParalelo_join');
+            $crud->columns('alu_matricula','alu_nombres','alu_apellidos','cur_nombre','esp_nombre','par_nombre','jor_nombre');
+            if($matricula!=""&&$matricula!=0){ echo "jajaja-".$matricula."-jajaja"; $crud->where('alu_matricula',$matricula);}
+            if($nombres!=""&&$nombres!=0){ $crud->like('alu_nombres',$nombres);}
+            if($apellidos!=""&&$apellidos!=0){ $crud->like('alu_apellidos',$apellidos);}
+            $crud->where('alu_ano_lectivo_id',$anl);
+            $crud->display_as('alu_matricula','Matricula');
+            $crud->display_as('alu_nombres','Nombres');
+            $crud->display_as('alu_apellidos','Apellidos');
+            $crud->display_as('cur_nombre','Curso');
+            $crud->display_as('esp_nombre','Especialización');
+            $crud->display_as('par_nombre','Paralelo');
+            $crud->display_as('jor_nombre','Jornada');
+            $crud->unset_add(); $crud->unset_edit(); $crud->unset_delete(); 
+            if($cobros=="cobros") $crud->add_action('Ver', '', 'facturacion/cobrar_pagar','ui-icon-printer');
+            else $crud->add_action('Imprimir', '', 'listados/imprimir_hm','ui-icon-printer');
+            $output = $crud->render();
+            $this->load->view('view_cruds',$output);
+        }
+        
+        /*function _remap($metodo){
             if(!$this->clslogin->check()){
                 redirect(site_url("login"));
             }
@@ -96,7 +140,7 @@
             else{
                 $this->nominas();
             }
-        }
+        }*/
         
         
         function nominas(){
@@ -104,7 +148,6 @@
             $data["jornada"] = $general->cargar_jornadas();
             $data["anioLect"]=$general->cargar_aniosLectivos();
             $data["anlId"]=$general->cargar_anlActual();
-            $data["menu"]=$this->load->view("view_menu_administrador");
             $this->load->view("listados/nomina_alumnos", $data);   
         }
         
@@ -114,7 +157,6 @@
             $data["jornada"] = $general->cargar_jornadas();
             $data["anioLect"]=$general->cargar_aniosLectivos();
             $data["anlId"]=$general->cargar_anlActual();
-            $data["menu"]=$this->load->view("view_menu_administrador");
             $this->load->view("listados/hoja_matricula", $data);   
         }
         
@@ -208,28 +250,17 @@
         }
         
         
-        function imp_hoja($c){
+        function imprimir_hm(){
             $general= new General();
+            $alu= new Alumno();
             $this->load->library('export_pdf'); 
-            $this->load->model('mod_alumno','alumno'); 
             
-            $j = $this->input->post("cmbJornada");
-            $e = $this->input->post("cmbEspec");
-            $p = $this->input->post("cmbParalelo");
-            $alu = $this->input->post("cmbAlumnos");
-            $anl = $this->input->post("cmbAnioLec");
-            
-            if($c<11||$c>14)
-                $e=-1;
-            
-            $cp = $general->encontrarIdCursoParalelo($j, $c, $e, $p);
-            $curso = $general->get_nom_curso($cp);
-            $jornada = $general->get_nom_jornada($j);
-            $ano_lectivo = $general->get_anio_lectivo($anl);
-            $alumno = $this->alumno->obtener_alumno($alu);
-            
-            foreach($alumno->result() as $alu)
-                $datos_alu = $this->autocompletar_alumno($alu->alu_matricula);
+            $idAlumno=$this->uri->segment(3);
+            $alumno = $this->alumno->obtener_alumno($idAlumno)->row();
+            $curso = $general->get_nom_curso($alumno->alu_curso_paralelo_id);
+            $jornada = $general->get_nom_jornada($alumno->jor_id);
+            $ano_lectivo = $general->get_anio_lectivo($alumno->alu_ano_lectivo_id);
+            $datos_alu = $alu->autocompletar_alumno($alumno->alu_matricula);
             
             $pdf = new export_pdf();
             $pdf->exportToPDF_Hoja_Matricula($datos_alu,$ano_lectivo,$curso,$jornada);

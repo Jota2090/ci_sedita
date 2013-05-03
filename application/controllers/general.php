@@ -18,64 +18,46 @@
             $this->load->model("mod_acta_calificaciones","acta");
         }
         
-        function _remap($m){
-            if(!$this->clslogin->check())
-            {
-                redirect(site_url("login"));
-            }
-            else{
-                if($m == "cargar_cursos"){      
-                    $j= $this->input->post("jornada");
-                    $n= $this->input->post("nivel");
-                    $r=$this->cargar_cursos($j,$n);
-                    echo $r;   
-                }
-                elseif($m == "cargar_niveles"){
-                    $m= $this->input->post("jornada");
-                    $r=$this->general->cargar_niveles($m);
-                    echo $r;  
-                }
-                elseif($m == "cargar_especializaciones"){
-                    $j= $this->input->post("jornada");
-                    $n= $this->input->post("curso");
-                    $r=$this->cargar_especializaciones($j,$n);
-                    echo $r;
-                }
-                elseif($m == "cargar_paralelos"){
-                    $j= $this->input->post("jornada");
-                    $n= $this->input->post("curso");
-                    $r=$this->cargar_paralelos($j,$n);
-                    echo $r;
-                }
-                elseif($m == "cargar_paralBachill"){
-                    $j= $this->input->post("jornada");
-                    $n= $this->input->post("curso");
-                    $o= $this->input->post("espec");
-                    $r=$this->cargar_paralBachill($j,$n,$o);
-                    echo $r;
-                }
-                elseif($m=="listar_alumnos"){
-                    $this->list_alu();
-                }
-            }
+        function generar_ruta(){
+            if(!$this->clslogin->check()){ redirect(site_url("login"));}
             
+            $keys= array_keys($_POST);
+            for($i=0; $i<count($keys); $i++):       $$keys[$i]= trim($_POST[$keys[$i]]);
+            endfor;
+            $id = $this->uri->segment(3);
+            if($id=="cobros"){
+                if($matricula=="") $matricula=0; if($nombres=="") $nombres=0;
+                if($apellidos=="") $apellidos=0;
+                $ruta=  base_url()."listados/buscar_alumnos/cobros/".$matricula."/".$nombres."/".$apellidos."/".$anl;
+            }
+            echo $ruta;
         }
         
+        function cargar_niveles(){
+            if(!$this->clslogin->check()){
+                redirect(site_url("login"));
+            }
+            
+            $m= $this->input->post("jornada");
+            $r=$this->general->cargar_niveles($m);
+            echo $r;
+        }
         
         function cargar_anlActual(){
+            if(!$this->clslogin->check()){
+                redirect(site_url("login"));
+            }
+            
             $anl_id = $this->general->verificar_anl(date("Y"));
             return $anl_id;
         }
 
-        /**
-            * Initialize cargar_jornadas
-            * Esta funci�n permite recorrer el array devuelto de la consulta de jornadas, para obtener un array 
-            * con los nombres nombres de las jornadas
-            * @access public
-            * @return array
-        */ 
         function cargar_jornadas()
         {
+            if(!$this->clslogin->check()){
+                redirect(site_url("login"));
+            }
+            
             $info=array();
             $info['0']="Seleccione una jornada";
             $rs=$this->general->cargar_jornadas();
@@ -84,17 +66,13 @@
             }
             return $info;
         }
-        
-        
-        /**
-            * Initialize cargar_anios_registro
-            * Esta funci�n permite recorrer el array devuelto de la consulta de a�os lectivos, para obtener un array 
-            * con los per�odos lectivos
-            * @access public
-            * @return array
-         */          
+                  
         function cargar_anios_registro()
         {
+            if(!$this->clslogin->check()){
+                redirect(site_url("login"));
+            }
+            
             $info=array();
             $rs=$this->general->cargar_anios_registro();
              foreach ($rs->result() as $fila){
@@ -102,17 +80,13 @@
             }
             return $info;
         }
-        
-        
-         /**
-            * Initialize cargar_aniosLectivos
-            * Esta funci�n permite recorrer el array devuelto de la consulta de a�os lectivos, para obtener un array 
-            * con los per�odos lectivos
-            * @access public
-            * @return array
-         */          
+                 
         function cargar_aniosLectivos()
         {
+            if(!$this->clslogin->check()){
+                redirect(site_url("login"));
+            }
+            
             $info=array();
             $rs=$this->general->cargar_aniosLectivos();
              foreach ($rs->result() as $fila){
@@ -121,17 +95,12 @@
             return $info;
         }
         
-        
-         /**
-            * Initialize get_idAnioLect
-            * Esta funci�n permite recorrer el array devuelto de la consulta del a�o lectivo que coincida con el par�metro enviado
-            * para obtener el id del a�o
-            * @access public
-            * @param string $anioLect
-            * @return integer
-         */
         function get_idAnioLect($anioLect)
-        {   
+        {
+            if(!$this->clslogin->check()){
+                redirect(site_url("login"));
+            }
+            
             if(date('n')<3)
                 $anioLect=$anioLect-1;
                 
@@ -143,40 +112,33 @@
             
             return $strAnLectId;
         }
-         
-         
-          /**
-            * Initialize cargar_cursos
-            * Esta funci�n permite recorrer el array devuelto de la consulta de cursos de acuerdo a la jornada y nivel
-            * devolviendo un string con los option que ser�n creadas en las vistas
-            * @access public
-            * @param string $jornada:id de la jornada
-            * @param string $nivel: id del nivel
-            * @return string
-         */
-        function cargar_cursos($jornada,$nivel)
+        
+        function cargar_cursos()
         {
+            if(!$this->clslogin->check()){
+                redirect(site_url("login"));
+            }
+            
+            $jornada= $this->input->post("jornada");
+            $nivel= $this->input->post("nivel");
             $rs=$this->general->cargar_cursos($jornada,$nivel);
             $info="";
             $info .="<option value='0'>Seleccione un curso</option>";
             foreach($rs->result() as $row){
                 $info .="<option value='".$row->cur_id."'>".$row->cur_nombre."</option>";
             }
-            return $info;
+            echo $info;
         }
         
         
-         /**
-            * Initialize cargar_especializaciones
-            * Esta funci�n permite recorrer el array devuelto de la consulta de especializaciones de acuerdo a la jornada y curso
-            * enviadas como par�metros, devolviendo un string con los option que ser�n creadas en las vistas
-            * @access public
-            * @param string $jornada:id de la jornada
-            * @param string $curso: id del curso
-            * @return string
-         */
-        function cargar_especializaciones($jornada,$curso)
+        function cargar_especializaciones()
         {
+            if(!$this->clslogin->check()){
+                redirect(site_url("login"));
+            }
+            
+            $jornada= $this->input->post("jornada");
+            $curso= $this->input->post("curso");
             $rs=$this->general->cargar_especializaciones($jornada,$curso);
             $info="";
             
@@ -185,21 +147,17 @@
             foreach($rs->result() as $row){
                 $info .="<option value='".$row->esp_id."'>".$row->esp_nombre."</option>";
             }
-            return $info;
+            echo $info;
         }
         
-        
-        /**
-            * Initialize cargar_paralelos
-            * Esta funci�n permite recorrer el array devuelto de la consulta de paralelos de acuerdo a la jornada y curso
-            * enviadas como par�metros, devolviendo un string con los option que ser�n creadas en las vistas
-            * @access public
-            * @param string $jornada:id de la jornada
-            * @param string $curso: id del curso
-            * @return string
-         */
-        function cargar_paralelos($jornada,$curso)
+        function cargar_paralelos()
         {
+            if(!$this->clslogin->check()){
+                redirect(site_url("login"));
+            }
+            
+            $jornada= $this->input->post("jornada");
+            $curso= $this->input->post("curso");
             $rs=$this->general->cargar_paralelos($jornada,$curso);
 
             $info="";
@@ -208,23 +166,18 @@
             foreach($rs->result() as $row){
                 $info .="<option value='".$row->par_id."'>".$row->par_nombre."</option>";
             }
-            return $info;
+            echo $info;
         }
         
-        
-         /**
-            * Initialize cargar_paralBachill
-            * Esta funci�n permite recorrer el array devuelto de la consulta de paralelos de 2do. y 3ero. 
-            * de Bachillerato de acuerdo a la jornada, curso y espec enviadas como par�metros, devolviendo
-            * un string con los option que ser�n creadas en las vistas
-            * @access public
-            * @param string $jornada:id de la jornada
-            * @param string $curso: id del curso
-            * @param string $espec: id de la especializaci�n
-            * @return string
-         */
-        function cargar_paralBachill($jornada,$curso,$espec)
+        function cargar_paralBachill()
         {
+            if(!$this->clslogin->check()){
+                redirect(site_url("login"));
+            }
+            
+            $jornada= $this->input->post("jornada");
+            $curso= $this->input->post("curso");
+            $espec= $this->input->post("espec");
             $rs=$this->general->cargar_paralBachill($jornada,$curso,$espec);
             
             $info="";
@@ -233,22 +186,15 @@
             foreach($rs->result() as $row){
                 $info .="<option value='".$row->par_id."'>".$row->par_nombre."</option>";
             }
-            return $info;
+            echo $info;
         }
         
-        
-        /**
-            * Initialize encontrarIdCursoParalelo
-            * Esta funci�n retorna el id del curso paralelo de acuerdo a los par�metros que sn eniados en la consulta
-            * @access public
-            * @param integer $jornada: id de la jornada
-            * @param integer $curso: id del curso
-            * @param integer $espec: id de la especializaci�n
-            * @param integer $paral: id del paralelo
-            * @return integer
-            */
         function encontrarIdCursoParalelo($jornada,$curso,$especializacion,$paralelo)
         {
+            if(!$this->clslogin->check()){
+                redirect(site_url("login"));
+            }
+            
             if(($curso!=12)&&($curso!=13))
             {
                 $especializacion=-1; 
@@ -268,6 +214,10 @@
         
         
         function get_nom_periodo($mod){
+            if(!$this->clslogin->check()){
+                redirect(site_url("login"));
+            }
+            
             $info = "";
             $rs=$this->general->nombre_periodo($mod);
             foreach ($rs->result() as $fila){
@@ -279,6 +229,10 @@
         
         
         function get_nom_jornada($j){
+            if(!$this->clslogin->check()){
+                redirect(site_url("login"));
+            }
+            
             $info = "";
             $rs=$this->general->nombre_jornada($j);
             foreach ($rs->result() as $fila){
@@ -289,6 +243,10 @@
         
         
         function get_nom_curso($cp){
+            if(!$this->clslogin->check()){
+                redirect(site_url("login"));
+            }
+            
             $info = "";
             $rs=$this->general->nombre_curso($cp);
             foreach ($rs->result() as $fila){
@@ -302,6 +260,10 @@
         
         
         function get_nom_especializacion($e){
+            if(!$this->clslogin->check()){
+                redirect(site_url("login"));
+            }
+            
             $info="";
             $rs=$this->general->nombre_especializacion($e);
             foreach ($rs->result() as $fila){
@@ -313,6 +275,10 @@
         
         
         function get_anio_lectivo($anl){
+            if(!$this->clslogin->check()){
+                redirect(site_url("login"));
+            }
+            
             $info = "";
             $rs=$this->general->nombre_anio_lectivo($anl);
             foreach ($rs->result() as $fila){
@@ -325,6 +291,10 @@
         
         
         function lista_alumnos($cp, $anl){
+            if(!$this->clslogin->check()){
+                redirect(site_url("login"));
+            }
+            
             $rs=$this->acta->listar_alumnos($cp,$anl);
             $info="";
             foreach($rs->result() as $row){
@@ -334,7 +304,11 @@
         }
         
         
-        function list_alu(){
+        function listar_alumnos(){
+            if(!$this->clslogin->check()){
+                redirect(site_url("login"));
+            }
+            
             $c = $this->input->post("cur");
             $j = $this->input->post("jor");
             $e = $this->input->post("esp");
