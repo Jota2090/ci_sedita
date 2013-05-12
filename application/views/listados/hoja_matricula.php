@@ -82,7 +82,7 @@
             </div><!--/.well -->
         </div>
         <div class="span9">
-            <div class="panel">
+            <div class="panel" style="padding-bottom: 0px; padding-top: 20px; margin-bottom: 10px;">
                 <form target="_blank" style="padding-right: 100px;" id="forma" name="forma" class="form-horizontal" action="<?=site_url("listados/imp_hoja_matricula")?>" method="post" >
                    <input type="hidden" id="indicador" name="indicador" />
                    <fieldset>

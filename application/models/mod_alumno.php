@@ -66,7 +66,7 @@
                             "alu_apellidos"=>utf8_encode(strtoupper($txtApellidos)),
                             "alu_pais"=>$cmbPais,
                             "alu_fecha_nacimiento"=>$fecha
-            );
+                          );
             $this->db->where($data);
             $rs=$this->db->get("alumno")->num_rows;
             
@@ -158,14 +158,17 @@
                             "alu_ano_lectivo_id"=>$cmbAnioLectivo,
                             "alu_estado"=>"a"
             );
-                            
-            $this->db->insert("alumno",$data);
+            if($txtId==="") $this->db->insert("alumno",$data);
+            else{
+                $this->db->where("alu_id",$txtId);
+                $this->db->update("alumno",$data);
+            }
             
             $this->db->select("alu_id");
             $this->db->where($data);
             $rs=$this->db->get("alumno")->row();
             
-            if($txtMatricula===""){
+            if($txtMatricula===""&&$txtId===""){
                 $matricula=$this->num_matricula($rs->alu_id);
                 $d = array("alu_matricula"=>$matricula);
                 $this->db->where("alu_id",$rs->alu_id);
@@ -221,9 +224,11 @@
             $this->db->join("categoria_alumno","cat_id=alu_categoria_alumno_id");
             $this->db->join("curso_paralelo","cp_id=alu_curso_paralelo_id");
             $this->db->join("curso","cp_curso_id=cur_id");
+            $this->db->join("nivel","cur_nivel_id=niv_id");
             $this->db->join("especializacion","cp_especializacion_id=esp_id");
             $this->db->join("paralelo","cp_paralelo_id=par_id");
-            $this->db->join("jornada","cp_jornada_id=jor_id"); 
+            $this->db->join("jornada","cp_jornada_id=jor_id");
+            $this->db->join("representante","alu_representante_id=rep_id"); 
             $this->db->where("alu_id",$idAlumno);
             $rs = $this->db->get();
             return $rs;
@@ -353,9 +358,25 @@
             * 
         */ 
         
-        function guardarRepresentante($dataRepresentante)
+        function guardarRepresentante($dataRepresentante,$txtIdRepre)
         {
-            $this->db->insert("representante",$dataRepresentante);
+            if($txtIdRepre==="") $this->db->insert("representante",$dataRepresentante);
+            else{
+                $this->db->where("rep_id",$txtIdRepre);
+                $this->db->update("representante",$dataRepresentante);
+            }
+        }
+        
+        function eliminar_alumno($id){
+            $data=array("alu_estado"=>"i");
+            $this->db->where("alu_id",$id);
+            $this->db->update("alumno",$data);
+        }
+        
+        function reactivar_alumno($id){
+            $data=array("alu_estado"=>"a");
+            $this->db->where("alu_id",$id);
+            $this->db->update("alumno",$data);
         }
         
     }

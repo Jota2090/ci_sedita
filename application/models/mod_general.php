@@ -265,7 +265,7 @@
             * @param integer $jornada: id de la jornada
             * @return string
         */
-        function cargar_niveles($jornada){
+        function cargar_niveles($jornada,$nivel=""){
             $this->db->distinct();
             $this->db->select("cur_nivel_id");
             $this->db->from("curso_paralelo");
@@ -281,7 +281,11 @@
                 $this->db->where("niv_id",($row1->cur_nivel_id));
                 $rs2= $this->db->get("nivel");
                 foreach($rs2->result() as $row2){
-                $info .="<option value='".$row2->niv_id."'>".$row2->niv_nombre."</option>";
+                    if($nivel==="") $info .="<option value='".$row2->niv_id."'>".$row2->niv_nombre."</option>";
+                    else{
+                        if($nivel==$row2->niv_id) $info .="<option selected='selected' value='".$row2->niv_id."'>".$row2->niv_nombre."</option>";
+                        else $info .="<option value='".$row2->niv_id."'>".$row2->niv_nombre."</option>";
+                    }
                 }
             }
             return $info;

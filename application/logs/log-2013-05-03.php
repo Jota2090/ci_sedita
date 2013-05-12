@@ -56,3 +56,6 @@ ERROR - 2013-05-03 04:31:18 --> Severity: Notice  --> Undefined index: t8 C:\wam
 ERROR - 2013-05-03 04:31:18 --> Severity: Notice  --> Undefined index: t9 C:\wamp\www\ci_sedita\application\libraries\export_pdf.php 597
 ERROR - 2013-05-03 04:31:18 --> Severity: Notice  --> Undefined index: t10 C:\wamp\www\ci_sedita\application\libraries\export_pdf.php 604
 ERROR - 2013-05-03 04:31:18 --> Severity: Notice  --> Undefined index: t11 C:\wamp\www\ci_sedita\application\libraries\export_pdf.php 611
+ERROR - 2013-05-03 05:02:20 --> Severity: Notice  --> Undefined variable: cont C:\wamp\www\ci_sedita\application\libraries\cezpdf.php 1309
+ERROR - 2013-05-03 05:02:21 --> Severity: 8192  --> Function set_magic_quotes_runtime() is deprecated C:\wamp\www\ci_sedita\application\libraries\class.pdf.php 3130
+ERROR - 2013-05-03 05:02:21 --> Severity: 8192  --> Function set_magic_quotes_runtime() is deprecated C:\wamp\www\ci_sedita\application\libraries\class.pdf.php 3132

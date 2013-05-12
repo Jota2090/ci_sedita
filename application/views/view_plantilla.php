@@ -51,7 +51,7 @@
                                     <a tabindex="-1" href="<?=site_url("alumno/nuevo/matricular")?>">Alumnos</a>
                                     <ul class="dropdown-menu">
                                         <li><a tabindex="-1" href="<?=site_url("alumno/nuevo/matricular")?>">Matriculaci&oacute;n</a></li>
-                                        <li><a tabindex="-1" href="<?=site_url("alumno/consultar")?>">Consultar o Actualizar</a></li>
+                                        <li><a tabindex="-1" href="<?=site_url("alumno/nuevo/consultar")?>">Consultar o Actualizar</a></li>
                                     </ul>
                                 </li>
                                 <li class="dropdown-submenu">

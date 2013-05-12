@@ -21,8 +21,8 @@
         
         function buscar_alumnos(){
             if(!$this->clslogin->check()) redirect(site_url("login"));
-            $cobros=$this->uri->segment(3);
-            if($cobros=="cobros"):
+            $segmento=$this->uri->segment(3);
+            if($segmento=="cobros"):
                 $matricula=$this->uri->segment(4); $nombres=$this->uri->segment(5);
                 $apellidos=$this->uri->segment(6); $anl=$this->uri->segment(7);
             else:
@@ -34,22 +34,39 @@
             $crud->set_subject('Alumnos');  
             $crud->set_theme('datatables');
             $crud->set_table('alumno');
-            $crud->set_relation('alu_curso_paralelo_id','curso_paralelo','cp_id');
-            $crud->set_model('cursoParalelo_join');
-            $crud->columns('alu_matricula','alu_nombres','alu_apellidos','cur_nombre','esp_nombre','par_nombre','jor_nombre');
-            if($matricula!=""&&$matricula!=0){ echo "jajaja-".$matricula."-jajaja"; $crud->where('alu_matricula',$matricula);}
-            if($nombres!=""&&$nombres!=0){ $crud->like('alu_nombres',$nombres);}
-            if($apellidos!=""&&$apellidos!=0){ $crud->like('alu_apellidos',$apellidos);}
+            if($segmento=="alumno"){
+                $crud->set_relation('alu_representante_id','representante','rep_id');
+                $crud->set_model('alumRepres_join');
+                $crud->columns('alu_matricula','alu_nombres','alu_apellidos','alu_domicilio','rep_nombres','rep_telefono');}
+            else{
+               $crud->set_relation('alu_curso_paralelo_id','curso_paralelo','cp_id');
+               $crud->set_model('cursoParalelo_join');
+               $crud->columns('alu_matricula','alu_nombres','alu_apellidos','cur_nombre','esp_nombre','par_nombre','jor_nombre');
+            }
+            if($matricula!=""&&$matricula!="0"){ $crud->where('alu_matricula',$matricula);}
+            if($nombres!=""&&$nombres!="0"){ $crud->like('alu_nombres',$nombres);}
+            if($apellidos!=""&&$apellidos!="0"){ $crud->like('alu_apellidos',$apellidos);}
             $crud->where('alu_ano_lectivo_id',$anl);
             $crud->display_as('alu_matricula','Matricula');
             $crud->display_as('alu_nombres','Nombres');
             $crud->display_as('alu_apellidos','Apellidos');
-            $crud->display_as('cur_nombre','Curso');
-            $crud->display_as('esp_nombre','Especialización');
-            $crud->display_as('par_nombre','Paralelo');
-            $crud->display_as('jor_nombre','Jornada');
-            $crud->unset_add(); $crud->unset_edit(); $crud->unset_delete(); 
-            if($cobros=="cobros") $crud->add_action('Ver', '', 'facturacion/cobrar_pagar','ui-icon-printer');
+            $crud->where('alu_estado','a');
+            if($segmento=="alumno"){
+                $crud->display_as('rep_nombres','Representante');
+                $crud->display_as('rep_telefono','Teléfono');
+                $crud->display_as('alu_domicilio','Domicilio');
+            }else{
+                $crud->display_as('cur_nombre','Curso');
+                $crud->display_as('esp_nombre','Especialización');
+                $crud->display_as('par_nombre','Paralelo');
+                $crud->display_as('jor_nombre','Jornada');
+            }
+            $crud->unset_operations();
+            if($segmento=="cobros") $crud->add_action('Ver', '', 'facturacion/cobrar_pagar','ui-icon-printer');
+            elseif($segmento=="alumno"){ 
+                $crud->add_action('Editar', '', 'alumno/editar','ui-icon-pencil');
+                $crud->add_action('Eliminar', '', 'alumno/eliminar','ui-icon-circle-minus');
+            }
             else $crud->add_action('Imprimir', '', 'listados/imprimir_hm','ui-icon-printer');
             $output = $crud->render();
             $this->load->view('view_cruds',$output);
@@ -154,7 +171,6 @@
         
         function hoja_matricula(){
             $general = new General();
-            $data["jornada"] = $general->cargar_jornadas();
             $data["anioLect"]=$general->cargar_aniosLectivos();
             $data["anlId"]=$general->cargar_anlActual();
             $this->load->view("listados/hoja_matricula", $data);   
@@ -168,7 +184,6 @@
             $data["per_lectivos"]=$this->libreta->cargar_anl();
             $data["anio_lectivo"] = $this->libreta->verificar_anl(date('Y'));
             $data["trimestre"] = $this->acta->cargar_trimestre();
-            $data["menu"]=$this->load->view("view_menu_administrador");
             $this->load->view("listados/cuadro_honor", $data);   
         }
         

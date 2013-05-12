@@ -113,80 +113,100 @@
             return $strAnLectId;
         }
         
-        function cargar_cursos()
+        function cargar_cursos($jornada="",$nivel="",$curso="")
         {
             if(!$this->clslogin->check()){
                 redirect(site_url("login"));
             }
             
-            $jornada= $this->input->post("jornada");
-            $nivel= $this->input->post("nivel");
+            if($jornada==="") $jornada= $this->input->post("jornada");
+            if($nivel==="") $nivel= $this->input->post("nivel");
             $rs=$this->general->cargar_cursos($jornada,$nivel);
             $info="";
             $info .="<option value='0'>Seleccione un curso</option>";
             foreach($rs->result() as $row){
-                $info .="<option value='".$row->cur_id."'>".$row->cur_nombre."</option>";
+                if($curso==="") $info .="<option value='".$row->cur_id."'>".$row->cur_nombre."</option>";
+                else{
+                    if($curso==$row->cur_id) $info .="<option selected='selected' value='".$row->cur_id."'>".$row->cur_nombre."</option>";
+                    else $info .="<option value='".$row->cur_id."'>".$row->cur_nombre."</option>";
+                }
             }
-            echo $info;
+            if($curso==="") echo $info;
+            else return $info;
         }
         
         
-        function cargar_especializaciones()
+        function cargar_especializaciones($jornada="",$curso="",$esp="")
         {
             if(!$this->clslogin->check()){
                 redirect(site_url("login"));
             }
             
-            $jornada= $this->input->post("jornada");
-            $curso= $this->input->post("curso");
+            if($jornada==="") $jornada= $this->input->post("jornada");
+            if($curso==="") $curso= $this->input->post("curso");
             $rs=$this->general->cargar_especializaciones($jornada,$curso);
             $info="";
             
             $info .="<option value='0'>Seleccione una especializaci&oacute;n</option>";
                         
             foreach($rs->result() as $row){
-                $info .="<option value='".$row->esp_id."'>".$row->esp_nombre."</option>";
+                if($esp==="") $info .="<option value='".$row->esp_id."'>".$row->esp_nombre."</option>";
+                else{
+                    if($esp==$row->esp_id) $info .="<option selected='selected' value='".$row->esp_id."'>".$row->esp_nombre."</option>";
+                    else $info .="<option value='".$row->esp_id."'>".$row->esp_nombre."</option>";
+                }
             }
-            echo $info;
+            if($esp==="") echo $info;
+            else return $info;
         }
         
-        function cargar_paralelos()
+        function cargar_paralelos($jornada="",$curso="",$par="")
         {
             if(!$this->clslogin->check()){
                 redirect(site_url("login"));
             }
             
-            $jornada= $this->input->post("jornada");
-            $curso= $this->input->post("curso");
+            if($jornada==="") $jornada= $this->input->post("jornada");
+            if($curso==="") $curso= $this->input->post("curso");
             $rs=$this->general->cargar_paralelos($jornada,$curso);
 
             $info="";
             $info .="<option value='0'>Seleccione un paralelo</option>";
                         
             foreach($rs->result() as $row){
-                $info .="<option value='".$row->par_id."'>".$row->par_nombre."</option>";
+                if($par==="") $info .="<option value='".$row->par_id."'>".$row->par_nombre."</option>";
+                else{
+                    if($par==$row->par_id) $info .="<option selected='selected' value='".$row->par_id."'>".$row->par_nombre."</option>";
+                    else $info .="<option value='".$row->par_id."'>".$row->par_nombre."</option>";
+                }
             }
-            echo $info;
+            if($par==="") echo $info;
+            else return $info;
         }
         
-        function cargar_paralBachill()
+        function cargar_paralBachill($jornada="",$curso="",$espec="",$par="")
         {
             if(!$this->clslogin->check()){
                 redirect(site_url("login"));
             }
             
-            $jornada= $this->input->post("jornada");
-            $curso= $this->input->post("curso");
-            $espec= $this->input->post("espec");
+            if($jornada==="") $jornada= $this->input->post("jornada");
+            if($curso==="") $curso= $this->input->post("curso");
+            if($espec==="") $espec= $this->input->post("espec");
             $rs=$this->general->cargar_paralBachill($jornada,$curso,$espec);
             
             $info="";
             $info .="<option value='0'>Seleccione un paralelo</option>";
-                        
+            
             foreach($rs->result() as $row){
-                $info .="<option value='".$row->par_id."'>".$row->par_nombre."</option>";
+                if($par==="") $info .="<option value='".$row->par_id."'>".$row->par_nombre."</option>";
+                else{
+                    if($par==$row->par_id) $info .="<option selected='selected' value='".$row->par_id."'>".$row->par_nombre."</option>";
+                    else $info .="<option value='".$row->par_id."'>".$row->par_nombre."</option>";
+                }
             }
-            echo $info;
+            if($par==="") echo $info;
+            else return $info;
         }
         
         function encontrarIdCursoParalelo($jornada,$curso,$especializacion,$paralelo)

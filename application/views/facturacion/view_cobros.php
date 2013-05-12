@@ -66,7 +66,7 @@
                 url: "<?=site_url("general/generar_ruta/cobros")?>",
                 data:"matricula="+matricula+"&nombres="+nombres+"&apellidos="+apellidos+"&anl="+anl,
                 success:function(info){
-                    $("#alumnos").html("<iframe style='border:none' width='100%' height='850px' src='"+info+"'></iframe>");
+                    $("#alumnos").html("<iframe style='border:none' width='100%' height='860px' src='"+info+"'></iframe>");
                 }
             });
         };
