@@ -25,9 +25,11 @@
             if($segmento=="cobros"):
                 $matricula=$this->uri->segment(4); $nombres=$this->uri->segment(5);
                 $apellidos=$this->uri->segment(6); $anl=$this->uri->segment(7);
+                $estado='a';
             else:
                 $matricula=$this->input->post("matricula"); $nombres=$this->input->post("nombres");
                 $apellidos=$this->input->post("apellidos"); $anl=$this->input->post("anl");
+                $estado=$this->input->post("estado");
             endif;
             
             $crud = new grocery_CRUD();
@@ -50,7 +52,7 @@
             $crud->display_as('alu_matricula','Matricula');
             $crud->display_as('alu_nombres','Nombres');
             $crud->display_as('alu_apellidos','Apellidos');
-            $crud->where('alu_estado','a');
+            $crud->where('alu_estado',$estado);
             if($segmento=="alumno"){
                 $crud->display_as('rep_nombres','Representante');
                 $crud->display_as('rep_telefono','Teléfono');
@@ -63,9 +65,12 @@
             }
             $crud->unset_operations();
             if($segmento=="cobros") $crud->add_action('Ver', '', 'facturacion/cobrar_pagar','ui-icon-printer');
-            elseif($segmento=="alumno"){ 
-                $crud->add_action('Editar', '', 'alumno/editar','ui-icon-pencil');
-                $crud->add_action('Eliminar', '', 'alumno/eliminar','ui-icon-circle-minus');
+            elseif($segmento=="alumno"){
+                if($estado==="a"){
+                    $crud->add_action('Editar', '', 'alumno/editar','ui-icon-pencil');
+                    $crud->add_action('Eliminar', '', 'alumno/eliminar','ui-icon-circle-minus');
+                }else{
+                    $crud->add_action('Reactivar', '', 'alumno/reactivar','ui-icon-circle-plus');}
             }
             else $crud->add_action('Imprimir', '', 'listados/imprimir_hm','ui-icon-printer');
             $output = $crud->render();

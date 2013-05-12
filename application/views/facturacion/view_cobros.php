@@ -70,6 +70,19 @@
                 }
             });
         };
+        
+        function filtros(){
+            var idBtn=document.getElementById("btnFiltros").value;
+            if(idBtn==="-"){
+                document.getElementById("filtros").style.display="none";
+                document.getElementById("btnFiltros").value="+";
+                document.getElementById("btnFiltros").title="Mostrar Filtros";
+            }else{
+                document.getElementById("filtros").style.display="";
+                document.getElementById("btnFiltros").value="-";
+                document.getElementById("btnFiltros").title="Ocultar Filtros";
+            }
+        };
     </script>
   </head>
 
@@ -97,11 +110,16 @@
             </div><!--/.well -->
         </div>
         <div class="span9">
-            <div class="panel" style="padding-bottom:0px;">
+            <div class="panel" style="padding-bottom: 0px; padding-top: 20px; margin-bottom: 10px;">
                 <form target="_blank" style="padding-right: 100px;" id="forma" name="forma" class="form-horizontal" action="<?=site_url("listados/imp_hoja_matricula")?>" method="post" >
                    <input type="hidden" id="indicador" name="indicador" />
                    <fieldset>
-                       <legend>Cobro de Mensualidades</legend>
+                       <legend>
+                            <div style="float:left;">Cobro de Mensualidades</div>
+                            <div style="float:right;"><input title="Ocultar Filtros" id="btnFiltros" type="button" onclick="filtros();" value="-"></div>
+                        </legend>
+                       
+                       <div id="filtros">
                         <div class="control-group" style="width:350px;float:left;">
                             <label id="lbMatricula" class="control-label"><b>Matr&iacute;cula</b></label>
                             <div class="controls">
@@ -130,6 +148,7 @@
                        <div class="control-group" style="width:650px; clear: both">
                             <a style="float:right; width: 125px;" href="javascript:buscar()" id="btnBuscar" class="btn btn-primary" ><i class="icon-search"></i>Buscar</a>
                         </div>
+                    </div>
                    </fieldset>
                 </form>
             </div>

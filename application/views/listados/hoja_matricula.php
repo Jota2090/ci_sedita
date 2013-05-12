@@ -56,6 +56,19 @@
                 }
             });
         };
+        
+        function filtros(){
+            var idBtn=document.getElementById("btnFiltros").value;
+            if(idBtn==="-"){
+                document.getElementById("filtros").style.display="none";
+                document.getElementById("btnFiltros").value="+";
+                document.getElementById("btnFiltros").title="Mostrar Filtros";
+            }else{
+                document.getElementById("filtros").style.display="";
+                document.getElementById("btnFiltros").value="-";
+                document.getElementById("btnFiltros").title="Ocultar Filtros";
+            }
+        }
     </script>
   </head>
 
@@ -86,35 +99,41 @@
                 <form target="_blank" style="padding-right: 100px;" id="forma" name="forma" class="form-horizontal" action="<?=site_url("listados/imp_hoja_matricula")?>" method="post" >
                    <input type="hidden" id="indicador" name="indicador" />
                    <fieldset>
-                       <legend>Hoja de Matr&iacute;cula</legend>
-                        <div class="control-group" style="width:350px;float:left;">
-                            <label id="lbMatricula" class="control-label"><b>Matr&iacute;cula</b></label>
-                            <div class="controls">
-                                <input maxlength="9" style="width:90px;" type="text" name="txtMatricula" id="txtMatricula"  onkeypress="return validarSoloNumeros(event)" >
-                            </div>
-                        </div>
-                        
-                        <div class="control-group" style="width:300px;float:left;" >
-                            <label class="control-label"  ><b>A&ntilde;o Lect&iacute;vo</b></label>
-                            <div class="controls">
-                                <?php 
-                                    $js = 'id="cmbAnioLec" style="width:130px"';
-                                    echo form_dropdown("cmbAnioLec",$anioLect, $anlId, $js);
-                                ?>
-                            </div>
-                        </div>
+                       <legend>
+                            <div style="float:left;">Hoja de Matr&iacute;cula</div>
+                            <div style="float:right;"><input title="Ocultar Filtros" id="btnFiltros" type="button" onclick="filtros();" value="-"></div>
+                        </legend>
                        
-                       <div class="control-group" style="width:800px; clear: both">
-                            <label id="lbMatricula" class="control-label" style="margin-top: 5px;"><b>Alumno</b></label>
-                            <div class="controls" style="margin-top: 5px;">
-                                <input style="float:left; width:220px;" placeholder="Nombres" type="text" name="txtNombres" id="txtNombres"  onkeypress="return validarSoloLetras(event)" >
-                                <input style="float:left; margin-left: 10px; width:220px;" placeholder="Apellidos" type="text" name="txtApellidos" id="txtApellidos"  onkeypress="return validarSoloLetras(event)" >
+                       <div id="filtros">
+                            <div class="control-group" style="width:350px;float:left;">
+                                <label id="lbMatricula" class="control-label"><b>Matr&iacute;cula</b></label>
+                                <div class="controls">
+                                    <input maxlength="9" style="width:90px;" type="text" name="txtMatricula" id="txtMatricula"  onkeypress="return validarSoloNumeros(event)" >
+                                </div>
                             </div>
-                        </div>
-                       
-                       <div class="control-group" style="width:650px; clear: both">
-                            <a style="float:right; width: 125px;" href="javascript:buscar()" id="btnBuscar" class="btn btn-primary" ><i class="icon-search"></i>Buscar</a>
-                        </div>
+
+                            <div class="control-group" style="width:300px;float:left;" >
+                                <label class="control-label"  ><b>A&ntilde;o Lect&iacute;vo</b></label>
+                                <div class="controls">
+                                    <?php 
+                                        $js = 'id="cmbAnioLec" style="width:130px"';
+                                        echo form_dropdown("cmbAnioLec",$anioLect, $anlId, $js);
+                                    ?>
+                                </div>
+                            </div>
+
+                            <div class="control-group" style="width:800px; clear: both">
+                                <label id="lbMatricula" class="control-label" style="margin-top: 5px;"><b>Alumno</b></label>
+                                <div class="controls" style="margin-top: 5px;">
+                                    <input style="float:left; width:220px;" placeholder="Nombres" type="text" name="txtNombres" id="txtNombres"  onkeypress="return validarSoloLetras(event)" >
+                                    <input style="float:left; margin-left: 10px; width:220px;" placeholder="Apellidos" type="text" name="txtApellidos" id="txtApellidos"  onkeypress="return validarSoloLetras(event)" >
+                                </div>
+                            </div>
+
+                            <div class="control-group" style="width:650px; clear: both">
+                                <a style="float:right; width: 125px;" href="javascript:buscar()" id="btnBuscar" class="btn btn-primary" ><i class="icon-search"></i>Buscar</a>
+                            </div>
+                       </div>
                    </fieldset>
                 </form>
             </div>

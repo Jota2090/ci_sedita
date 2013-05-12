@@ -28,15 +28,29 @@
             var nombres = $("#txtNombres").val();
             var apellidos = $("#txtApellidos").val();
             var anl = $("#cmbAnioLec").find(":selected").val();
+            var estado = $("#estado").find(":selected").val();
             
             $.ajax({
                 type:"post",
                 url: "<?=site_url("listados/buscar_alumnos/alumno")?>",
-                data:"matricula="+matricula+"&nombres="+nombres+"&apellidos="+apellidos+"&anl="+anl,
+                data:"matricula="+matricula+"&nombres="+nombres+"&apellidos="+apellidos+"&anl="+anl+"&estado="+estado,
                 success:function(info){
                     $("#alumnos").html(info);
                 }
             });
+        };
+        
+        function filtros(){
+            var idBtn=document.getElementById("btnFiltros").value;
+            if(idBtn==="-"){
+                document.getElementById("filtros").style.display="none";
+                document.getElementById("btnFiltros").value="+";
+                document.getElementById("btnFiltros").title="Mostrar Filtros";
+            }else{
+                document.getElementById("filtros").style.display="";
+                document.getElementById("btnFiltros").value="-";
+                document.getElementById("btnFiltros").title="Ocultar Filtros";
+            }
         };
     </script>
         
@@ -83,37 +97,51 @@
                 <form target="_blank" style="padding-right: 100px;" id="forma" name="forma" class="form-horizontal" action="<?=site_url("listados/exportar")?>" method="post" >
                    <input type="hidden" id="indicador" name="indicador" />
                    <fieldset>
-                       <legend>Alumnos</legend>
+                       <legend>
+                            <div style="float:left;">Alumnos</div>
+                            <div style="float:right;"><input title="Ocultar Filtros" id="btnFiltros" type="button" onclick="filtros();" value="-"></div>
+                        </legend>
                        <!--<div class="control-group span5" style="margin:5px 0px 0 0; float:left;">-->
-                        <div class="control-group" style="width:350px;float:left;">
-                            <label id="lbMatricula" class="control-label"><b>Matr&iacute;cula</b></label>
-                            <div class="controls">
-                                <input maxlength="9" style="width:90px;" type="text" name="txtMatricula" id="txtMatricula"  onkeypress="return validarSoloNumeros(event)" >
-                            </div>
-                        </div>
+                       <div id="filtros">
+                        <div class="control-group" style="width:650px;">
+                             <div class="controls">
+                                 <select id="estado" name="estado" style="width:110px; float:right;">
+                                     <option value="a">Activos</option>
+                                     <option value="i">Inactivos</option>
+                                 </select>
+                             </div>
+                            <label id="lbEstado" class="control-label" style="float:right; margin-right:30px "><b>Estado</b></label>
+                         </div>
 
-                        <div class="control-group" style="width:300px;float:left;" >
-                            <label class="control-label"  ><b>A&ntilde;o Lect&iacute;vo</b></label>
-                            <div class="controls">
-                                <?php 
-                                    $js = 'id="cmbAnioLec" style="width:130px"';
-                                    echo form_dropdown("cmbAnioLec",$anioLect, $anlId, $js);
-                                ?>
-                            </div>
-                        </div>
-
-                        <div class="control-group" style="width:800px; clear: both">
-                             <label id="lbMatricula" class="control-label" style="margin-top: 5px;"><b>Alumno</b></label>
-                             <div class="controls" style="margin-top: 5px;">
-                                 <input style="float:left; width:220px;" placeholder="Nombres" type="text" name="txtNombres" id="txtNombres"  onkeypress="return validarSoloLetras(event)" >
-                                 <input style="float:left; margin-left: 10px; width:220px;" placeholder="Apellidos" type="text" name="txtApellidos" id="txtApellidos"  onkeypress="return validarSoloLetras(event)" >
+                         <div class="control-group" style="width:350px;float:left;">
+                             <label id="lbMatricula" class="control-label"><b>Matr&iacute;cula</b></label>
+                             <div class="controls">
+                                 <input maxlength="9" style="width:90px;" type="text" name="txtMatricula" id="txtMatricula"  onkeypress="return validarSoloNumeros(event)" >
                              </div>
                          </div>
 
-                        <div class="control-group" style="width:650px; clear: both">
-                            <a style="float:right; width: 125px;" href="javascript:buscar()" id="btnBuscar" class="btn btn-primary" ><i class="icon-search"></i>Buscar</a>
-                        </div>
-                         
+                         <div class="control-group" style="width:300px;float:left;" >
+                             <label class="control-label"  ><b>A&ntilde;o Lect&iacute;vo</b></label>
+                             <div class="controls">
+                                 <?php 
+                                     $js = 'id="cmbAnioLec" style="width:130px"';
+                                     echo form_dropdown("cmbAnioLec",$anioLect, $anlId, $js);
+                                 ?>
+                             </div>
+                         </div>
+
+                         <div class="control-group" style="width:800px; clear: both">
+                              <label id="lbMatricula" class="control-label"><b>Alumno</b></label>
+                              <div class="controls">
+                                  <input style="float:left; width:220px;" placeholder="Nombres" type="text" name="txtNombres" id="txtNombres"  onkeypress="return validarSoloLetras(event)" >
+                                  <input style="float:left; margin-left: 10px; width:220px;" placeholder="Apellidos" type="text" name="txtApellidos" id="txtApellidos"  onkeypress="return validarSoloLetras(event)" >
+                              </div>
+                          </div>
+
+                         <div class="control-group" style="width:650px; clear: both">
+                             <a style="float:right; width: 125px;" href="javascript:buscar()" id="btnBuscar" class="btn btn-primary" ><i class="icon-search"></i>Buscar</a>
+                         </div>
+                       </div>
                    </fieldset> 
                 </form>
             </div>

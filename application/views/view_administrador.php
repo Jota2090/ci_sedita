@@ -76,13 +76,6 @@
         </div>
         <div class="span2"></div>
       </div><!--/row-->
-
-      <hr>
-
-      <footer>
-        <h6>Realizado por Sedita &nbsp;&nbsp; - &nbsp;&nbsp; &copy; Company 2012</h6>
-      </footer>
-
     </div><!--/.fluid-container-->
     
   </body>
