@@ -7,12 +7,18 @@
         function __construct(){
     		parent::__construct();
             $this->load->library('grocery_CRUD');
-            $this->load->model("mod_alumno2","alumno");
             $this->load->model("mod_personal","personal");
             $this->load->model("mod_libreta","libreta");
     	}
+        
+        function nuevo(){
+            if(!$this->clslogin->check()) redirect(site_url("login"));
+            $funcion = $this->uri->segment(3);
+            $data["link"]=base_url()."personal/".$funcion;
+            $this->load->view("view_plantilla",$data);
+        }
      
-        function _remap($metodo){
+        /*function _remap($metodo){
             if(!$this->clslogin->check()){
 				redirect(site_url("login"));
 			}
@@ -25,7 +31,7 @@
                     $this->guardar($n);
             }
             elseif($metodo=="cd_guardar"){
-                $c=$this->input->post("cur");
+                
                 
                 if($c==""||$c==null)
                     $this->imparte();
@@ -44,24 +50,84 @@
             else{
                 $this->reg_personal();
             }
-        }
+        }*/
         
-        function reg_personal(){
+        function registro(){
+            if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
+            
+            $general = new General();
             $data["cargos"]=$this->personal->cargar_tipo_personal();
-            $data["anio_lectivo"]=$this->libreta->cargar_anl();
-            $data["anl"] = $this->libreta->verificar_anl(date('Y'));
-            $data["menu"]=$this->load->view("view_menu_administrador");
+            $data["anioLect"]=$general->cargar_aniosLectivos();
+            $data["anlId"]=$general->cargar_anlActual();
             $this->load->view("personal/registro_personal",$data);   
         }
         
-        function per_consultar(){
+        function guardar(){
+            if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
+            
+            $this->personal->guardar_personal();
+            echo "<script>alert('Los datos del personal han sido guardados con exito.');
+                    window.location.href='".base_url()."personal/registro/';
+                  </script>";
+        }
+        
+        function asignacion_cursos(){
+            if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
+            
+            $general = new General();
+            $data["anio_lectivo"]=$general->cargar_aniosLectivos();
+            $data["anl"] = $general->cargar_anlActual();
+            $data["jornada"]= $general->cargar_jornadas();
+            $data["profesor"] = $this->personal->cargar_profesor();
+            $this->load->view("personal/imparte",$data);   
+        }
+        
+        function cargar_cur_dir(){
+            if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
+            
+            $p=$this->input->post("per");
+            $anl=$this->input->post("anl");
+            
+            $crud = new grocery_CRUD();
+            $crud->set_theme('datatables');
+            $crud->set_table('personal_curso');
+            $crud->set_subject('Cursos y Dirigentes');
+            $crud->set_relation('pc_materia_id','materia','mat_nombre');
+            $crud->set_model('cursoParaleloPersonal_join');
+            $crud->columns('pc_materia_id','cur_nombre','esp_nombre','par_nombre','jor_nombre','pc_dirigente');
+            $crud->where('pc_personal_id',$p);
+            $crud->where('pc_anio_lectivo_id',$anl);
+            $crud->display_as('cur_nombre','Curso');
+            $crud->display_as('esp_nombre','Especialización');
+            $crud->display_as('par_nombre','Paralelo');
+            $crud->display_as('jor_nombre','Jornada');
+            $crud->display_as('pc_dirigente','Dirige');
+            $crud->display_as('pc_materia_id','Materia');
+            $crud->unset_add();$crud->unset_edit();
+            $output = $crud->render();
+            
+            $this->load->view("view_cruds",$output);
+        }
+        
+        function cd_guardar(){
+            if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
+            $this->personal->cd_guardar();
+            $this->cargar_cur_dir();
+        }
+        
+        function cargar_materias(){
+            if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
+            $this->personal->cargar_mat_curso();
+        }
+        
+        function consultar(){
             $ind=$this->input->post("ind");
             
             $crud = new grocery_CRUD();
 
-			$crud->set_theme('datatables');
-			$crud->set_table('personal');
-			$crud->set_subject('Personal Docente');
+            $crud->set_theme('datatables');
+            $crud->set_table('personal');
+            $crud->set_subject('Personal Docente');
             $crud->display_as('per_cargo_id','Cargo');
             $crud->display_as('per_nombres','Nombres');
             $crud->display_as('per_apellidos','Apellidos');
@@ -74,25 +140,22 @@
             $crud->callback_before_delete(array($this,'personal_before_delete'));
             $crud->where('per_estado','a');
             $crud->unset_columns('per_id','per_anio_lectivo_id','per_domicilio','per_comentarios','per_estado');
-            $crud->unset_add();
+            $crud->unset_operations();
+            $crud->add_action('Editar', '', 'personal/editar','ui-icon-pencil');
+            $crud->add_action('Eliminar', '', 'personal/eliminar','ui-icon-circle-minus');
             
             if($ind>0){
                 $nom=$this->input->post("nom");
                 $ape=$this->input->post("ape");
                 
-                if($nom!=""&&$nom!=null)
-                    $crud->like('per_nombres',$nom);
-                
-                if($ape!=""&&$ape!=null) 
-                    $crud->or_like('per_apellidos',$ape);
+                if($nom!=""&&$nom!=null) $crud->like('per_nombres',$nom);
+                if($ape!=""&&$ape!=null) $crud->or_like('per_apellidos',$ape);
                     
                 $output = $crud->render();
-            
-                $this->load->view("ajax/personal_curso_dirigente",$output);
+                $this->load->view("view_cruds",$output);
             }
             else{
                 $output = $crud->render();
-                $output->menu=$this->load->view("view_menu_administrador");
                 $this->load->view("personal/actualizar_personal",$output);   
             }
         }
@@ -110,102 +173,7 @@
             
             return true;
         }
-        
-        function imparte(){
-            $crud = new grocery_CRUD();
 
-			$crud->set_theme('datatables');
-			$crud->set_table('personal_curso');
-			$crud->set_subject('Cursos y Dirigentes');
-            $crud->where('pc_personal_id',0);
-            $crud->display_as('pc_curso_id','Curso');
-            $crud->display_as('pc_especializacion_id','Especializacion');
-            $crud->display_as('pc_paralelo_id','Par.');
-            $crud->display_as('pc_jornada_id','Jornada');
-            $crud->display_as('pc_dirigente','Dirige');
-            $crud->display_as('pc_materia_id','Materia');
-            $crud->unset_columns('pc_personal_id','pc_anio_lectivo_id');
-            $crud->unset_add();$crud->unset_edit();
-            $output = $crud->render();
-            
-            $output->anio_lectivo=$this->libreta->cargar_anl();
-            $output->anl = $this->libreta->verificar_anl(date('Y'));
-            $output->nivel = $this->alumno->cargar_niveles();
-            $output->curso = $this->alumno->cargar_curso(0);
-            $output->jornada = $this->alumno->cargar_jornadas();
-            $output->profesor = $this->personal->cargar_profesor();
-            $output->menu=$this->load->view("view_menu_administrador");
-            $this->load->view("personal/imparte",$output);   
-        }
-        
-        function guardar($n){
-            $c=$this->input->post("cmbCargo");
-            $anl=$this->input->post("cmbAnioLectivo");
-            $ap=$this->input->post("txtApellidos");
-            $tel=$this->input->post("txtTelefono");
-            $cell=$this->input->post("txtCell");
-            $ced=$this->input->post("txtCedula");
-            $dom=$this->input->post("txtDomicilio");
-            $com=$this->input->post("txtComentarios");
-            
-            $this->personal->guardar_personal($n,$ap,$ced,$dom,$tel,$cell,$anl,$com,$c);
-            
-            $this->reg_personal();
-        }
-        
-        function cd_guardar($c){
-            $e=$this->input->post("esp");
-            $par=$this->input->post("par");
-            $j=$this->input->post("jor");
-            $m=$this->input->post("mat");
-            $d=$this->input->post("dir");
-            $per=$this->input->post("per");
-            $anl=$this->input->post("anl");
-            
-            if($d!="SI")
-                $d="--";
-            
-            if($c<11||$c>14)
-                $e=-1;
-                
-            $this->personal->cd_guardar($c,$e,$par,$j,$m,$d,$per,$anl);
-            
-            $this->listar_pc();
-        }
-        
-        function listar_pc(){
-            $p=$this->input->post("per");
-            $anl=$this->input->post("anl");
-            
-            $crud = new grocery_CRUD();
-
-			$crud->set_theme('datatables');
-			$crud->set_table('personal_curso');
-			$crud->set_subject('Cursos y Dirigentes');
-            
-            $crud->set_relation('pc_curso_id','curso','cur_nombre');
-            $crud->set_relation('pc_especializacion_id','especializacion','esp_nombre');
-            $crud->set_relation('pc_paralelo_id','paralelo','par_nombre');
-            $crud->set_relation('pc_jornada_id','jornada','jor_nombre');
-            $crud->set_relation('pc_materia_id','materia','mat_nombre');
-            $crud->where('pc_personal_id',$p);
-            $crud->where('pc_anio_lectivo_id',$anl);
-            
-            $crud->display_as('pc_curso_id','Curso');
-            $crud->display_as('pc_especializacion_id','Especializacion');
-            $crud->display_as('pc_paralelo_id','Par.');
-            $crud->display_as('pc_jornada_id','Jornada');
-            $crud->display_as('pc_dirigente','Dirige');
-            $crud->display_as('pc_materia_id','Materia');
-            
-            $crud->unset_columns('pc_personal_id','pc_anio_lectivo_id');
-            $crud->unset_add();$crud->unset_edit();
-            
-            $output = $crud->render();
-            
-            $this->load->view("ajax/personal_curso_dirigente",$output);
-        }
-        
     }
     
 ?>

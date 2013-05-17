@@ -28,8 +28,8 @@
         }
         
         function matricular(){
+            if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
             $general=new General();
-            if(!$this->clslogin->check()) redirect(site_url("login"));
             $data["categoria_alumno"]= $this->cargar_categorias(); 
             $data["jornada"]= $general->cargar_jornadas();
             $data["anLects"] = $general->cargar_anios_registro();
@@ -37,8 +37,7 @@
         }
         
         function consultar(){
-            if(!$this->clslogin->check()) redirect(site_url("login"));
-            
+            if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
             $general=new General();
             $data["anioLect"] = $general->cargar_aniosLectivos();
             $data["anlId"] = $general->cargar_anlActual();
@@ -46,7 +45,7 @@
         }
         
         function editar(){
-            if(!$this->clslogin->check()) redirect(site_url("login"));
+            if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
             $id=$this->uri->segment(3);
             $general=new General();
             $data["categoria_alumno"]= $this->cargar_categorias(); 
@@ -58,7 +57,7 @@
         }
         
         function eliminar(){
-            if(!$this->clslogin->check()) redirect(site_url("login"));
+            if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
             $id=$this->uri->segment(3); $eliminar=$this->uri->segment(4);
             
             if($eliminar=="eliminar"){
@@ -74,7 +73,7 @@
         }
         
         function reactivar(){
-            if(!$this->clslogin->check()) redirect(site_url("login"));
+            if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
             $id=$this->uri->segment(3); $reactivar=$this->uri->segment(4);
             
             if($reactivar=="reactivar"){
@@ -90,13 +89,13 @@
         }
         
         function datosRepetidos(){
+            if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
             $rs=$this->alumno->datosRepetidos();
             echo $rs;
         }
        
         function cargar_categorias(){
-            if(!$this->clslogin->check()) redirect(site_url("login"));
-            
+            if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
             $info=array();
             $rs=$this->alumno->cargar_categorias();
             foreach ($rs->result() as $fila){
@@ -106,7 +105,7 @@
         }
         
         function num_Alumnos(){
-            if(!$this->clslogin->check()) redirect(site_url("login"));
+            if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
             $jornada= $this->input->post("jornada");
             $curso= $this->input->post("curso");
             $espec= $this->input->post("espec");
@@ -127,8 +126,7 @@
         }
         
         function autocompletar_alumno($m=''){
-            if(!$this->clslogin->check()) redirect(site_url("login"));
-            
+            if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
             if($m=='') $matricula= $this->input->post("alu_matricula");
             else $matricula=$m;
             $rs=$this->alumno->obtener_alumnoRepresentante($matricula);
@@ -154,7 +152,7 @@
         }
         
         function guardar(){
-            if(!$this->clslogin->check()) redirect(site_url("login"));
+            if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
             $general=new General();
             $keys= array_keys($_POST);
             for($i=0; $i<count($keys); $i++):       $$keys[$i]= trim($_POST[$keys[$i]]);
@@ -185,7 +183,7 @@
         }
         
         function guardarRepresentante($opcRepresent,$txtIdRepre){
-            if(!$this->clslogin->check()) redirect(site_url("login"));
+            if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
             if($opcRepresent=="m")
             {
                 $dataRepresentante = array(
@@ -245,7 +243,7 @@
         }
         
         function alumnoRepetidoCurso(){
-            if(!$this->clslogin->check()) redirect(site_url("login"));
+            if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
             $general=new General();
             $cmbJornada=$this->input->post("jornada"); $cmbCurso=$this->input->post("curso");
             $cmbParalelo=$this->input->post("paralelo"); $cmbEspec=$this->input->post("especializacion");

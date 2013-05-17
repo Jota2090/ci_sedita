@@ -10,7 +10,6 @@
         
         function insertar_paralelo(){
             $data = array("par_nombre"=>$this->input->post("paralelo"));
-            
             $this->db->insert("paralelo",$data);
         }
     }

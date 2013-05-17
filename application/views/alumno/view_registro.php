@@ -506,9 +506,9 @@
             
             function registrar(){
                 var cont=0;
-                cont=require();
+                cont=require_alumno();
                 
-                if(cont>0){ alert("LLene los campos requeridos"+cont); return}
+                if(cont>0){ alert("LLene los campos requeridos"); return}
                 else{
                     var matricula=$("#txtMatricula").val();
                     var id=$("#txtId").val();
@@ -676,9 +676,7 @@
                             <li><select id="cmbCurso" name="cmbCurso" disabled="disabled" ><?echo $cur;?></select></li>
                             <br />
                             <li><b>Especializaci&oacute;n </b></li>
-                            <li>
-                                <select id="cmbEspec" name="cmbEspec" disabled="disabled" ><?echo $esp;?></select>
-                            </li>
+                            <li><select id="cmbEspec" name="cmbEspec" disabled="disabled" ><?echo $esp;?></select></li>
                             <br />
                             <li><b>Paralelo </b></li>
                             <li><select id="cmbParalelo" name="cmbParalelo" disabled="disabled" ><?echo $par;?></select></li>

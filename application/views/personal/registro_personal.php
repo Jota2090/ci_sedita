@@ -19,13 +19,14 @@
         <script src="assets/js/jquery-bootstrap.js"></script>
         <script src="assets/js/bootstrap-alert.js"></script>
         <script src="assets/js/bootstrap-modal.js"></script>
-        <script src="assets/js/bootstrap-dropdown.js"></script> 
+        <script src="assets/js/bootstrap-dropdown.js"></script>
+        <script src="js/misfunciones.js"></script> 
         
         <style type="text/css">
             body {
                 width: 1320px;
-                padding-top: 60px;
-                padding-bottom: 40px;
+                padding-top: 10px;
+                padding-bottom: 10px;
                 margin: 0 auto;
                 font-family: Arial;
             	font-size: 14px;        
@@ -37,135 +38,23 @@
         
         <script>
             function guardar(){
-                var nombre = $("#txtNombres").val();
-                var apellido = $("#txtApellidos").val();
-                var domicilio = $("#txtDomicilio").val();
-                var telefono = $("#txtTelefono").val();
-                var cell = $("#txtCell").val();
-                var cedula = $("#txtCedula").val();
+                var cont=0;
+                cont=require_personal();
                 
-                if(nombre==""){
-                    alert("nombre");
-                }
-                else{
-                    if(apellido==""){
-                        alert("apellido");
-                    }
-                    else{
-                        if(domicilio==""){
-                            alert("domicilio");
-                        }
-                        else{
-                            if((telefono==""||telefono==null)&&(cell==""||cell==null)){
-                                alert("telefono");
-                            }
-                            else{
-                                if(cedula==""||cedula==null){
-                                    alert("cedula");
-                                }
-                                else{
-                                    document.forma.submit();
-                                }
-                            }
-                        }       
-                    }
-                }
+                if(cont>0){ alert("LLene los campos requeridos"); return}
+                else{ document.forma.submit();}
             };
         </script>
     </head>
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
-        <div class="navbar navbar-inverse navbar-fixed-top">
-          <div class="navbar-inner">
-            <div class="container-fluid">
-              <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </a>
-              <a class="brand" href="<?=site_url("main")?>">Sistema Sedita</a>
-              <div class="nav-collapse collapse">
-                <p class="navbar-text pull-right">
-                    <a href="<?=site_url("login/cerrar")?>" class="navbar-link">Cerrar Sesion</a>
-                </p>
-                <ul class="nav nav-pills">
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="">
-                            Ingresos
-                            <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li class="dropdown-submenu">
-                                <a tabindex="-1" href="<?=site_url("alumno")?>">Alumnos</a>
-                                <ul class="dropdown-menu">
-                                    <li><a tabindex="-1" href="<?=site_url("alumno")?>">Matriculaci&oacute;n</a></li>
-                                    <li><a tabindex="-1" href="<?=site_url("alumno/consultar")?>">Consultar o Actualizar</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown-submenu">
-                                <a tabindex="-1" href="<?=site_url("personal")?>">Personal</a>
-                                <ul class="dropdown-menu">
-                                    <li><a tabindex="-1" href="<?=site_url("personal")?>">Registro</a></li>
-                                    <li><a tabindex="-1" href="<?=site_url("personal/consultar")?>">Consultar o Actualizar</a></li>
-                                    <li><a tabindex="-1" href="<?=site_url("personal/asignacion_cursos")?>">Asignar Curso o Dirigente</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown-submenu">
-                                <a tabindex="-1" href="<?=site_url("listados/nomina_alumnos")?>">Listados</a>
-                                <ul class="dropdown-menu">
-                                    <li><a tabindex="-1" href="<?=site_url("listados/nomina_alumnos")?>">N&oacute;mina o Actas de Alumnos</a></li>
-        
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="">
-                            Calificaciones
-                            <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <!--<li><a tabindex="-1" href="=site_url("acta_calificaciones")?>">Actas de Calificaciones</a></li>-->
-                            <li class="dropdown-submenu">
-                                <a tabindex="-1" href="<?=site_url("libreta")?>">Libretas</a>
-                                <ul class="dropdown-menu">
-                                    <li><a tabindex="-1" href="<?=site_url("libreta")?>">Consultar o Imprimir</a></li>
-                                    <li><a tabindex="-1" href="<?=site_url("listados/cuadro_honor")?>">Cuadro de Honor</a></li>
-                                    <li><a tabindex="-1" href="<?=site_url("listados/cuadro_promocion")?>">Cuadro de Promoci&oacute;n</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="<?=site_url("mantenimiento/usuarios") ?>">
-                            Mantenimiento
-                            <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a tabindex="-1" href="<?=site_url("mantenimiento/usuarios") ?>">Usuarios</a></li>
-                            <li><a tabindex="-1" href="<?=site_url("mantenimiento/cursos") ?>">Cursos</a></li>
-                            <li class="dropdown-submenu">
-                                <a tabindex="-1" href="#">Materias</a>
-                                <ul class="dropdown-menu">
-                                    <li><a tabindex="-1" href="<?=site_url("mantenimiento/nom_mat")?>">Nombres</a></li>
-                                    <li><a tabindex="-1" href="<?=site_url("mantenimiento/mat_curso")?>">Materias por Curso</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li><a href="#contact">Ayuda</a></li>
-                </ul>
-              </div><!--/.nav-collapse -->
-            </div>
-          </div>
-        </div>
         <div class="container-fluid">
           <div class="row-fluid">
             <div class="span3">
                 <div class="well sidebar-nav" style="width:300px;">
                     <ul class="nav nav-list">
                       <li class="nav-header">Personal</li>
-                      <li class="active"><a href="<?=site_url("personal")?>">Registro</a></li>
+                      <li class="active"><a href="<?=site_url("personal/registro")?>">Registro</a></li>
                       <br />
                       <li class="nav-header">Profesor</li>
                       <li><a href="<?=site_url("personal/asignacion_cursos")?>">Asignaci&oacute;n de Cursos y Dirigentes</em></a></li>
@@ -200,54 +89,49 @@
                                     <div class="controls">
                                         <?php 
                                             $js = "id='cmbAnioLectivo' style='width:130px' ";
-                                            echo form_dropdown("cmbAnioLectivo",$anio_lectivo, $anl, $js);
+                                            echo form_dropdown("cmbAnioLectivo",$anioLect, $anlId, $js);
                                         ?>
                                     </div>
                                 </div>
                                 
                                 <div class="span9" style="margin-top: 10px;">
-                                    <label class="control-label"><b>Nombres*</b></label>
+                                    <label id="lbNombres" class="control-label"><b>Nombres*</b></label>
                                     <div class="controls">
-                                        <input style="height:30px;width:375px;" type="text" name="txtNombres" id="txtNombres" />
+                                        <input style="width:375px;" onkeyup="changeCSSRequire('Nombres','375px','160px')" onkeypress="return validarSoloLetras(event)" type="text" name="txtNombres" id="txtNombres" />
                                     </div>
                                 </div>
                                 
                                 <div class="span9" style="margin-top: 10px;">
-                                    <label class="control-label"><b>Apellidos*</b></label>
+                                    <label id="lbApellidos" class="control-label"><b>Apellidos*</b></label>
                                     <div class="controls">
-                                        <input style="height:30px;width:375px;" type="text" name="txtApellidos" id="txtApellidos" />
+                                        <input style="width:375px;" onkeyup="changeCSSRequire('Apellidos','375px','160px')" onkeypress="return validarSoloLetras(event)" type="text" name="txtApellidos" id="txtApellidos" />
                                     </div>
                                 </div>
                                 
                                 <div class="span9" style="margin-top: 10px;">
-                                    <label class="control-label"><b>Domicilio*</b></label>
+                                    <label id="lbDomicilio" class="control-label"><b>Domicilio*</b></label>
                                     <div class="controls">
-                                        <input style="height:30px;width: 375px;" type="text" name="txtDomicilio" id="txtDomicilio" />
+                                        <input style="width: 375px;" onkeyup="changeCSSRequire('Domicilio','375px','160px')" type="text" name="txtDomicilio" id="txtDomicilio" />
                                     </div>
                                 </div>
                                 
-                                <div class="span5" style="margin-top: 10px;">
-                                    <label class="control-label"><b>Tel&eacute;fono*</b></label>
+                                <div class="span9" style="width:800px;margin-top: 10px;">
+                                    <label id="lbTelefono" class="control-label"><b>Tel&eacute;fono*</b></label>
                                     <div class="controls">
-                                        <input style="height:30px;width: 120px;" type="text" name="txtTelefono" id="txtTelefono" />
-                                    </div>
-                                </div>
-                                
-                                <div class="span4" style="margin-top: 10px;">
-                                    <div class="controls">
-                                         <input style="height:30px;width: 120px;" type="text" name="txtCell" id="txtCell" />
+                                        <div style="float:left;"><input style="width: 120px;" onkeyup="changeCSSRequire('Telefono','120px','160px')" maxlength="10" onkeypress="return validarSoloNumeros(event)" type="text" name="txtTelefono" id="txtTelefono" /></div>
+                                        <input style="margin-left: 30px;width: 120px;float:left;" maxlength="10" onkeypress="return validarSoloNumeros(event)" type="text" name="txtCell" id="txtCell" />
                                     </div>
                                 </div>
                                 
                                 <div class="span9" style="margin-top: 10px;">
-                                    <label class="control-label"><b>C&eacute;dula*</b></label>
+                                    <label id="lbCedula" class="control-label"><b>C&eacute;dula*</b></label>
                                     <div class="controls">
-                                        <input style="height:30px;width: 120px;" type="text" name="txtCedula" id="txtCedula" />
+                                        <input style="width: 120px;" onkeyup="changeCSSRequire('Cedula','120px','160px')" maxlength="10" onkeypress="return validarSoloNumeros(event)" type="text" name="txtCedula" id="txtCedula" />
                                     </div>
                                 </div>
                                 <div class="span9">
                                     <label class="control-label" style="margin-top: 10px;"><b>Comentarios</b></label><br /><br />
-                                     <textarea style="height:30px;width: 375px; height: 100px; margin-left: 180px;" name="txtComentarios" id="txtComentarios" > </textarea>
+                                     <textarea style="width: 375px; height: 100px; margin-left: 180px;" name="txtComentarios" id="txtComentarios" > </textarea>
                                  </div>
                             </div>
                             <div class="span9" style="margin:30px 0 20px 250px;">
@@ -260,13 +144,7 @@
             </div><!--/span-->
             <div class="span2"></div>
           </div><!--/row-->
-    
-          <hr>
-    
-          <footer>
-            <h6>Realizado por Sedita &nbsp;&nbsp; - &nbsp;&nbsp; &copy; Company 2012</h6>
-          </footer>
-    
         </div><!--/.fluid-container-->
+        
     </body>
 </html>

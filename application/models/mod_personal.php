@@ -20,33 +20,55 @@
             return $info;
         }
         
-        function guardar_personal($n,$ap,$ced,$dom,$tel,$cell,$anl,$com,$c){
+        function guardar_personal(){
             $data = array(
-                   'per_nombres' => $n ,
-                   'per_apellidos' => $ap ,
-                   'per_cedula' => $ced ,
-                   'per_domicilio' => $dom ,
-                   'per_telefono' => $tel ,
-                   'per_celular' => $cell ,
-                   'per_anio_lectivo_id' => $anl ,
-                   'per_comentarios' => $com,
-                   'per_cargo_id' => $c,
+                   'per_nombres' => utf8_encode(trim($this->input->post("txtNombres"))),
+                   'per_apellidos' => utf8_encode(trim($this->input->post("txtApellidos"))),
+                   'per_cedula' => trim($this->input->post("txtCedula")),
+                   'per_domicilio' => utf8_encode(trim($this->input->post("txtDomicilio"))),
+                   'per_telefono' => trim($this->input->post("txtTelefono")),
+                   'per_celular' => trim($this->input->post("txtCell")),
+                   'per_anio_lectivo_id' => $this->input->post("cmbAnioLectivo"),
+                   'per_comentarios' => utf8_encode(trim($this->input->post("txtComentarios"))),
+                   'per_cargo_id' => $this->input->post("cmbCargo"),
                    'per_estado' => 'a'
                 );
                 
             $this->db->insert('personal', $data); 
         }
         
-        function cd_guardar($c,$e,$par,$j,$m,$d,$per,$anl){
+        function cargar_mat_curso(){
+            $this->db->order_by("mat_nombre");
+            $this->db->join("materia","mat_id=mc_materia_id");
+            $this->db->where("mc_curso_id",$this->input->post("cur"));
+            $this->db->where("mc_especializacion_id",$this->input->post("esp"));
+            $rs=$this->db->get("materia_curso");
+            $info="";
+            
+            foreach ($rs->result() as $fila){
+                $info .= "<option value='".$fila->mat_id."'>".$fila->mat_nombre."</option>";
+            }
+                
+            echo $info;
+        }
+                
+        function cd_guardar(){
+            $c=$this->input->post("cur");
+            $e=$this->input->post("esp");
+            $d=$this->input->post("dir");
+            
+            if($d!="SI") $d="--";
+            if($c<11||$c>14) $e=-1;
+            
             $data = array(
-                   'pc_personal_id' => $per ,
+                   'pc_personal_id' => $this->input->post("per"),
                    'pc_curso_id' => $c ,
                    'pc_especializacion_id' => $e ,
-                   'pc_paralelo_id' => $par ,
-                   'pc_jornada_id' => $j ,
+                   'pc_paralelo_id' => $this->input->post("par"),
+                   'pc_jornada_id' => $this->input->post("jor") ,
                    'pc_dirigente' => $d ,
-                   'pc_anio_lectivo_id' => $anl ,
-                   'pc_materia_id' => $m 
+                   'pc_anio_lectivo_id' => $this->input->post("anl"),
+                   'pc_materia_id' => $this->input->post("mat") 
                 );
                 
             $this->db->insert('personal_curso', $data);
@@ -58,7 +80,6 @@
             $rs=$this->db->get("personal");
             
             $info="";
-            
             foreach ($rs->result() as $fila){
                 $info .= "<option value='".$fila->per_id."'>".$fila->per_apellidos." ".$fila->per_nombres."</option>";
             }

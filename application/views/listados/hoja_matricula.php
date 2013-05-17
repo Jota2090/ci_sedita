@@ -68,7 +68,7 @@
                 document.getElementById("btnFiltros").value="-";
                 document.getElementById("btnFiltros").title="Ocultar Filtros";
             }
-        }
+        };
     </script>
   </head>
 

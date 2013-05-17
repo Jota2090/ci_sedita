@@ -245,32 +245,22 @@
             var radio = $("input[name=radio]:checked").val();
             var parcial = $("input[name=parcial]:checked").val(); 
             
-            if(curso == 0){
-                alert("Debe elegir un curso");
+            if(paralelo==0){
+                alert("Debe elegir un paralelo");
             }
             else{
-                if((curso >11 && curso < 14) && especializacion==0){
-                    alert("Debe elegir una especializacion");
+                if(radio==""||radio==null){
+                    alert("Debe seleccionar el tipo de reporte a generar");
                 }
                 else{
-                    if(paralelo==0){
-                        alert("Debe elegir un paralelo");
+                    if(radio=="acta"&&(parcial==null||parcial=="")){
+                        alert("Debe elegir un parcial");
                     }
                     else{
-                        if(radio==""||radio==null){
-                            alert("Debe seleccionar el tipo de reporte a generar");
-                        }
-                        else{
-                            if(radio=="acta"&&(parcial==null||parcial=="")){
-                                alert("Debe elegir un parcial");
-                            }
-                            else{
-                                var frm = document.getElementById("forma");
-                                frm.indicador.value = 2;
-                                document.forma.submit();
-                            }
-                        }
-                    }        
+                        var frm = document.getElementById("forma");
+                        frm.indicador.value = 2;
+                        document.forma.submit();
+                    }
                 }
             }
         };

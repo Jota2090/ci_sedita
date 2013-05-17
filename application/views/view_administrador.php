@@ -58,19 +58,20 @@
         </div>
         <div class="span4">
             <p style="margin-top: 20px;"><a class="btn btn-large btn-block btn-primary" type="button" href="<?=site_url("alumno/matricular")?>" >Matriculaci&oacute;n de Estudiantes</a></p>
-            <p style="margin-top: 20px;"><a class="btn btn-large btn-block btn-primary" type="button" href="<?=site_url("personal")?>" >Registro del Personal</a></p>
-            <p style="margin-top: 20px;">
+            <p style="margin-top: 10px;"><a class="btn btn-large btn-block btn-primary" type="button" href="<?=site_url("personal/registro")?>" >Registro del Personal</a></p>
+            <p style="margin-top: 10px;"><a class="btn btn-large btn-block btn-primary" type="button" href="<?=site_url("personal/asignacion_cursos")?>" >Asignaci&oacute;n de Cursos y Dirigentes</a></p>
+            <p style="margin-top: 10px;">
                 <a class="span6 btn btn-large btn-primary" type="button" href="<?=site_url("listados/nominas")?>">Listados</a>
                 <a class="span6 btn btn-large btn-primary" type="button" href="<?=site_url("alumno/consultar")?>">Actualizaci&oacute;n de Datos</a>
             </p>
-            <p style="margin-top: 80px;">
+            <p style="margin-top: 60px;">
                 <a class="span6 btn btn-large btn-primary" type="button" href="<?=site_url("acta_calificaciones")?>">Actas de Caificaciones</a>
                 <a class="span6 btn btn-large btn-primary" type="button" href="<?=site_url("libreta")?>">Libretas</a>
             </p>
-            <p style="margin-top: 150px;">
+            <p style="margin-top: 120px;">
                 <a class="span12 btn btn-large btn-primary" type="button" href="<?=site_url("facturacion/cobros")?>">Facturaci&oacute;n</a>
             </p>
-            <p style="margin-top: 210px;">
+            <p style="margin-top: 170px;">
                 <a class="span12 btn btn-large btn-primary" type="button" href="<?=site_url("banda_guerra")?>">Control de Activos</a>
             </p>
         </div>

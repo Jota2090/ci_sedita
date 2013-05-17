@@ -20,7 +20,7 @@
         }
         
         function buscar_alumnos(){
-            if(!$this->clslogin->check()) redirect(site_url("login"));
+            if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
             $segmento=$this->uri->segment(3);
             if($segmento=="cobros"):
                 $matricula=$this->uri->segment(4); $nombres=$this->uri->segment(5);
@@ -78,43 +78,6 @@
         }
         
         /*function _remap($metodo){
-            if(!$this->clslogin->check()){
-                redirect(site_url("login"));
-            }
-            elseif($metodo=="hoja_matricula"){
-                $this->hoja_matricula();   
-            }
-            elseif($metodo=="cuadro_honor"){
-                $this->cuadro_honor();   
-            }
-            elseif($metodo=="cuadro_promocion"){
-                $this->cuadro_promocion();   
-            }
-            elseif($metodo=="cargar_alumnos"){
-                $this->combo_alumnos();
-            }
-            elseif($metodo=="exportar"){
-                $ind = $this->input->post("indicador");
-                $rd = $this->input->post("radio");
-                
-                if($ind==0||$ind==null)
-                    $this->nominas();
-                else{
-                    if($rd=="nomina"){
-                        $this->exportar_nomina($ind);
-                    }elseif($rd=="acta"){
-                        $this->exportar_acta($ind);
-                    }
-                }
-            }
-            elseif($metodo=="imp_hoja_matricula"){
-                $c = $this->input->post("cmbCurso");
-                
-                if($c==0||$c==""||$c==null)
-                    $this->hoja_matricula ();
-                else
-                    $this->imp_hoja($c);
-            }
             elseif($metodo=="listar_materias"){
                 $c=$this->input->post("curso");
                 $e=$this->input->post("especializacion");
@@ -166,6 +129,7 @@
         
         
         function nominas(){
+            if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
             $general = new General();
             $data["jornada"] = $general->cargar_jornadas();
             $data["anioLect"]=$general->cargar_aniosLectivos();
@@ -175,6 +139,7 @@
         
         
         function hoja_matricula(){
+            if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
             $general = new General();
             $data["anioLect"]=$general->cargar_aniosLectivos();
             $data["anlId"]=$general->cargar_anlActual();
@@ -183,6 +148,7 @@
         
         
         function cuadro_honor(){
+            if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
             $general = new General();
             $data["jornada"] = $this->alumno->cargar_jornadas();
             $data["curso"] = $this->alumno->cargar_curso(0);
@@ -193,6 +159,7 @@
         }
         
         function cuadro_promocion(){
+            if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
             $general = new General();
             $data["jornada"] = $this->alumno->cargar_jornadas();
             $data["curso"] = $this->alumno->cargar_curso(0);
@@ -203,74 +170,56 @@
             $this->load->view("listados/cuadro_promocion", $data);   
         }
         
-        function exportar_nomina($ind){
+        function exportar(){
+            if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
+            $general = new General();
+            $ind = $this->input->post("indicador");
+            $rd = $this->input->post("radio");
             $c = $this->input->post("cmbCurso");
             $j = $this->input->post("cmbJornada");
             $e = $this->input->post("cmbEspec");
             $p = $this->input->post("cmbParalelo");
             $anl = $this->input->post("cmbAnioLec");
             
-            if($c<11||$c>14)
-                $e=-1;
-            
-            $cp = $this->encontrarIdCursoParalelo($j, $c, $e, $p);
-            $curso = $this->get_nom_curso($cp);
-            $jornada = $this->get_nom_jornada($j);
-            $ano_lectivo = $this->get_anio_lectivo($anl);
+            if($c<11||$c>14)$e=-1;
+            $cp = $general->encontrarIdCursoParalelo($j, $c, $e, $p);
+            $curso = $general->get_nom_curso($cp);
+            $jornada = $general->get_nom_jornada($j);
+            $ano_lectivo = $general->get_anio_lectivo($anl);
             $alumnos = $this->acta->listar_alumnos($cp, $anl);
             
-            if($ind==1){
-                $this->load->library('export_pdf');                 
+            if($rd=="nomina"){
+                if($ind==1){
+                    $this->load->library('export_pdf');                 
+                    $pdf = new export_pdf();
+                    $pdf->exportToPDF_Nomina($alumnos,$ano_lectivo,$curso,$jornada);    
+                }
+                elseif($ind==2){
+                    $this->load->library('export_excel');
+                    $excel = new export_excel();
+                    $excel->exportToExcel_Nomina($alumnos,"NominaAlumnos.xls",$ano_lectivo,$curso,$jornada);
+                }
+            }elseif($rd=="acta"){
+                $mod = $this->input->post("parcial");
+                $periodo = $general->get_nom_periodo($mod);
+                $calificaciones = $this->acta->obtener_calificaciones(0, 0, 0);
                 
-                $pdf = new export_pdf();
-                
-                $pdf->exportToPDF_Nomina($alumnos,$ano_lectivo,$curso,$jornada);    
-            }
-            elseif($ind==2){
-                $this->load->library('export_excel');
-                
-                $excel = new export_excel();
-                $excel->exportToExcel_Nomina($alumnos,"NominaAlumnos.xls",$ano_lectivo,$curso,$jornada);
-            }
-        }
-        
-        function exportar_acta($ind){
-            $c = $this->input->post("cmbCurso");
-            $j = $this->input->post("cmbJornada");
-            $e = $this->input->post("cmbEspec");
-            $p = $this->input->post("cmbParalelo");
-            $mod = $this->input->post("parcial");
-            $anl = $this->input->post("cmbAnioLec");
-            
-            if($c<11||$c>14)
-                $e=-1;
-            
-            $cp = $this->encontrarIdCursoParalelo($j, $c, $e, $p);
-            $curso = $this->get_nom_curso($cp);
-            $jornada = $this->get_nom_jornada($j);
-            $periodo = $this->get_nom_periodo($mod);
-            $ano_lectivo = $this->get_anio_lectivo($anl);
-            $alumnos = $this->acta->listar_alumnos($cp, $anl);
-            $calificaciones = $this->acta->obtener_calificaciones(0, 0, 0);
-            
-            if($ind==1){
-                $this->load->library('export_pdf');                 
-                
-                $pdf = new export_pdf();
-                
-                $pdf->exportToPDF_Actas($alumnos,$calificaciones,$periodo,$ano_lectivo,$curso,$jornada,$mod);
-            }
-            else{
-                $this->load->library('export_excel');
-                
-                $excel = new export_excel();
-                $excel->exportToExcel_Acta($alumnos,$calificaciones,"ActaAlumnos.xls",
-                                            $periodo,$ano_lectivo,$curso,$jornada);
+                if($ind==1){
+                    $this->load->library('export_pdf');                 
+                    $pdf = new export_pdf();
+                    $pdf->exportToPDF_Actas($alumnos,$calificaciones,$periodo,$ano_lectivo,$curso,$jornada,$mod);
+                }
+                else{
+                    $this->load->library('export_excel');
+                    $excel = new export_excel();
+                    $excel->exportToExcel_Acta($alumnos,$calificaciones,"ActaAlumnos.xls",$periodo,$ano_lectivo,
+                                                $curso,$jornada);
+                }
             }
         }
-        
         
         function imprimir_hm(){
+            if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
             $general= new General();
             $alu= new Alumno();
             $this->load->library('export_pdf'); 

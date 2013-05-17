@@ -47,6 +47,7 @@
   </head>
 
   <body data-spy="scroll" data-target=".bs-docs-sidebar">
+    <?if(!isset($sin_menu)):?>
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
@@ -66,6 +67,7 @@
         </div>
       </div>
     </div>
+    <?endif;?>
 
     <div class="container-fluid">
       <div class="row-fluid">

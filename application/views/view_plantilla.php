@@ -55,11 +55,11 @@
                                     </ul>
                                 </li>
                                 <li class="dropdown-submenu">
-                                    <a tabindex="-1" href="<?=site_url("personal")?>">Personal</a>
+                                    <a tabindex="-1" href="<?=site_url("personal/nuevo/registro")?>">Personal</a>
                                     <ul class="dropdown-menu">
-                                        <li><a tabindex="-1" href="<?=site_url("personal")?>">Registro</a></li>
-                                        <li><a tabindex="-1" href="<?=site_url("personal/consultar")?>">Consultar o Actualizar</a></li>
-                                        <li><a tabindex="-1" href="<?=site_url("personal/asignacion_cursos")?>">Asignar Curso o Dirigente</a></li>
+                                        <li><a tabindex="-1" href="<?=site_url("personal/nuevo/registro")?>">Registro</a></li>
+                                        <li><a tabindex="-1" href="<?=site_url("personal/nuevo/consultar")?>">Consultar o Actualizar</a></li>
+                                        <li><a tabindex="-1" href="<?=site_url("personal/nuevo/asignacion_cursos")?>">Asignar Curso o Dirigente</a></li>
                                     </ul>
                                 </li>
                                 <li class="dropdown-submenu">
@@ -89,18 +89,18 @@
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="<?=site_url("mantenimiento/usuarios") ?>">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="<?=site_url("mantenimiento/nuevo/usuarios") ?>">
                                 Mantenimiento
                                 <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a tabindex="-1" href="<?=site_url("mantenimiento/usuarios") ?>">Usuarios</a></li>
-                                <li><a tabindex="-1" href="<?=site_url("mantenimiento/cursos") ?>">Cursos</a></li>
+                                <li><a tabindex="-1" href="<?=site_url("mantenimiento/nuevo/usuarios") ?>">Usuarios</a></li>
+                                <li><a tabindex="-1" href="<?=site_url("mantenimiento/nuevo/cursos") ?>">Cursos</a></li>
                                 <li class="dropdown-submenu">
-                                    <a tabindex="-1" href="#">Materias</a>
+                                    <a tabindex="-1" href="<?=site_url("mantenimiento/nuevo/nom_mat")?>">Materias</a>
                                     <ul class="dropdown-menu">
-                                        <li><a tabindex="-1" href="<?=site_url("mantenimiento/nom_mat")?>">Nombres</a></li>
-                                        <li><a tabindex="-1" href="<?=site_url("mantenimiento/mat_curso")?>">Materias por Curso</a></li>
+                                        <li><a tabindex="-1" href="<?=site_url("mantenimiento/nuevo/nom_mat")?>">Nombres</a></li>
+                                        <li><a tabindex="-1" href="<?=site_url("mantenimiento/nuevo/mat_curso")?>">Materias por Curso</a></li>
                                     </ul>
                                 </li>
                             </ul>

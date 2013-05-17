@@ -59,7 +59,7 @@
             }
             
             $info=array();
-            $info['0']="Seleccione una jornada";
+            $info['0']="Seleccione";
             $rs=$this->general->cargar_jornadas();
              foreach ($rs->result() as $fila){
                 $info[$fila->jor_id] = $fila->jor_nombre;
@@ -123,7 +123,7 @@
             if($nivel==="") $nivel= $this->input->post("nivel");
             $rs=$this->general->cargar_cursos($jornada,$nivel);
             $info="";
-            $info .="<option value='0'>Seleccione un curso</option>";
+            $info .="<option value='0'>Seleccione</option>";
             foreach($rs->result() as $row){
                 if($curso==="") $info .="<option value='".$row->cur_id."'>".$row->cur_nombre."</option>";
                 else{
@@ -147,7 +147,7 @@
             $rs=$this->general->cargar_especializaciones($jornada,$curso);
             $info="";
             
-            $info .="<option value='0'>Seleccione una especializaci&oacute;n</option>";
+            $info .="<option value='0'>Seleccione</option>";
                         
             foreach($rs->result() as $row){
                 if($esp==="") $info .="<option value='".$row->esp_id."'>".$row->esp_nombre."</option>";
@@ -171,7 +171,7 @@
             $rs=$this->general->cargar_paralelos($jornada,$curso);
 
             $info="";
-            $info .="<option value='0'>Seleccione un paralelo</option>";
+            $info .="<option value='0'>Seleccione</option>";
                         
             foreach($rs->result() as $row){
                 if($par==="") $info .="<option value='".$row->par_id."'>".$row->par_nombre."</option>";
@@ -196,7 +196,7 @@
             $rs=$this->general->cargar_paralBachill($jornada,$curso,$espec);
             
             $info="";
-            $info .="<option value='0'>Seleccione un paralelo</option>";
+            $info .="<option value='0'>Seleccione</option>";
             
             foreach($rs->result() as $row){
                 if($par==="") $info .="<option value='".$row->par_id."'>".$row->par_nombre."</option>";

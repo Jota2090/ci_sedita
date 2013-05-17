@@ -273,7 +273,7 @@
             $this->db->join("curso", "cp_curso_id = cur_id");
             $rs1= $this->db->get();
             $info="";
-            $info .="<option value='0'>Seleccione un nivel</option>";
+            $info .="<option value='0'>Seleccione</option>";
         
             foreach($rs1->result() as $row1){
                 $this->db->distinct();

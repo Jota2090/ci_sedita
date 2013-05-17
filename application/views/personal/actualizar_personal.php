@@ -26,8 +26,8 @@
     <style type="text/css">
         body {
             width: 1320px;
-            padding-top: 60px;
-            padding-bottom: 40px;
+            padding-top: 10px;
+            padding-bottom: 10px;
             margin: 0 auto;
             font-family: Arial;
         	font-size: 14px;        
@@ -62,100 +62,6 @@
   </head>
 
   <body data-spy="scroll" data-target=".bs-docs-sidebar">
-    <div class="modal alert" id="warning" style="display: none;">
-        <div class="modal-header">
-            <a class="close" data-dismiss="modal">x</a>
-            <h3><img src="images/alerta-warning.jpg" style="margin-right: 10px;" width="30px" height="30px"/>Atenci&oacute;n!</h3>
-        </div>
-        <div class="modal-body">
-            <p>Debe llenar al menos un campo!</p>
-        </div>
-    </div>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container-fluid">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="<?=site_url("main")?>">Sistema Sedita</a>
-          <div class="nav-collapse collapse">
-            <p class="navbar-text pull-right">
-                <a href="<?=site_url("login/cerrar")?>" class="navbar-link">Cerrar Sesion</a>
-            </p>
-            <ul class="nav nav-pills">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="">
-                        Ingresos
-                        <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li class="dropdown-submenu">
-                            <a tabindex="-1" href="<?=site_url("alumno")?>">Alumnos</a>
-                            <ul class="dropdown-menu">
-                                <li><a tabindex="-1" href="<?=site_url("alumno")?>">Matriculaci&oacute;n</a></li>
-                                <li><a tabindex="-1" href="<?=site_url("alumno/consultar")?>">Consultar o Actualizar</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown-submenu">
-                            <a tabindex="-1" href="<?=site_url("personal")?>">Personal</a>
-                            <ul class="dropdown-menu">
-                                <li><a tabindex="-1" href="<?=site_url("personal")?>">Registro</a></li>
-                                <li><a tabindex="-1" href="<?=site_url("personal/consultar")?>">Consultar o Actualizar</a></li>
-                                <li><a tabindex="-1" href="<?=site_url("personal/asignacion_cursos")?>">Asignar Curso o Dirigente</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown-submenu">
-                            <a tabindex="-1" href="<?=site_url("listados/nomina_alumnos")?>">Listados</a>
-                            <ul class="dropdown-menu">
-                                <li><a tabindex="-1" href="<?=site_url("listados/nomina_alumnos")?>">N&oacute;mina o Actas de Alumnos</a></li>
-    
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="">
-                        Calificaciones
-                        <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <!--<li><a tabindex="-1" href="=site_url("acta_calificaciones")?>">Actas de Calificaciones</a></li>-->
-                        <li class="dropdown-submenu">
-                            <a tabindex="-1" href="<?=site_url("libreta")?>">Libretas</a>
-                            <ul class="dropdown-menu">
-                                <li><a tabindex="-1" href="<?=site_url("libreta")?>">Consultar o Imprimir</a></li>
-                                <li><a tabindex="-1" href="<?=site_url("listados/cuadro_honor")?>">Cuadro de Honor</a></li>
-                                <li><a tabindex="-1" href="<?=site_url("listados/cuadro_promocion")?>">Cuadro de Promoci&oacute;n</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="<?=site_url("mantenimiento/usuarios") ?>">
-                        Mantenimiento
-                        <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a tabindex="-1" href="<?=site_url("mantenimiento/usuarios") ?>">Usuarios</a></li>
-                        <li><a tabindex="-1" href="<?=site_url("mantenimiento/cursos") ?>">Cursos</a></li>
-                        <li class="dropdown-submenu">
-                            <a tabindex="-1" href="#">Materias</a>
-                            <ul class="dropdown-menu">
-                                <li><a tabindex="-1" href="<?=site_url("mantenimiento/nom_mat")?>">Nombres</a></li>
-                                <li><a tabindex="-1" href="<?=site_url("mantenimiento/mat_curso")?>">Materias por Curso</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li><a href="#contact">Ayuda</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
-    
     <div class="container-fluid">
       <div class="row-fluid">
         <div class="span3">
@@ -201,7 +107,7 @@
                    </fieldset> 
                 </form>
             </div>
-            <div id="resultadosConsulta" class="span9" style="width: 1000px; margin: 0 auto;">          
+            <div id="resultadosConsulta" class="span9" style="width: 980px; margin: 0 auto;">          
                 <?php foreach($css_files as $file): ?>
                 	<link type="text/css" rel="stylesheet" href="<?php echo $file; ?>" />
                     <base href="<?=site_url()?>" />
@@ -222,13 +128,6 @@
         </div><!--/span-->
         <div class="span2"></div>
       </div><!--/row-->
-
-      <hr>
-
-      <footer>
-        <h6>Realizado por Sedita &nbsp;&nbsp; - &nbsp;&nbsp; &copy; Company 2012</h6>
-      </footer>
-
     </div><!--/.fluid-container-->
     
   </body>

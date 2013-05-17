@@ -8,18 +8,14 @@
     	}
      
         function menu(){
-           if(!$this->clslogin->check()){
-            redirect(site_url("login"));
-           }
+           if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
 	
            $data["link"]=base_url()."main/vista_main";
            $this->load->view("view_plantilla",$data); 
         }
         
         function vista_main(){
-            if(!$this->clslogin->check()){
-                redirect(site_url("login"));
-            }
+            if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
             
             $dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
             $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");

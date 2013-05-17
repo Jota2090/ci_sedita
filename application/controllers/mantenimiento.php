@@ -7,36 +7,19 @@
         function __construct(){
     		parent::__construct();
             $this->load->library('grocery_CRUD');
-            $this->load->model("mod_alumno2","alumno");
             $this->load->model("mod_mantenimiento","mantenimiento");
             $this->load->model("mod_curso","curso");
     	}
-     
-        function _remap($metodo){
-            if(!$this->clslogin->check()){
-				redirect(site_url("login"));
-			}
-            else{
-                if($metodo=="usuarios"){
-                    $u = $this->input->post("usuario");
-                    $name = $this->input->post("nombre");
-                    $num = $this->input->post("indicador");
-                    $this->usuarios($u, $num, $name);
-                }
-                elseif($metodo=="nom_mat"){
-                    $this->nom_materias();
-                }
-                elseif($metodo=="mat_curso"){
-                    $this->mat_curso();
-                }
-                elseif($metodo=="cursos"){
-                    $c = $this->input->post("curso");
-                    $e = $this->input->post("especializacion");
-                    $j = $this->input->post("jornada");
-                    $num = $this->input->post("indicador");
-                    $this->cursos($j, $c, $e, $num);
-                    
-                }
+        
+        function nuevo(){
+            if(!$this->clslogin->check()) redirect(site_url("login/login2"));
+            $funcion = $this->uri->segment(3);
+            $data["link"]=base_url()."mantenimiento/".$funcion;
+            $this->load->view("view_plantilla",$data);
+        }
+        
+        /*function _remap($metodo){
+            
                 elseif($metodo=="expListCursos"){
                     $j = $this->input->post("jornada");
                     $c = $this->input->post("curso");
@@ -51,117 +34,98 @@
                     $name = $this->input->post("nombre");
                     $this->exp_list_usuarios($u,$num,$name);  
                 }
-                elseif($metodo=="agregar_paralelo"){
-                    $this->load->view("view_paralelo");
-                }
-                elseif($metodo=="paralelo"){
-                    $this->curso->insertar_paralelo();
-                }
                 else{
                     $this->cursos(0, 0, 0, 0);
                 }   
             }
-        }
+        }*/
         
-        
-        function cursos($j, $c, $e, $num){
-            $jornada = $this->mantenimiento->nombre_jornada($j);
-            $curso = $this->mantenimiento->nombre_curso($c);
-            $especializacion = $this->mantenimiento->nombre_especializacion($e);
-            
-            /* This is only for the autocompletion */
-            $crud = new grocery_CRUD();
-
-            $crud->set_theme('datatables');
-            $crud->set_table('curso_paralelo');
-            $crud->set_subject('Cursos');
-            
-            $crud->set_relation('cp_curso_id','curso','cur_nombre');
-            $crud->set_relation('cp_paralelo_id','paralelo','par_nombre');
-            $crud->set_relation('cp_jornada_id','jornada','jor_nombre');
-            $crud->set_relation('cp_especializacion_id','especializacion','esp_nombre');
-            
-            $crud->display_as('cp_curso_id','Curso');
-            $crud->display_as('cp_especializacion_id','Especializacion');
-            $crud->display_as('cp_paralelo_id','Paralelo');
-            $crud->display_as('cp_jornada_id','Jornada');
-            
-            $crud->required_fields('cp_curso_id','cp_paralelo_id','cp_jornada_id','cp_especializacion_id');
-            
-            if($c > 0 && $c != null){
-                $crud->where('cur_nombre',$curso[$c]);
-            }else{
-                foreach($curso as $cur){
-                    $crud->or_where('cur_nombre',$cur);
-                }  
-            }
-            
-            if($e > 0){
-                $crud->where('esp_nombre',$especializacion);
-            }
-            
-            $output = $crud->render();
-            $output->nivel = $this->alumno->cargar_niveles();
-            $output->curso= $this->alumno->cargar_curso(0);
-            $output->jornada = $this->alumno->cargar_jornadas();
-            $output->j = $j;
-            $output->c = $c;
-            $output->e = $e;
-
-            if($num == 0){
-                $output->menu=$this->load->view("view_menu_administrador");
-                $this->load->view('mantenimiento/view_listado_cursos',$output);
-            }else{
-                $this->load->view('ajax/listado_cursos',$output);
-            }
-        }
-        
-        
-        function usuarios($u, $num, $name){
+        function usuarios(){
+            $u = $this->input->post("usuario");
+            $name = $this->input->post("nombre");
+            $num = $this->input->post("indicador");
             $usuario = $this->mantenimiento->nombre_tipo_usuario($u);
-            /* This is only for the autocompletion */
+            
             $crud = new grocery_CRUD();
-
             $crud->set_theme('datatables');
             $crud->set_table('usuario');
             $crud->set_subject('Usuarios');
             $crud->required_fields('usu_nombre', 'usu_clave', 'usu_tipo');
-            
             $crud->set_relation('usu_tipo','tipo_usuario','tip_nombre');
-            
             $crud->display_as('usu_nombre','Nombre de Usuario');
             $crud->display_as('usu_tipo','Tipo de Usuario');
             $crud->display_as('usu_clave','Contrase&ntilde;a');
-            
             $crud->unset_columns('usu_clave','usu_personal_id');
             $crud->add_fields('usu_nombre', 'usu_clave', 'usu_tipo');
             $crud->edit_fields('usu_nombre', 'usu_clave', 'usu_tipo');
-            
-            if($name!=""&&$name!=null){
-                $crud->or_like('usu_nombre',$name);
-            }
-            if($u > 0){
-                $crud->where('tip_nombre',$usuario[$u]);
-            }
-            
-			$output = $crud->render();
+            if($name!=""&&$name!=null){$crud->or_like('usu_nombre',$name);}
+            if($u>0){$crud->where('tip_nombre',$usuario[$u]);}
+            $output = $crud->render();
             $output->usuario = $this->mantenimiento->cargar_tipo_usuario();
             $output->u = $u;
             $output->name=$name;
             
             if($num == 0 || $num == null){
-                $output->menu=$this->load->view("view_menu_administrador");
-                $this->load->view("mantenimiento/view_listado_usuarios", $output);
+                $this->load->view("mantenimiento/listado_usuarios", $output);
             }
-            else
-                $this->load->view("ajax/listado_usuarios", $output);        
+            else $this->load->view("view_cruds", $output);        
         }
         
-        function nom_materias(){
+        function cursos(){
+            $num = $this->input->post("indicador");
+            $jornada = $this->mantenimiento->nombre_jornada($this->input->post("jornada"));
+            $curso = $this->mantenimiento->nombre_curso($this->input->post("curso"));
+            $especializacion = $this->mantenimiento->nombre_especializacion($this->input->post("especializacion"));
+            
+            /* This is only for the autocompletion */
+            $crud = new grocery_CRUD();
+            $crud->set_theme('datatables');
+            $crud->set_table('curso_paralelo');
+            $crud->set_subject('Cursos');
+            $crud->set_relation('cp_curso_id','curso','cur_nombre');
+            $crud->set_relation('cp_paralelo_id','paralelo','par_nombre');
+            $crud->set_relation('cp_jornada_id','jornada','jor_nombre');
+            $crud->set_relation('cp_especializacion_id','especializacion','esp_nombre');
+            $crud->display_as('cp_curso_id','Curso');
+            $crud->display_as('cp_especializacion_id','Especializacion');
+            $crud->display_as('cp_paralelo_id','Paralelo');
+            $crud->display_as('cp_jornada_id','Jornada');
+            $crud->required_fields('cp_curso_id','cp_paralelo_id','cp_jornada_id','cp_especializacion_id');
+            if($this->input->post("curso")>0 && $this->input->post("curso")!= null){
+                $crud->where('cur_nombre',$curso[$this->input->post("curso")]);
+            }else{
+                foreach($curso as $cur){
+                    $crud->or_where('cur_nombre',$cur);
+                }  
+            }
+            if($this->input->post("especializacion") > 0){$crud->where('esp_nombre',$especializacion);}
+            
+            $output = $crud->render();
+            $general = new General();
+            $output->jornada = $general->cargar_jornadas();
+            $output->j = $this->input->post("jornada");
+            $output->c = $this->input->post("curso");
+            $output->e = $this->input->post("especializacion");
+
+            if($num == 0){
+                $this->load->view('mantenimiento/listado_cursos',$output);
+            }else{
+                $this->load->view('view_cruds',$output);
+            }
+        }
+        
+        function agregar_paralelo(){
+            $this->load->view("mantenimiento/view_paralelo");
+        }
+        
+        function paralelo(){
+            $this->curso->insertar_paralelo();
+        }
+        
+        function nom_mat(){
             $ind=$this->input->post("ind");
             
             $crud = new grocery_CRUD();
-    
             $crud->set_theme('datatables');
             $crud->set_table('materia');
             $crud->set_subject('Materias del Plantel');
@@ -169,17 +133,14 @@
             $crud->display_as('mat_nombre','Materias');
             $crud->display_as('mat_id','Nº');
             $crud->unset_delete();
-            
             if($ind>0){
                 $mat=$this->input->post("nom");
                 $crud->like('mat_nombre',$mat);
-
                 $output = $crud->render();
-                $this->load->view("ajax/personal_curso_dirigente", $output);
+                $this->load->view("view_cruds", $output);
             }
             else{
                 $output = $crud->render();
-                $output->menu=$this->load->view("view_menu_administrador");
     		$this->load->view("mantenimiento/nombre_materias", $output);
             }    
         }
@@ -188,7 +149,6 @@
             $ind=$this->input->post("ind");
             
             $crud = new grocery_CRUD();
-    
             $crud->set_theme('datatables');
             $crud->set_table('materia_curso');
             $crud->set_subject('Materias por Curso');
@@ -199,29 +159,24 @@
             $crud->set_relation('mc_materia_id','materia','mat_nombre');
             $crud->set_relation('mc_curso_id','curso','cur_nombre');
             $crud->set_relation('mc_especializacion_id','especializacion','esp_nombre');
-            
+            $crud->order_by('mc_curso_id,mat_nombre');
             if($ind>0){
                 $mat=$this->input->post("nom");
                 $cur=$this->input->post("cur");
                 $esp=$this->input->post("esp");
-                
-                if($mat!="")
-                    $crud->like('mat_nombre',$mat);
-                
+                if($mat!="") $crud->like('mat_nombre',$mat);
                 if($cur>11&&$cur<14){
                     $crud->where('mc_curso_id',$cur);
                     $crud->where('mc_especializacion_id',$esp);
                 }elseif($cur>0){
-                    $crud->where('mc_curso_id',$cur);
-                }
-                
-                    $output = $crud->render();
-                    $this->load->view("ajax/personal_curso_dirigente", $output);
+                    $crud->where('mc_curso_id',$cur);}
+                $output = $crud->render();
+                $this->load->view("view_cruds", $output);
             }
             else{
-    		$output = $crud->render();
-                $output->curso= $this->alumno->cargar_curso(0);
-                $output->menu=$this->load->view("view_menu_administrador");
+    		$general = new General();
+                $output = $crud->render();
+                $output->jornada = $general->cargar_jornadas();
     		$this->load->view("mantenimiento/materias_curso", $output);
             }    
         }

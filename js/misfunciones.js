@@ -128,13 +128,13 @@ function setearEdad(){
     document.getElementById('txtEdad').value= edad;
 }
 
-function require(){
+function require_alumno(){
     var r = $("input[name='rbRepresent']:checked").val(), cont=0;
                 
-    cont=parseInt(changeCSSRequire('Nombres','342px','155px'))+cont;
-    cont=parseInt(changeCSSRequire('Apellidos','342px','155px'))+cont;
-    cont=parseInt(changeCSSRequire('Domicilio','342px','155px'))+cont;
-    cont=parseInt(changeCSSRequire('Telef','120px','155px'))+cont;
+    cont=parseInt(changeCSSRequire('Nombres','342px','160px'))+cont;
+    cont=parseInt(changeCSSRequire('Apellidos','342px','160px'))+cont;
+    cont=parseInt(changeCSSRequire('Domicilio','342px','160px'))+cont;
+    cont=parseInt(changeCSSRequire('Telef','120px','160px'))+cont;
     cont=parseInt(changeCSSRequire('LugarNac','120px',''))+cont;
     cont=parseInt(changeCSSRequire('dateArrival','120px',''))+cont;
 
@@ -162,3 +162,15 @@ function require(){
 }
 /************************************************************************************************************************************************************************************/
 
+
+function require_personal(){
+    var cont=0;
+    
+    cont=parseInt(changeCSSRequire('Nombres','375px','160px'))+cont;
+    cont=parseInt(changeCSSRequire('Apellidos','375px','160px'))+cont;
+    cont=parseInt(changeCSSRequire('Domicilio','375px','160px'))+cont;
+    cont=parseInt(changeCSSRequire('Telefono','120px','160px'))+cont;
+    cont=parseInt(changeCSSRequire('Cedula','120px','160px'))+cont;
+    
+    return cont;
+}
