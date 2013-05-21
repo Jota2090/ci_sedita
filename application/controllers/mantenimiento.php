@@ -71,11 +71,11 @@
             else $this->load->view("view_cruds", $output);        
         }
         
-        function cursos(){
+        function curso_paralelo(){
             $num = $this->input->post("indicador");
-            $jornada = $this->mantenimiento->nombre_jornada($this->input->post("jornada"));
-            $curso = $this->mantenimiento->nombre_curso($this->input->post("curso"));
-            $especializacion = $this->mantenimiento->nombre_especializacion($this->input->post("especializacion"));
+            $jornada = $this->input->post("jornada");
+            $curso = $this->input->post("curso");
+            $especializacion = $this->input->post("especializacion");
             
             /* This is only for the autocompletion */
             $crud = new grocery_CRUD();
@@ -91,27 +91,41 @@
             $crud->display_as('cp_paralelo_id','Paralelo');
             $crud->display_as('cp_jornada_id','Jornada');
             $crud->required_fields('cp_curso_id','cp_paralelo_id','cp_jornada_id','cp_especializacion_id');
-            if($this->input->post("curso")>0 && $this->input->post("curso")!= null){
-                $crud->where('cur_nombre',$curso[$this->input->post("curso")]);
-            }else{
-                foreach($curso as $cur){
-                    $crud->or_where('cur_nombre',$cur);
-                }  
-            }
-            if($this->input->post("especializacion") > 0){$crud->where('esp_nombre',$especializacion);}
+            if($jornada>0&& $jornada!= null&& $jornada!=""){$crud->where('jor_id',$jornada);}
+            if($curso>0 && $curso!= null && $curso!=""){$crud->where('cur_id',$curso);}
+            if($especializacion>0 && $especializacion!= null && $especializacion!="")
+                {$crud->where('esp_id',$especializacion);}
             
             $output = $crud->render();
             $general = new General();
             $output->jornada = $general->cargar_jornadas();
-            $output->j = $this->input->post("jornada");
-            $output->c = $this->input->post("curso");
-            $output->e = $this->input->post("especializacion");
 
-            if($num == 0){
-                $this->load->view('mantenimiento/listado_cursos',$output);
-            }else{
-                $this->load->view('view_cruds',$output);
+            if($num == 0){$this->load->view('mantenimiento/listado_cursos',$output);}
+            else{$this->load->view('view_cruds2',$output);}
+        }
+        
+        function nom_cursos(){
+            $ind=$this->input->post("ind");
+            
+            $crud = new grocery_CRUD();
+            $crud->set_theme('datatables');
+            $crud->set_table('curso');
+            $crud->set_subject('Cursos del Plantel');
+            $crud->required_fields('cur_nombre');
+            $crud->display_as('cur_nombre','Cursos');
+            $crud->columns('cur_nombre');
+            $crud->order_by('cur_id');
+            $crud->unset_delete();
+            if($ind>0){
+                $cur=$this->input->post("nom");
+                if($cur!="" && $cur!=null) $crud->like('cur_nombre',$cur);
+                $output = $crud->render();
+                $this->load->view("view_cruds", $output);
             }
+            else{
+                $output = $crud->render();
+    		$this->load->view("mantenimiento/nombre_cursos", $output);
+            }    
         }
         
         function agregar_paralelo(){
@@ -135,7 +149,7 @@
             $crud->unset_delete();
             if($ind>0){
                 $mat=$this->input->post("nom");
-                $crud->like('mat_nombre',$mat);
+                if($mat!="" && $mat!=null) $crud->like('mat_nombre',$mat);
                 $output = $crud->render();
                 $this->load->view("view_cruds", $output);
             }

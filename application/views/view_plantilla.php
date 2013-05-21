@@ -95,7 +95,13 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a tabindex="-1" href="<?=site_url("mantenimiento/nuevo/usuarios") ?>">Usuarios</a></li>
-                                <li><a tabindex="-1" href="<?=site_url("mantenimiento/nuevo/cursos") ?>">Cursos</a></li>
+                                <li class="dropdown-submenu">
+                                    <a tabindex="-1" href="<?=site_url("mantenimiento/nuevo/nom_cursos")?>">Cursos</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a tabindex="-1" href="<?=site_url("mantenimiento/nuevo/nom_cursos")?>">Nombres</a></li>
+                                        <li><a tabindex="-1" href="<?=site_url("mantenimiento/nuevo/curso_paralelo")?>">Curso Paralelo</a></li>
+                                    </ul>
+                                </li>
                                 <li class="dropdown-submenu">
                                     <a tabindex="-1" href="<?=site_url("mantenimiento/nuevo/nom_mat")?>">Materias</a>
                                     <ul class="dropdown-menu">

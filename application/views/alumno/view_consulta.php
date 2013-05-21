@@ -80,9 +80,9 @@
                 <ul class="nav nav-list">
                   <li class="active"><a href="<?=site_url("alumno/consultar")?>">Alumnos</a></li>
                   <li><a href="<?=site_url("personal/consultar")?>">Personal Docente</a></li>
-                  <li><a href="<?=site_url("banda_guerra/consultar_instrumentos")?>">Banda de Guerra</a></li>
+                  <!--<li><a href="<?=site_url("banda_guerra/consultar_instrumentos")?>">Banda de Guerra</a></li>
                   <li><a href="<?=site_url("equipo_laboratorio/consultar_equipos")?>">Equipos de Laboratorio</a></li>
-                  <li><a href="<?=site_url("uniforme/consultar_uniformes")?>">Uniformes</a></li>
+                  <li><a href="<?=site_url("uniforme/consultar_uniformes")?>">Uniformes</a></li>-->
                 </ul>
             </div><!--/.well -->
             <div class="well sidebar-nav" style="float:left;width:200px;margin:30px 0 0 50px">

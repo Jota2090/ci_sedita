@@ -10,19 +10,22 @@
         }else{
             $esp=$general->cargar_especializaciones($jor,$query->cur_id,$query->esp_id); 
             $par=$general->cargar_paralelos($jor,$query->cur_id,$query->par_id);}
-        $anl=$query->alu_ano_lectivo_id; $categoria=$query->alu_categoria_alumno_id; $nombres=$query->alu_nombres; 
-        $apellidos=$query->alu_apellidos; $domicilio=$query->alu_domicilio; $telefono=$query->alu_telefono; 
+        $anl=$query->alu_ano_lectivo_id; $categoria=$query->alu_categoria_alumno_id; 
+        $nombres=  utf8_decode($query->alu_nombres); 
+        $apellidos=utf8_decode($query->alu_apellidos); $domicilio=utf8_decode($query->alu_domicilio); 
+        $telefono=$query->alu_telefono; 
         $pais=$query->alu_pais; $lugar=$query->alu_lugar_nacimiento; 
         list($ano,$mes,$dia)= explode("-",$query->alu_fecha_nacimiento);
         $f_nacimiento=$dia."/".$mes."/".$ano; 
-        $comentarios=$query->alu_comentarios; $nom_madre=$query->alu_madre_nombres; 
-        $ced_madre=$query->alu_madre_cedula; $ocu_madre=$query->alu_madre_ocupacion; 
-        $pais_madre=$query->alu_madre_pais; $nom_padre=$query->alu_padre_nombres; 
-        $ced_padre=$query->alu_padre_cedula; $ocu_padre=$query->alu_padre_ocupacion; 
+        $comentarios=utf8_decode($query->alu_comentarios); $nom_madre=utf8_decode($query->alu_madre_nombres); 
+        $ced_madre=$query->alu_madre_cedula; $ocu_madre=utf8_decode($query->alu_madre_ocupacion); 
+        $pais_madre=$query->alu_madre_pais; $nom_padre=utf8_decode($query->alu_padre_nombres); 
+        $ced_padre=$query->alu_padre_cedula; $ocu_padre=utf8_decode($query->alu_padre_ocupacion); 
         $pais_padre=$query->alu_padre_pais; 
         if($query->alu_principal_representante==="o"){
-            $nom_repre=$query->rep_nombres; $ced_repre=$query->rep_cedula; $ocu_repre=$query->rep_ocupacion;
-            $pais_repre=$query->rep_pais; $dom_repre=$query->rep_domicilio; $tel_repre=$query->rep_telefono;
+            $nom_repre=utf8_decode($query->rep_nombres); $ced_repre=$query->rep_cedula; 
+            $ocu_repre=utf8_decode($query->rep_ocupacion);
+            $pais_repre=$query->rep_pais; $dom_repre=utf8_decode($query->rep_domicilio); $tel_repre=$query->rep_telefono;
         }else{
             $nom_repre=""; $ced_repre=""; $ocu_repre=""; $pais_repre="Ecuador"; $dom_repre=""; $tel_repre="";
         }
@@ -942,7 +945,7 @@
                     </div>
                     <div class="span9" style="margin:30px 0 20px 380px;">
                         <input class="btn btn-primary"  type="button" name="btnEnviar" id="btnEnviar" value="Enviar" disabled="disabled" onclick="registrar();" />
-                        <input class="btn" style="margin-left: 100px;" type="button" name="btnCancelar" id="btnCancelar" value="Cancelar" disabled="disabled" onclick="javascript:cancelar()"/>
+                        <?if(!isset($editar)):?><input class="btn" style="margin-left: 100px;" type="button" name="btnCancelar" id="btnCancelar" value="Cancelar" disabled="disabled" onclick="javascript:cancelar()"/><?endif;?>
                     </div> 
                 </div>    
             </fieldset> 

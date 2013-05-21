@@ -211,22 +211,13 @@
         
         function encontrarIdCursoParalelo($jornada,$curso,$especializacion,$paralelo)
         {
-            if(!$this->clslogin->check()){
-                redirect(site_url("login"));
-            }
+            if(!$this->clslogin->check()){redirect(site_url("login"));}
             
-            if(($curso!=12)&&($curso!=13))
-            {
-                $especializacion=-1; 
-            }
-
+            if(($curso!=12)&&($curso!=13)){$especializacion=-1; }
             $rs2=$this->general->curso_Paralelo($jornada,$curso,$especializacion,$paralelo);
 
             $strCpId="";      
-            foreach($rs2->result() as $row){
-                $strCpId .="".$row->cp_id."";
-            }
-
+            foreach($rs2->result() as $row){$strCpId .="".$row->cp_id."";}
             $cpId = (int)$strCpId;
 
             return $cpId;

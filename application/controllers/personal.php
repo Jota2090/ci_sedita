@@ -17,7 +17,48 @@
             $data["link"]=base_url()."personal/".$funcion;
             $this->load->view("view_plantilla",$data);
         }
+        
+        function editar(){
+            if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
+            $id=$this->uri->segment(3);
+            $general=new General();
+            $data["anioLect"]=$general->cargar_aniosLectivos();
+            $data["query"]=$this->personal->obtener_personal($id)->row();
+            $data["cargos"]=$this->personal->cargar_tipo_personal($data["query"]->per_cargo_id);
+            $this->load->view('personal/modificar_personal',$data);
+        }
+        
+        function eliminar(){
+            if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
+            $id=$this->uri->segment(3); $eliminar=$this->uri->segment(4);
+            
+            if($eliminar=="eliminar"){
+                $this->personal->eliminar_personal($id);
+                echo "<script>alert('El Personal Docente ha sido ELIMINADO con exito');
+                         window.location.href='".base_url()."personal/consultar/';
+                       </script>";
+            }else{
+                echo "<script>if(!confirm('Esta seguro que desea eliminar a este docente?')){window.history.back() }
+                              else{window.location.href='".base_url()."personal/eliminar/".$id."/eliminar';};
+                      </script>";
+            }
+        }
      
+        function reactivar(){
+            if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
+            $id=$this->uri->segment(3); $reactivar=$this->uri->segment(4);
+            
+            if($reactivar=="reactivar"){
+                $this->personal->reactivar_personal($id);
+                echo "<script>alert('El Personal Docente ha sido REACTIVADO con exito');
+                         window.location.href='".base_url()."personal/consultar/';
+                       </script>";
+            }else{
+                echo "<script>if(!confirm('Esta seguro que desea reactivar a este docente?')){window.history.back() }
+                              else{window.location.href='".base_url()."personal/reactivar/".$id."/reactivar';};
+                      </script>";
+            }
+        }
         /*function _remap($metodo){
             if(!$this->clslogin->check()){
 				redirect(site_url("login"));
@@ -64,11 +105,18 @@
         
         function guardar(){
             if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
-            
+            $idPer=$this->input->post("idPer");
             $this->personal->guardar_personal();
-            echo "<script>alert('Los datos del personal han sido guardados con exito.');
-                    window.location.href='".base_url()."personal/registro/';
-                  </script>";
+            
+            if($idPer!=""){
+                echo "<script>alert('Los datos del personal han sido ACTUALIZADOS con exito.');
+                        window.location.href='".base_url()."personal/editar/".$idPer."';
+                      </script>";
+            }else{
+                echo "<script>alert('Los datos del personal han sido GUARDADOS con exito.');
+                        window.location.href='".base_url()."personal/registro/';
+                      </script>";
+            }
         }
         
         function asignacion_cursos(){
@@ -84,6 +132,9 @@
         
         function cargar_cur_dir(){
             if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
+            
+            $ind=$this->input->post("ind");
+            if($ind==1){$this->personal->cd_guardar($_POST);}
             
             $p=$this->input->post("per");
             $anl=$this->input->post("anl");
@@ -109,12 +160,6 @@
             $this->load->view("view_cruds",$output);
         }
         
-        function cd_guardar(){
-            if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
-            $this->personal->cd_guardar();
-            $this->cargar_cur_dir();
-        }
-        
         function cargar_materias(){
             if(!$this->clslogin->check()){redirect(site_url("login/login2"));}
             $this->personal->cargar_mat_curso();
@@ -122,9 +167,9 @@
         
         function consultar(){
             $ind=$this->input->post("ind");
+            $estado=$this->input->post("estado");
             
             $crud = new grocery_CRUD();
-
             $crud->set_theme('datatables');
             $crud->set_table('personal');
             $crud->set_subject('Personal Docente');
@@ -138,11 +183,17 @@
             $crud->set_relation('per_cargo_id','cargo_personal','car_nombre');
             $crud->set_relation('per_anio_lectivo_id','anio_lectivo','anl_periodo');
             $crud->callback_before_delete(array($this,'personal_before_delete'));
-            $crud->where('per_estado','a');
             $crud->unset_columns('per_id','per_anio_lectivo_id','per_domicilio','per_comentarios','per_estado');
             $crud->unset_operations();
-            $crud->add_action('Editar', '', 'personal/editar','ui-icon-pencil');
-            $crud->add_action('Eliminar', '', 'personal/eliminar','ui-icon-circle-minus');
+            if($estado=="a" || $estado==""){
+                $crud->where('per_estado','a');
+                $crud->add_action('Editar', '', 'personal/editar','ui-icon-pencil');
+                $crud->add_action('Eliminar', '', 'personal/eliminar','ui-icon-circle-minus');
+            }
+            else{
+                $crud->where('per_estado','i');
+                $crud->add_action('Reactivar', '', 'personal/reactivar','ui-icon-circle-plus');
+            }
             
             if($ind>0){
                 $nom=$this->input->post("nom");

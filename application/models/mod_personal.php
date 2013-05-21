@@ -8,13 +8,24 @@
             parent::__construct();
         }
         
-        function cargar_tipo_personal(){
+        function obtener_personal($idPersonal){            
+            $this->db->from("personal");
+            $this->db->where("per_id",$idPersonal);
+            $rs = $this->db->get();
+            return $rs;
+        }
+        
+        function cargar_tipo_personal($cargo=""){
             $this->db->order_by("car_id");
             $rs=$this->db->get("cargo_personal");
             $info="";
             
             foreach ($rs->result() as $fila){
-                $info .= "<option value='".$fila->car_id."'>".$fila->car_nombre."</option>";
+                if($cargo==="") $info .= "<option value='".$fila->car_id."'>".$fila->car_nombre."</option>";
+                else{
+                    if($cargo==$fila->car_id) $info .= "<option selected='selected' value='".$fila->car_id."'>".$fila->car_nombre."</option>";
+                    else $info .= "<option value='".$fila->car_id."'>".$fila->car_nombre."</option>";
+                }
             }
                 
             return $info;
@@ -22,19 +33,23 @@
         
         function guardar_personal(){
             $data = array(
-                   'per_nombres' => utf8_encode(trim($this->input->post("txtNombres"))),
-                   'per_apellidos' => utf8_encode(trim($this->input->post("txtApellidos"))),
+                   'per_nombres' => trim($this->input->post("txtNombres")),
+                   'per_apellidos' => trim($this->input->post("txtApellidos")),
                    'per_cedula' => trim($this->input->post("txtCedula")),
-                   'per_domicilio' => utf8_encode(trim($this->input->post("txtDomicilio"))),
+                   'per_domicilio' => trim($this->input->post("txtDomicilio")),
                    'per_telefono' => trim($this->input->post("txtTelefono")),
                    'per_celular' => trim($this->input->post("txtCell")),
                    'per_anio_lectivo_id' => $this->input->post("cmbAnioLectivo"),
-                   'per_comentarios' => utf8_encode(trim($this->input->post("txtComentarios"))),
+                   'per_comentarios' => trim($this->input->post("txtComentarios")),
                    'per_cargo_id' => $this->input->post("cmbCargo"),
                    'per_estado' => 'a'
                 );
-                
-            $this->db->insert('personal', $data); 
+            $idPer=$this->input->post("idPer");
+            if($idPer!=""){
+                $this->db->where('per_id', $idPer);
+                $this->db->update('personal', $data);
+            }
+            else $this->db->insert('personal', $data); 
         }
         
         function cargar_mat_curso(){
@@ -52,27 +67,27 @@
             echo $info;
         }
                 
-        function cd_guardar(){
-            $c=$this->input->post("cur");
-            $e=$this->input->post("esp");
-            $d=$this->input->post("dir");
+        function cd_guardar($parametros){
+            $keys= array_keys($parametros);
+            for($i=0; $i<count($keys); $i++):		$$keys[$i]= trim($parametros[$keys[$i]]);
+            endfor;
             
-            if($d!="SI") $d="--";
-            if($c<11||$c>14) $e=-1;
+            $general = new General();
+            $cpId=$general->encontrarIdCursoParalelo($jor,$cur,$esp,$par);
+            
+            if($dir!="SI") $dir="--";
             
             $data = array(
-                   'pc_personal_id' => $this->input->post("per"),
-                   'pc_curso_id' => $c ,
-                   'pc_especializacion_id' => $e ,
-                   'pc_paralelo_id' => $this->input->post("par"),
-                   'pc_jornada_id' => $this->input->post("jor") ,
-                   'pc_dirigente' => $d ,
-                   'pc_anio_lectivo_id' => $this->input->post("anl"),
-                   'pc_materia_id' => $this->input->post("mat") 
-                );
+                   'pc_personal_id' => $per,
+                   'pc_curso_paralelo_id' => $cpId,
+                   'pc_dirigente' => $dir ,
+                   'pc_anio_lectivo_id' => $anl,
+                   'pc_materia_id' => $mat);
                 
             $this->db->insert('personal_curso', $data);
         }
+        
+        
         
         function cargar_profesor(){
             $this->db->order_by("per_apellidos, per_nombres");
@@ -100,6 +115,18 @@
                 $info=$fila->pc_materia_id;
             }
             return $info;
+        }
+        
+        function eliminar_personal($id){
+            $data=array("per_estado"=>"i");
+            $this->db->where("per_id",$id);
+            $this->db->update("personal",$data);
+        }
+        
+        function reactivar_personal($id){
+            $data=array("per_estado"=>"a");
+            $this->db->where("per_id",$id);
+            $this->db->update("personal",$data);
         }
         
     }

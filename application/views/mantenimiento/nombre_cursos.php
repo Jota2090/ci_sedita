@@ -22,13 +22,13 @@
         <script src="assets/js/bootstrap-dropdown.js"></script> 
         
         <script>
-            function fncCmbMateria(){
-                var nombre= $("#txtMat").val();
+            function fncCmbCurso(){
+                var nombre= $("#txtCurso").val();
                 
                 $("#resultadosConsulta").innerHTML="";
                 $.ajax({
                     type:"post",
-                    url: "<?=site_url("mantenimiento/nom_mat")?>",
+                    url: "<?=site_url("mantenimiento/nom_cursos")?>",
                     data:"nom="+nombre+"&ind=1",
                     success:function(info){
                         $("#resultadosConsulta").html(info);
@@ -55,23 +55,23 @@
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
         <form class="form-horizontal">
             <fieldset>
-                <legend>Materias del Plantel</legend>
+                <legend>Cursos del Plantel</legend>
                 <div class="panel span8" style="width:750px; margin-left:50px; padding:10px 0 10px 0;">
                     <div class="control-group span5">
                         <label class="control-label"><b>Nombre*</b></label>
                         <div class="controls">
-                            <input type="text" id="txtMat" name="txtMat" />
+                            <input type="text" id="txtCurso" name="txtCurso" />
                         </div>
                     </div>
                     <div class="control-group span4">
-                        <a href="javascript:fncCmbMateria()" id="btnConsultar" class="btn btn-primary" style="width:120px;margin-left:100px;" ><i class="icon-search"></i>Buscar</a>
+                        <a href="javascript:fncCmbCurso()" id="btnConsultar" class="btn btn-primary" style="width:120px;margin-left:100px;" ><i class="icon-search"></i>Buscar</a>
                    </div>
                 </div>
                 <div class="span4" style="margin-left:90px;">
                     <div class="well sidebar-nav" style="width: 200px;">
                         <ul class="nav nav-list">
                           <li class="nav-header">Ayuda<i class="icon-question-sign" style="float: right;"></i></li>
-                          <li><a>En esta secci&oacute;n podr&aacute; <b>agregar, buscar, y editar</b> materias del plantel.</a></li>
+                          <li><a>En esta secci&oacute;n podr&aacute; <b>agregar, buscar, y editar</b> cursos del plantel.</a></li>
                         </ul>
                     </div><!--/.well -->
                 </div><!--/span-->

@@ -247,30 +247,30 @@
             function agregar(){
                 var per = $("#cmbProf").find(":selected").val();
                 var cur = $("#cmbCurso").find(":selected").val();
-                var esp = $("#cmbEspecializacion").find(":selected").val();
+                var esp = $("#cmbEspec").find(":selected").val();
                 var par = $("#cmbParalelo").find(":selected").val();
                 var jor = $("#cmbJornada").find(":selected").val();
                 var mat = $("#cmbMat").find(":selected").val();
                 var anl = $("#cmbAnioLectivo").find(":selected").val();
                 var dir = $("#chkDir:checked").val();
                 
-                if(per===""){
+                if(per===""||per==null){
                     alert("Debe seleccionar un PROFESOR");
                 }
                 else{
-                    if(mat===""){
+                    if(mat===""||mat==null){
                         alert("Debe seleccionar una MATERIA");
                     }
                     else{
-                        if(par===0){
+                        if(par==0||par==null){
                             alert("Debe seleccionar un PARALELO");
                         }
                         else{
                             $.ajax({
                                 type:"post",
-                                url: "<?=site_url("personal/cd_guardar")?>",
-                                data:"cur="+cur+"&esp="+esp+"&par="+par+"&jor="+jor
-                                        +"&mat="+mat+"&dir="+dir+"&per="+per+"&anl="+anl,
+                                url: "<?=site_url("personal/cargar_cur_dir")?>",
+                                data: "cur="+cur+"&esp="+esp+"&par="+par+"&jor="+jor+"&mat="+mat
+                                        +"&dir="+dir+"&per="+per+"&anl="+anl+"&ind=1",
                                 success:function(info){
                                     $("#resultadoConsulta").html(info);
                                 }

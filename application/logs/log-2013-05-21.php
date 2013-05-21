@@ -1,0 +1,87 @@
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?>
+
+ERROR - 2013-05-21 02:32:30 --> Severity: Warning  --> mysql_pconnect() [<a href='function.mysql-pconnect'>function.mysql-pconnect</a>]: MySQL server has gone away C:\wamp\www\ci_sedita\system\database\drivers\mysql\mysql_driver.php 91
+ERROR - 2013-05-21 02:32:32 --> 404 Page Not Found --> login/index
+ERROR - 2013-05-21 02:36:14 --> Severity: Warning  --> mysql_pconnect() [<a href='function.mysql-pconnect'>function.mysql-pconnect</a>]: MySQL server has gone away C:\wamp\www\ci_sedita\system\database\drivers\mysql\mysql_driver.php 91
+ERROR - 2013-05-21 02:36:33 --> Query error: Unknown column 'pc_curso_id' in 'field list'
+ERROR - 2013-05-21 02:36:36 --> Query error: Unknown column 'pc_curso_id' in 'field list'
+ERROR - 2013-05-21 02:36:37 --> Query error: Unknown column 'pc_curso_id' in 'field list'
+ERROR - 2013-05-21 02:36:37 --> Query error: Unknown column 'pc_curso_id' in 'field list'
+ERROR - 2013-05-21 02:36:37 --> Query error: Unknown column 'pc_curso_id' in 'field list'
+ERROR - 2013-05-21 02:36:38 --> Query error: Unknown column 'pc_curso_id' in 'field list'
+ERROR - 2013-05-21 02:36:38 --> Query error: Unknown column 'pc_curso_id' in 'field list'
+ERROR - 2013-05-21 02:36:38 --> Query error: Unknown column 'pc_curso_id' in 'field list'
+ERROR - 2013-05-21 02:36:38 --> Query error: Unknown column 'pc_curso_id' in 'field list'
+ERROR - 2013-05-21 02:37:12 --> Query error: Unknown column 'pc_curso_id' in 'field list'
+ERROR - 2013-05-21 02:37:16 --> Query error: Unknown column 'pc_curso_id' in 'field list'
+ERROR - 2013-05-21 02:59:37 --> Severity: Notice  --> Undefined variable: jor C:\wamp\www\ci_sedita\application\models\mod_personal.php 76
+ERROR - 2013-05-21 02:59:37 --> Severity: Notice  --> Undefined variable: cur C:\wamp\www\ci_sedita\application\models\mod_personal.php 76
+ERROR - 2013-05-21 02:59:37 --> Severity: Notice  --> Undefined variable: esp C:\wamp\www\ci_sedita\application\models\mod_personal.php 76
+ERROR - 2013-05-21 02:59:37 --> Severity: Notice  --> Undefined variable: par C:\wamp\www\ci_sedita\application\models\mod_personal.php 76
+ERROR - 2013-05-21 02:59:37 --> Severity: Notice  --> Undefined variable: dir C:\wamp\www\ci_sedita\application\models\mod_personal.php 78
+ERROR - 2013-05-21 02:59:37 --> Severity: Notice  --> Undefined variable: per C:\wamp\www\ci_sedita\application\models\mod_personal.php 81
+ERROR - 2013-05-21 02:59:37 --> Severity: Notice  --> Undefined variable: cur C:\wamp\www\ci_sedita\application\models\mod_personal.php 82
+ERROR - 2013-05-21 02:59:37 --> Severity: Notice  --> Undefined variable: anl C:\wamp\www\ci_sedita\application\models\mod_personal.php 84
+ERROR - 2013-05-21 02:59:37 --> Severity: Notice  --> Undefined variable: mat C:\wamp\www\ci_sedita\application\models\mod_personal.php 85
+ERROR - 2013-05-21 02:59:43 --> Severity: Notice  --> Undefined variable: jor C:\wamp\www\ci_sedita\application\models\mod_personal.php 76
+ERROR - 2013-05-21 02:59:43 --> Severity: Notice  --> Undefined variable: cur C:\wamp\www\ci_sedita\application\models\mod_personal.php 76
+ERROR - 2013-05-21 02:59:43 --> Severity: Notice  --> Undefined variable: esp C:\wamp\www\ci_sedita\application\models\mod_personal.php 76
+ERROR - 2013-05-21 02:59:43 --> Severity: Notice  --> Undefined variable: par C:\wamp\www\ci_sedita\application\models\mod_personal.php 76
+ERROR - 2013-05-21 02:59:43 --> Severity: Notice  --> Undefined variable: dir C:\wamp\www\ci_sedita\application\models\mod_personal.php 78
+ERROR - 2013-05-21 02:59:43 --> Severity: Notice  --> Undefined variable: per C:\wamp\www\ci_sedita\application\models\mod_personal.php 81
+ERROR - 2013-05-21 02:59:43 --> Severity: Notice  --> Undefined variable: cur C:\wamp\www\ci_sedita\application\models\mod_personal.php 82
+ERROR - 2013-05-21 02:59:43 --> Severity: Notice  --> Undefined variable: anl C:\wamp\www\ci_sedita\application\models\mod_personal.php 84
+ERROR - 2013-05-21 02:59:43 --> Severity: Notice  --> Undefined variable: mat C:\wamp\www\ci_sedita\application\models\mod_personal.php 85
+ERROR - 2013-05-21 03:00:44 --> Severity: Notice  --> Undefined variable: jor C:\wamp\www\ci_sedita\application\models\mod_personal.php 76
+ERROR - 2013-05-21 03:00:44 --> Severity: Notice  --> Undefined variable: cur C:\wamp\www\ci_sedita\application\models\mod_personal.php 76
+ERROR - 2013-05-21 03:00:44 --> Severity: Notice  --> Undefined variable: esp C:\wamp\www\ci_sedita\application\models\mod_personal.php 76
+ERROR - 2013-05-21 03:00:44 --> Severity: Notice  --> Undefined variable: par C:\wamp\www\ci_sedita\application\models\mod_personal.php 76
+ERROR - 2013-05-21 03:00:44 --> Severity: Notice  --> Undefined variable: dir C:\wamp\www\ci_sedita\application\models\mod_personal.php 78
+ERROR - 2013-05-21 03:00:44 --> Severity: Notice  --> Undefined variable: per C:\wamp\www\ci_sedita\application\models\mod_personal.php 81
+ERROR - 2013-05-21 03:00:44 --> Severity: Notice  --> Undefined variable: cur C:\wamp\www\ci_sedita\application\models\mod_personal.php 82
+ERROR - 2013-05-21 03:00:44 --> Severity: Notice  --> Undefined variable: anl C:\wamp\www\ci_sedita\application\models\mod_personal.php 84
+ERROR - 2013-05-21 03:00:44 --> Severity: Notice  --> Undefined variable: mat C:\wamp\www\ci_sedita\application\models\mod_personal.php 85
+ERROR - 2013-05-21 03:04:36 --> Severity: Warning  --> mysql_pconnect() [<a href='function.mysql-pconnect'>function.mysql-pconnect</a>]: MySQL server has gone away C:\wamp\www\ci_sedita\system\database\drivers\mysql\mysql_driver.php 91
+ERROR - 2013-05-21 03:08:18 --> Severity: Notice  --> Undefined variable: j C:\wamp\www\ci_sedita\application\views\mantenimiento\listado_cursos.php 248
+ERROR - 2013-05-21 03:08:18 --> Severity: Notice  --> Undefined variable: c C:\wamp\www\ci_sedita\application\views\mantenimiento\listado_cursos.php 249
+ERROR - 2013-05-21 03:08:18 --> Severity: Notice  --> Undefined variable: e C:\wamp\www\ci_sedita\application\views\mantenimiento\listado_cursos.php 250
+ERROR - 2013-05-21 03:08:18 --> Severity: Notice  --> Undefined variable: j C:\wamp\www\ci_sedita\application\views\mantenimiento\listado_cursos.php 256
+ERROR - 2013-05-21 03:08:18 --> Severity: Notice  --> Undefined variable: c C:\wamp\www\ci_sedita\application\views\mantenimiento\listado_cursos.php 257
+ERROR - 2013-05-21 03:08:18 --> Severity: Notice  --> Undefined variable: e C:\wamp\www\ci_sedita\application\views\mantenimiento\listado_cursos.php 258
+ERROR - 2013-05-21 03:08:40 --> Severity: Warning  --> mysql_pconnect() [<a href='function.mysql-pconnect'>function.mysql-pconnect</a>]: MySQL server has gone away C:\wamp\www\ci_sedita\system\database\drivers\mysql\mysql_driver.php 91
+ERROR - 2013-05-21 03:08:40 --> Severity: Notice  --> Undefined variable: j C:\wamp\www\ci_sedita\application\views\mantenimiento\listado_cursos.php 248
+ERROR - 2013-05-21 03:08:40 --> Severity: Notice  --> Undefined variable: c C:\wamp\www\ci_sedita\application\views\mantenimiento\listado_cursos.php 249
+ERROR - 2013-05-21 03:08:40 --> Severity: Notice  --> Undefined variable: e C:\wamp\www\ci_sedita\application\views\mantenimiento\listado_cursos.php 250
+ERROR - 2013-05-21 03:08:40 --> Severity: Notice  --> Undefined variable: j C:\wamp\www\ci_sedita\application\views\mantenimiento\listado_cursos.php 256
+ERROR - 2013-05-21 03:08:40 --> Severity: Notice  --> Undefined variable: c C:\wamp\www\ci_sedita\application\views\mantenimiento\listado_cursos.php 257
+ERROR - 2013-05-21 03:08:40 --> Severity: Notice  --> Undefined variable: e C:\wamp\www\ci_sedita\application\views\mantenimiento\listado_cursos.php 258
+ERROR - 2013-05-21 03:08:57 --> Severity: Notice  --> Undefined variable: j C:\wamp\www\ci_sedita\application\views\mantenimiento\listado_cursos.php 248
+ERROR - 2013-05-21 03:08:57 --> Severity: Notice  --> Undefined variable: c C:\wamp\www\ci_sedita\application\views\mantenimiento\listado_cursos.php 249
+ERROR - 2013-05-21 03:08:57 --> Severity: Notice  --> Undefined variable: e C:\wamp\www\ci_sedita\application\views\mantenimiento\listado_cursos.php 250
+ERROR - 2013-05-21 03:08:57 --> Severity: Notice  --> Undefined variable: j C:\wamp\www\ci_sedita\application\views\mantenimiento\listado_cursos.php 256
+ERROR - 2013-05-21 03:08:57 --> Severity: Notice  --> Undefined variable: c C:\wamp\www\ci_sedita\application\views\mantenimiento\listado_cursos.php 257
+ERROR - 2013-05-21 03:08:57 --> Severity: Notice  --> Undefined variable: e C:\wamp\www\ci_sedita\application\views\mantenimiento\listado_cursos.php 258
+ERROR - 2013-05-21 03:17:18 --> Severity: Notice  --> Undefined variable: jor C:\wamp\www\ci_sedita\application\models\mod_personal.php 76
+ERROR - 2013-05-21 03:17:18 --> Severity: Notice  --> Undefined variable: cur C:\wamp\www\ci_sedita\application\models\mod_personal.php 76
+ERROR - 2013-05-21 03:17:18 --> Severity: Notice  --> Undefined variable: esp C:\wamp\www\ci_sedita\application\models\mod_personal.php 76
+ERROR - 2013-05-21 03:17:18 --> Severity: Notice  --> Undefined variable: par C:\wamp\www\ci_sedita\application\models\mod_personal.php 76
+ERROR - 2013-05-21 03:17:18 --> Severity: Notice  --> Undefined variable: dir C:\wamp\www\ci_sedita\application\models\mod_personal.php 78
+ERROR - 2013-05-21 03:17:18 --> Severity: Notice  --> Undefined variable: per C:\wamp\www\ci_sedita\application\models\mod_personal.php 81
+ERROR - 2013-05-21 03:17:18 --> Severity: Notice  --> Undefined variable: anl C:\wamp\www\ci_sedita\application\models\mod_personal.php 84
+ERROR - 2013-05-21 03:17:18 --> Severity: Notice  --> Undefined variable: mat C:\wamp\www\ci_sedita\application\models\mod_personal.php 85
+ERROR - 2013-05-21 03:17:23 --> Severity: Notice  --> Undefined variable: jor C:\wamp\www\ci_sedita\application\models\mod_personal.php 76
+ERROR - 2013-05-21 03:17:23 --> Severity: Notice  --> Undefined variable: cur C:\wamp\www\ci_sedita\application\models\mod_personal.php 76
+ERROR - 2013-05-21 03:17:23 --> Severity: Notice  --> Undefined variable: esp C:\wamp\www\ci_sedita\application\models\mod_personal.php 76
+ERROR - 2013-05-21 03:17:23 --> Severity: Notice  --> Undefined variable: par C:\wamp\www\ci_sedita\application\models\mod_personal.php 76
+ERROR - 2013-05-21 03:17:23 --> Severity: Notice  --> Undefined variable: dir C:\wamp\www\ci_sedita\application\models\mod_personal.php 78
+ERROR - 2013-05-21 03:17:23 --> Severity: Notice  --> Undefined variable: per C:\wamp\www\ci_sedita\application\models\mod_personal.php 81
+ERROR - 2013-05-21 03:17:23 --> Severity: Notice  --> Undefined variable: anl C:\wamp\www\ci_sedita\application\models\mod_personal.php 84
+ERROR - 2013-05-21 03:17:23 --> Severity: Notice  --> Undefined variable: mat C:\wamp\www\ci_sedita\application\models\mod_personal.php 85
+ERROR - 2013-05-21 04:25:03 --> Severity: Notice  --> Undefined variable: jor C:\wamp\www\ci_sedita\application\models\mod_personal.php 76
+ERROR - 2013-05-21 04:25:03 --> Severity: Notice  --> Undefined variable: cur C:\wamp\www\ci_sedita\application\models\mod_personal.php 76
+ERROR - 2013-05-21 04:25:03 --> Severity: Notice  --> Undefined variable: esp C:\wamp\www\ci_sedita\application\models\mod_personal.php 76
+ERROR - 2013-05-21 04:25:03 --> Severity: Notice  --> Undefined variable: par C:\wamp\www\ci_sedita\application\models\mod_personal.php 76
+ERROR - 2013-05-21 04:25:03 --> Severity: Notice  --> Undefined variable: dir C:\wamp\www\ci_sedita\application\models\mod_personal.php 78
+ERROR - 2013-05-21 04:25:03 --> Severity: Notice  --> Undefined variable: per C:\wamp\www\ci_sedita\application\models\mod_personal.php 81
+ERROR - 2013-05-21 04:25:03 --> Severity: Notice  --> Undefined variable: anl C:\wamp\www\ci_sedita\application\models\mod_personal.php 84
+ERROR - 2013-05-21 04:25:03 --> Severity: Notice  --> Undefined variable: mat C:\wamp\www\ci_sedita\application\models\mod_personal.php 85

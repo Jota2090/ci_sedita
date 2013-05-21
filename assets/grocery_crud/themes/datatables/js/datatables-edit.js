@@ -86,10 +86,10 @@ $(function(){
                                             });
                                       }
                                       
-                                      else if(newPathname=="mantenimientocursos")
+                                      else if(newPathname=="mantenimientocurso_paralelo")
                                       {
                                             var jornada = $("#cmbJornada").find(":selected").val();
-                                            var especializacion = $("#cmbEspecializacion").find(":selected").val();
+                                            var especializacion = $("#cmbEspec").find(":selected").val();
                                             var curso = $("#cmbCurso").find(":selected").val();
                                             
                                             $.ajax({
@@ -138,8 +138,8 @@ $(function(){
                                       else if(newPathname=="mantenimientomat_curso")
                                       {
                                             var nom= $("#txtMat").val();
-                                            var cur = $("#cmbCur").find(":selected").val();
-                                            var esp = $("#cmbEsp").find(":selected").val();
+                                            var cur = $("#cmbCurso").find(":selected").val();
+                                            var esp = $("#cmbEspec").find(":selected").val();
                                             
                                             $("#resultadosConsulta").innerHTML="";
                                             $.ajax({
@@ -147,6 +147,21 @@ $(function(){
                                                 url: data.success_list_url,
                                                 data:"nom="+nom+"&cur="+cur+"&esp="+esp+"&ind=1",
                                                 success:function(info){
+                                                    $("#resultadosConsulta").html(info);
+                                                }
+                                            });
+                                      }
+                                      
+                                      else if(newPathname=="mantenimientonom_cursos")
+                                      {
+                                            var nom= $("#txtCurso").val();
+                                            
+                                            $.ajax({
+                                                type:"post",
+                                                url: data.success_list_url,
+                                                data:"nom="+nom+"&ind=1",
+                                                success:function(info){
+                                                    $("#resultadosConsulta").innerHTML="";
                                                     $("#resultadosConsulta").html(info);
                                                 }
                                             });
@@ -239,8 +254,8 @@ function goToList(list_url,NumBoton)
         var strAnioLect=periodoLectivo.split("-");  
         
         //NumBoton 
-           // 1 si es el botón regresar a la lista que se encuentra en la parte superior  del formulario de editar
-           // 2 si es el link q aparece una vez se ha dado click sobre el botón actualizar cambios    
+           // 1 si es el botï¿½n regresar a la lista que se encuentra en la parte superior  del formulario de editar
+           // 2 si es el link q aparece una vez se ha dado click sobre el botï¿½n actualizar cambios    
             
         if(NumBoton==1)
         {
@@ -316,10 +331,10 @@ function goToList(list_url,NumBoton)
         }                                     
     }
     
-    else if(newPathname=="mantenimientocursos")   
+    else if(newPathname=="mantenimientocurso_paralelo")   
     {
         var jornada = $("#cmbJornada").find(":selected").val();
-        var especializacion = $("#cmbEspecializacion").find(":selected").val();
+        var especializacion = $("#cmbEspec").find(":selected").val();
         var curso = $("#cmbCurso").find(":selected").val();
         
         if(NumBoton==1)
@@ -392,6 +407,41 @@ function goToList(list_url,NumBoton)
         }                                
     }
     
+    else if(newPathname=="mantenimientonom_cursos")   
+    {
+        var nom= $("#txtCurso").val();
+        
+        if(NumBoton==1)
+        {
+        	if( confirm( message_alert_edit_form ) )
+           {
+                $.ajax({
+                    type:"post",
+                    url: list_url,
+                    data:"nom="+nom+"&ind=1",
+                    success:function(info){
+                        $("#resultadosConsulta").innerHTML="";
+                        $("#resultadosConsulta").html(info);
+                    }
+                });
+            }
+           
+            return false;	
+        }
+        else
+        {
+            $.ajax({
+                type:"post",
+                url: list_url,
+                data:"nom="+nom+"&ind=1",
+                success:function(info){
+                    $("#resultadosConsulta").innerHTML="";
+                    $("#resultadosConsulta").html(info);
+                }
+            });
+        }                                
+    }
+    
     else if(newPathname=="mantenimientonom_mat")   
     {
         var nom= $("#txtMat").val();
@@ -430,8 +480,8 @@ function goToList(list_url,NumBoton)
     else if(newPathname=="mantenimientomat_curso")   
     {
         var nom= $("#txtMat").val();
-        var cur = $("#cmbCur").find(":selected").val();
-        var esp = $("#cmbEsp").find(":selected").val();
+        var cur = $("#cmbCurso").find(":selected").val();
+        var esp = $("#cmbEspec").find(":selected").val();
         
         if(NumBoton==1)
         {

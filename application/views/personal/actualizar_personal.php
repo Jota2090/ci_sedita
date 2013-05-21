@@ -39,24 +39,31 @@
     
     <script>
         function fncCmbPer(){
-            var nom= $("#txtNom").val();
+            var nom= $("#txtNom").val(); var estado = $("#estado").find(":selected").val();
             var ape= $("#txtApe").val();
             
-            if(nom==""&&ape==""){
-                alert("Debe llenar al menos un campo");
-                //$('#warning').modal();
+            $.ajax({
+                type:"post",
+                url: "<?=site_url("personal/consultar")?>",
+                data:"nom="+nom+"&ape="+ape+"&ind=1"+"&estado="+estado,
+                success:function(info){
+                    $("#resultadosConsulta").innerHTML="";
+                    $("#resultadosConsulta").html(info);
+                }
+            });
+        };
+        
+        function filtros(){
+            var idBtn=document.getElementById("btnFiltros").value;
+            if(idBtn==="-"){
+                document.getElementById("filtros").style.display="none";
+                document.getElementById("btnFiltros").value="+";
+                document.getElementById("btnFiltros").title="Mostrar Filtros";
+            }else{
+                document.getElementById("filtros").style.display="";
+                document.getElementById("btnFiltros").value="-";
+                document.getElementById("btnFiltros").title="Ocultar Filtros";
             }
-            else{
-                $.ajax({
-                    type:"post",
-                    url: "<?=site_url("personal/consultar")?>",
-                    data:"nom="+nom+"&ape="+ape+"&ind=1",
-                    success:function(info){
-                        $("#resultadosConsulta").innerHTML="";
-                        $("#resultadosConsulta").html(info);
-                    }
-                });
-            }  
         };
     </script>
   </head>
@@ -69,9 +76,9 @@
                 <ul class="nav nav-list">
                   <li><a href="<?=site_url("alumno/consultar")?>">Alumnos</a></li>
                   <li class="active"><a href="<?=site_url("personal/consultar")?>">Personal Docente</a></li>
-                  <li><a href="<?=site_url("banda_guerra/consultar_instrumentos")?>">Banda de Guerra</a></li>
+                  <!--<li><a href="<?=site_url("banda_guerra/consultar_instrumentos")?>">Banda de Guerra</a></li>
                   <li><a href="<?=site_url("equipo_laboratorio/consultar_equipos")?>">Equipos de Laboratorio</a></li>
-                  <li><a href="<?=site_url("uniforme/consultar_uniformes")?>">Uniformes</a></li>
+                  <li><a href="<?=site_url("uniforme/consultar_uniformes")?>">Uniformes</a></li>-->
                 </ul>
             </div><!--/.well -->
             <div class="well sidebar-nav" style="float:left;width:200px;margin:30px 0 0 50px">
@@ -86,23 +93,26 @@
                 <form target="_blank" style="padding-right: 100px;" id="forma" name="forma" class="form-horizontal" action="<?=site_url("listados/exportar")?>" method="post" >
                    <input type="hidden" id="indicador" name="indicador" />
                    <fieldset>
-                       <legend>Personal Docente</legend>
-                        <div class="control-group span5">
+                       <legend>
+                            <div style="float:left;">Personal Docente</div>
+                            <div style="float:right;"><input title="Ocultar Filtros" id="btnFiltros" type="button" onclick="filtros();" value="-"></div>
+                        </legend>
+                       <div id="filtros">
                             <div class="control-group">
-                                <label class="control-label"><b>Nombres</b></label>
+                                <label class="control-label"><b>Personal</b></label>
                                 <div class="controls">
-                                    <input style="height: 30px;" type="text" id="txtNom" name="txtNom" />
+                                    <input type="text" id="txtNom" name="txtNom" placeholder="Nombres" />
+                                    <input style="margin-left:20px;" type="text" id="txtApe" name="txtApe" placeholder="Apellidos" />
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label"><b>Apellidos</b></label>
-                                <div class="controls">
-                                    <input style="height: 30px;" type="text" id="txtApe" name="txtApe" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="control-group span4">
-                            <a href="javascript:fncCmbPer()" id="btnConsultar" class="btn btn-primary" style="width:120px;margin:20px 0 0 100px;" ><i class="icon-search"></i>Buscar</a>
+                                <label id="lbEstado" class="control-label" style="float:left;"><b>Estado</b></label>
+                                <select id="estado" name="estado" style="width:110px; float:left;  margin-left:20px ">
+                                    <option value="a">Activos</option>
+                                    <option value="i">Inactivos</option>
+                                </select>
+                                <a href="javascript:fncCmbPer()" id="btnConsultar" class="btn btn-primary" style="width:100px;margin-left:220px;" ><i class="icon-search"></i>Buscar</a>
+                           </div>
                        </div>
                    </fieldset> 
                 </form>

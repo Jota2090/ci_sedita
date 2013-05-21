@@ -135,20 +135,15 @@
                 var especializacion = $("#cmbEspec").find(":selected").val();
                 var curso = $("#cmbCurso").find(":selected").val();
                 
-                if(curso>11&&curso<14 &&especializacion===0){
-                    alert("Debe elegir especializacion");
-                }
-                else{
-                    $.ajax({
-                        type:"post",
-                        url: "<?=site_url("mantenimiento/cursos")?>",
-                        data:"curso="+curso+"&jornada="+jornada+"&especializacion="+especializacion
-                                +"&indicador=1",
-                        success:function(info){
-                            $("#resultadosConsulta").html(info);
-                        }
-                    }); 
-                }  
+                $.ajax({
+                    type:"post",
+                    url: "<?=site_url("mantenimiento/curso_paralelo")?>",
+                    data:"curso="+curso+"&jornada="+jornada+"&especializacion="+especializacion
+                            +"&indicador=1",
+                    success:function(info){
+                        $("#resultadosConsulta").html(info);
+                    }
+                }); 
             }
             
 
@@ -193,6 +188,7 @@
                         success: function(data){
                             $("#paralelo").empty();
                             $("#paralelo").append(data);
+                            document.getElementById("paralelo").title="Agregar Paralelo";
                             $("#paralelo").dialog( "open" );
                         }                        
                      })            
@@ -202,7 +198,6 @@
     </head>
     
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
-        <div id="paralelo" title="Agregar Paralelo"></div>
         <form class="form-horizontal">
             <fieldset>
                 <legend>Cursos Disponibles</legend>
@@ -245,9 +240,9 @@
                 </div><!--/span-->
             </fieldset>
         </form>
-        
-        <button style="margin-left: 450px;" type="btn" id="add-paralelo"><i class="icon-plus-sign"></i>Agregar Paralelo</button> 
+        <div id="paralelo" title="Agregar Paralelo"></div>
         <div id="resultadosConsulta" style="width: 1100px; margin: 0 auto;">
+            <button style="margin-left: 450px;clear:both;" type="btn" id="add-paralelo"><i class="icon-plus-sign"></i>Agregar Paralelo</button>
             <!--<form class="span2" style="float: right;" action="<?=site_url("mantenimiento/expListCursos")?>" method="post">
                 <button class="btn" type="submit" id="exportar" style="width: 120px;"><i class="icon-download-alt"></i>Excel</button>
                 <input type="hidden" id="jornada" name="jornada" value="<? echo $j?>" />

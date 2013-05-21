@@ -41,27 +41,26 @@ function delete_row(delete_url , row_id)
 {	
 	if(confirm(message_alert_delete))
 	{
-		$.ajax({
-			url: delete_url,
-			dataType: 'json',
-			success: function(data)
-			{					
-				if(data.success)
-				{
-					$('#ajax_refresh_and_loading').trigger('click');						
-					$('#report-error').html('').slideUp('fast');
-					$('tr#row-'+row_id).addClass('row_selected');
-					var anSelected = fnGetSelected( oTable );
-					oTable.fnDeleteRow( anSelected[0] );					
-				}
-				else
-				{
-					$('#report-error').html( data.error_message ).slideUp('fast').slideDown('slow');						
-					$('#report-success').html('').slideUp('fast');						
-					
-				}
-			}
-		});
+            $.ajax({
+                url: delete_url,
+                dataType: 'json',
+                success: function(data)
+                {					
+                    if(data.success)
+                    {
+                        $('#ajax_refresh_and_loading').trigger('click');						
+                        $('#report-error').html('').slideUp('fast');
+                        $('tr#row-'+row_id).addClass('row_selected');
+                        var anSelected = fnGetSelected( oTable );
+                        oTable.fnDeleteRow( anSelected[0] );					
+                    }
+                    else
+                    {
+                        $('#report-error').html( data.error_message ).slideUp('fast').slideDown('slow');						
+                        $('#report-success').html('').slideUp('fast');
+                    }
+                }
+            });
 	}
 	
 	return false;

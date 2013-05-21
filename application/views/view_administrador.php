@@ -71,9 +71,9 @@
             <p style="margin-top: 120px;">
                 <a class="span12 btn btn-large btn-primary" type="button" href="<?=site_url("facturacion/cobros")?>">Facturaci&oacute;n</a>
             </p>
-            <p style="margin-top: 170px;">
+            <!--<p style="margin-top: 170px;">
                 <a class="span12 btn btn-large btn-primary" type="button" href="<?=site_url("banda_guerra")?>">Control de Activos</a>
-            </p>
+            </p>-->
         </div>
         <div class="span2"></div>
       </div><!--/row-->

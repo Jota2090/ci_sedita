@@ -187,56 +187,59 @@
             if($opcRepresent=="m")
             {
                 $dataRepresentante = array(
-                                            "rep_nombres"=>utf8_encode(strtoupper($this->input->post("txtNombMadre"))),
+                                            "rep_nombres"=>trim(strtoupper($this->input->post("txtNombMadre"))),
                                             "rep_cedula"=>$this->input->post("txtCedMadre"),
-                                            "rep_ocupacion"=>utf8_encode(strtoupper($this->input->post("txtOcupMadre"))),
+                                            "rep_ocupacion"=>trim(strtoupper($this->input->post("txtOcupMadre"))),
                                             "rep_telefono"=>$this->input->post("txtTelef"),
-                                            "rep_domicilio"=>utf8_encode(strtoupper($this->input->post("txtDomicilio"))),
+                                            "rep_domicilio"=>trim(strtoupper($this->input->post("txtDomicilio"))),
                                             "rep_pais"=>$this->input->post("cmbPaisMadre")
 
                                             );
 
-                $dataExisteRepres= array("rep_nombres"=>utf8_encode(strtoupper($this->input->post("txtNombMadre"))));
+                $dataExisteRepres= array("rep_nombres"=>trim(strtoupper($this->input->post("txtNombMadre"))));
             }
 
             elseif($opcRepresent=="p")
             {
                     $dataRepresentante = array(
-                                                "rep_nombres"=>utf8_encode(strtoupper($this->input->post("txtNombPadre"))),
+                                                "rep_nombres"=>trim(strtoupper($this->input->post("txtNombPadre"))),
                                                 "rep_cedula"=>$this->input->post("txtCedPadre"),
-                                                "rep_ocupacion"=>utf8_encode(strtoupper($this->input->post("txtOcupPadre"))),
+                                                "rep_ocupacion"=>trim(strtoupper($this->input->post("txtOcupPadre"))),
                                                 "rep_telefono"=>$this->input->post("txtTelef"),
-                                                "rep_domicilio"=>utf8_encode(strtoupper($this->input->post("txtDomicilio"))),
+                                                "rep_domicilio"=>trim(strtoupper($this->input->post("txtDomicilio"))),
                                                 "rep_pais"=>$this->input->post("cmbPaisPadre")
                                                 );
 
-                    $dataExisteRepres= array("rep_nombres"=>utf8_encode(strtoupper($this->input->post("txtNombPadre"))));
+                    $dataExisteRepres= array("rep_nombres"=>trim(strtoupper($this->input->post("txtNombPadre"))));
             }
 
             else
             {
                     $dataRepresentante = array(
-                                                "rep_nombres"=>utf8_encode(strtoupper($this->input->post("txtNombPerson"))),
+                                                "rep_nombres"=>trim(strtoupper($this->input->post("txtNombPerson"))),
                                                 "rep_cedula"=>$this->input->post("txtCedPerson"),
-                                                "rep_ocupacion"=>utf8_encode(strtoupper($this->input->post("txtOcupPerson"))),
+                                                "rep_ocupacion"=>trim(strtoupper($this->input->post("txtOcupPerson"))),
                                                 "rep_telefono"=>$this->input->post("txtTelefPerson"),
-                                                "rep_domicilio"=>utf8_encode(strtoupper($this->input->post("txtDomicilioPerson"))),
+                                                "rep_domicilio"=>trim(strtoupper($this->input->post("txtDomicilioPerson"))),
                                                 "rep_pais"=>$this->input->post("cmbPaisPerson")
                                             );
 
-                    $dataExisteRepres= array("rep_nombres"=>utf8_encode(strtoupper($this->input->post("txtNombPerson"))));
+                    $dataExisteRepres= array("rep_nombres"=>trim(strtoupper($this->input->post("txtNombPerson"))));
             }
             
              if($txtIdRepre=="") $numResultRepres=$this->alumno->buscarRepres($dataRepresentante);
-             else $numResultRepres=0;
+             else $numResultRepres=$txtIdRepre;
 
-             if($numResultRepres==0){$this->alumno->guardarRepresentante($dataRepresentante,$txtIdRepre);}
+             if($numResultRepres==0){
+                $this->alumno->guardarRepresentante($dataRepresentante,$txtIdRepre);
+                $strRepId="";
+                $rs1=$this->alumno->obtenerRepres($dataRepresentante);
 
-             $strRepId="";
-             $rs1=$this->alumno->obtenerRepres($dataRepresentante);
-
-             foreach($rs1->result() as $row){
-                $strRepId .="".$row->rep_id."";
+                foreach($rs1->result() as $row){
+                   $strRepId .="".$row->rep_id."";
+                }
+             }else{
+                 $strRepId=$txtIdRepre;
              }
 
              return $strRepId;
