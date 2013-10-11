@@ -65,7 +65,7 @@
                 <a class="span6 btn btn-large btn-primary" type="button" href="<?=site_url("alumno/consultar")?>">Actualizaci&oacute;n de Datos</a>
             </p>
             <p style="margin-top: 60px;">
-                <a class="span6 btn btn-large btn-primary" type="button" href="<?=site_url("acta_calificaciones")?>">Actas de Caificaciones</a>
+                <a class="span6 btn btn-large btn-primary" type="button" href="<?=site_url("acta_calificaciones/acta_nueva")?>">Actas de Caificaciones</a>
                 <a class="span6 btn btn-large btn-primary" type="button" href="<?=site_url("libreta")?>">Libretas</a>
             </p>
             <p style="margin-top: 120px;">

@@ -318,8 +318,8 @@
         <style type="text/css">
             body {
                 width: 1320px;
-                padding-top: 60px;
-                padding-bottom: 40px;
+                padding-top: 10px;
+                padding-bottom: 10px;
                 margin: 0 auto;
                 font-family: Arial;
             	font-size: 14px;        
@@ -331,34 +331,6 @@
     </head>
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
-        <div class="modal alert" id="warning" style="display: none;">
-            <div class="modal-header">
-                <a class="close" data-dismiss="modal">x</a>
-                <h3><img src="images/alerta-warning.jpg" style="margin-right: 10px;" width="30px" height="30px"/>Atenci&oacute;n!</h3>
-            </div>
-            <div class="modal-body">
-                <p>Esta Acta de Calificaciones <strong>ya fue creada</strong>!</p>
-            </div>
-        </div>
-        <div class="modal alert-error" id="error" style="display: none;">
-            <div class="modal-header">
-                <a class="close" data-dismiss="modal">x</a>
-                <h3><img src="images/alerta-error.jpg" style="margin-right: 10px;" width="30px" height="30px"/>Atenci&oacute;n!</h3>
-            </div>
-            <div class="modal-body">
-                <p>Esta materia <strong>no pertenece</strong> al curso seleccionado!</p>
-            </div>
-        </div>
-        <div class="modal alert" id="warning2" style="display: none;">
-            <div class="modal-header">
-                <a class="close" data-dismiss="modal">x</a>
-                <h3><img src="images/alerta-warning.jpg" style="margin-right: 10px;" width="30px" height="30px"/>Atenci&oacute;n!</h3>
-            </div>
-            <div class="modal-body">
-                <p>Esta Acta de Calificaciones <strong>no ha sido creada</strong>!</p>
-            </div>
-        </div>
-        <?=$menu?>
         <div class="container-fluid">
             <form class="form-horizontal" id="formActa" name="formActa" action="<?=site_url("alumno/guardar") ?>" method="post" >
                 <fieldset>

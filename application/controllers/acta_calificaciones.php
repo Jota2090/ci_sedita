@@ -62,12 +62,18 @@
             }
         }
         
+        function nuevo(){
+            if(!$this->clslogin->check()) redirect(site_url("login"));
+            $funcion = $this->uri->segment(3);
+            $data["link"]=base_url()."acta_calificaciones/".$funcion;
+            $this->load->view("view_plantilla",$data);
+        }
         
         function acta_nueva(){
-            $data["jornada"]= $this->cargar_jornadas();
-            $data["menu"]=$this->load->view("view_menu_administrador");
-            $data["anioLect"]=$this->cargar_aniosLectivos();
-            $data["anlId"]=$this->cargar_anlActual();
+            $general=new General();
+            $data["jornada"]= $general->cargar_jornadas();
+            $data["anioLect"] = $general->cargar_aniosLectivos();
+            $data["anlId"] = $general->cargar_anlActual();
             $this->load->view("acta_calificaciones/view_ingreso", $data);
         }
         
@@ -89,7 +95,7 @@
             $data["cur_par"] = $idCp;
             $data["mod"] = $mod;
             $data["jor"] = $j;
-            
+            print_r($data["resultado"]);
             if($vac==""){
                 $this->load->view("acta_calificaciones/view_generar", $data);
             }
